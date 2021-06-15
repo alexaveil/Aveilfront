@@ -11,14 +11,77 @@ import {
   Typography,
   FormControlLabel,
 } from '@material-ui/core'
+import { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { useHistory } from 'react-router'
 import { LockOutlined } from '@material-ui/icons'
 
 /* import internal modules */
 import useStyles from './styles'
 import Copyright from '../common/Copyright'
+import { signInWithEmailPassword } from '../../apis/users'
+import { setHandleAlert } from '../../redux/actions/common/common'
 
 const SignIn = () => {
   const classes = useStyles()
+  const dispatch = useDispatch()
+  const history = useHistory()
+  const [dataForm, setDataForm] = useState({ email: '', password: '' })
+
+  const showMessageAlert = ({ message, severity, status }) => {
+    dispatch(setHandleAlert({ message, severity, status }))
+  }
+
+  const onChangeDataForm = (event) => {
+    setDataForm({
+      ...dataForm,
+      [event.target.name]: event.target.value,
+    })
+  }
+
+  const validateRequiredFields = (email, password) => {
+    if (!email || !password) {
+      const warningAlert = {
+        message: 'All fields are required',
+        severity: 'warning',
+        status: true,
+      }
+
+      showMessageAlert(warningAlert)
+    }
+  }
+
+  const signInWithEmailPasswordFunction = () => {
+    const { email, password } = dataForm
+
+    if (email && password) {
+      signInWithEmailPassword(email, password)
+        .then((userCredential) => {
+          const alert = {
+            message: `Welcome`,
+            severity: 'success',
+            status: true,
+          }
+
+          showMessageAlert(alert)
+          history.push('/home')
+        })
+        .catch((error) => {
+          const errorCode = error.code
+          const errorMessage = error.message
+          const errorAlert = {
+            message: errorMessage,
+            severity: 'error',
+            status: true,
+          }
+
+          showMessageAlert(errorAlert)
+          console.error(errorCode + ' -> ' + errorMessage)
+        })
+    }
+
+    validateRequiredFields(email, password)
+  }
 
   return (
     <Grid container component="main" className={classes.root}>
@@ -31,7 +94,7 @@ const SignIn = () => {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <form className={classes.form} noValidate>
+          <form className={classes.form}>
             <TextField
               variant="outlined"
               margin="normal"
@@ -42,6 +105,8 @@ const SignIn = () => {
               name="email"
               autoComplete="email"
               autoFocus
+              value={dataForm?.email}
+              onChange={onChangeDataForm}
             />
             <TextField
               variant="outlined"
@@ -53,17 +118,20 @@ const SignIn = () => {
               type="password"
               id="password"
               autoComplete="current-password"
+              value={dataForm?.password}
+              onChange={onChangeDataForm}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
             />
             <Button
-              type="submit"
+              type="button"
               fullWidth
               variant="contained"
               color="primary"
               className={classes.submit}
+              onClick={signInWithEmailPasswordFunction}
             >
               Sign In
             </Button>
@@ -74,7 +142,7 @@ const SignIn = () => {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="/signup" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>

@@ -1,15 +1,15 @@
 /* import internal modules */
-import { HANDLE_ALERT_DIALOG } from '../../types/types'
+import { HANDLE_UTIL_ALERT } from '../../types/types'
 
 const initialState = {
-  alertDialog: false,
+  handleAlert: { message: '', status: false, severity: 'success' },
 }
 
-const AlertDialogReducer = (state = initialState, action) => {
+const CommonReducer = (state = initialState, action) => {
   switch (action.type) {
-    case HANDLE_ALERT_DIALOG:
+    case HANDLE_UTIL_ALERT:
       return Object.assign({}, state, {
-        alertDialog: action.payload.status,
+        handleAlert: action.payload.handleAlert,
       })
 
     default:
@@ -17,4 +17,4 @@ const AlertDialogReducer = (state = initialState, action) => {
   }
 }
 
-export default AlertDialogReducer
+export default CommonReducer

@@ -68,7 +68,7 @@ const MiniDrawer = ({ children }) => {
             <Menu />
           </IconButton>
           <Typography variant="h6" noWrap>
-            Mini variant drawer
+            Aveil
           </Typography>
           <div className={classes.grow} />
           <AlertDialog title="Handle user" iconOpenButton={<AccountCircle />}>
