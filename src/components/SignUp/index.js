@@ -92,16 +92,14 @@ const SignUp = () => {
         })
       })
       .catch((error) => {
-        const errorCode = error.code
-        const errorMessage = error.message
         const errorAlert = {
-          message: errorMessage,
+          message: error.message,
           severity: 'error',
           status: true,
         }
 
         showMessageAlert(errorAlert)
-        console.error(errorCode + ' -> ' + errorMessage)
+        console.error(`${error.code} -> ${error.message}`)
       })
   }
 
@@ -130,17 +128,14 @@ const SignUp = () => {
         history.push('/home')
       })
       .catch((error) => {
-        const errorCode = error.code
-        const errorMessage = error.message
         const errorAlert = {
-          message: errorMessage,
+          message: error.message,
           severity: 'error',
           status: true,
         }
 
         showMessageAlert(errorAlert)
-        console.error('Error adding document: ', error)
-        console.error(errorCode + ' -> ' + errorMessage)
+        console.error(`${error.code} -> ${error.message}`)
       })
   }
 

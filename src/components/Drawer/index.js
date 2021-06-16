@@ -28,12 +28,14 @@ import { useHistory } from 'react-router-dom'
 /* import internal modules */
 import useStyles from './styles'
 import AlertDialog from '../common/AlertDialog'
+// import { useRedirectToLogin } from '../customHooks/useRedirectToLogin'
 
 const MiniDrawer = ({ children }) => {
-  const history = useHistory()
   const theme = useTheme()
   const classes = useStyles()
+  const history = useHistory()
   const [open, setOpen] = useState(false)
+  // const isAuthenticated = useRedirectToLogin()
 
   const handleDrawerOpen = () => {
     setOpen(true)

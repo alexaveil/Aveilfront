@@ -1,10 +1,11 @@
 /* import internal modules */
 import MiniDrawer from '../components/Drawer'
+import HomeLayout from '../components/home/Layout'
 
 const Home = () => {
   return (
     <MiniDrawer>
-      <h3>Home</h3>
+      <HomeLayout />
     </MiniDrawer>
   )
 }

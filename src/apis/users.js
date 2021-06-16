@@ -13,3 +13,19 @@ export const signInWithEmailPassword = (email, password) => {
 export const createUserFirestore = (data) => {
   return firebase.firestore().collection('users').add(data)
 }
+
+export const sendPasswordReset = (email) => {
+  return firebase.auth().sendPasswordResetEmail(email)
+}
+
+export const authStateListener = () => {
+  let user = null
+
+  firebase.auth().onAuthStateChanged((userAuth) => {
+    if (userAuth) {
+      user = userAuth
+    }
+  })
+
+  return user
+}
