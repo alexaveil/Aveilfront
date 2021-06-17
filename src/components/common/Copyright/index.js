@@ -1,15 +1,13 @@
 /* import external modules */
-import { Typography, Link } from '@material-ui/core'
+import { Typography } from '@material-ui/core'
 
 const Copyright = () => {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{' '}
+      {'Copyright © Aveil '}
       {new Date().getFullYear()}
-      {'.'}
+      {'. '}
+      {'All rights reserved.'}
     </Typography>
   )
 }
