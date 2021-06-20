@@ -1,51 +1,102 @@
 /* import external modules */
+import {
+  Card,
+  Grid,
+  Zoom,
+  Paper,
+  Container,
+  CardMedia,
+  TextField,
+  Typography,
+} from '@material-ui/core'
+import { useEffect, useState } from 'react'
 import { Autocomplete } from '@material-ui/lab'
-import { Card, Grid, Container, CardMedia, TextField } from '@material-ui/core'
 
 /* import internal modules */
 import useStyles from './styles'
 import RobotImage from '../../../assets/robot.png'
+import Loading from '../../common/Loading'
 
 const Section1 = () => {
   const classes = useStyles()
+  const [motion, setMotion] = useState(false)
+  const [loadingImage, setLoadingImage] = useState(true)
+  const [loadingTextfield, setLoadingTextfield] = useState(true)
+
+  useEffect(() => {
+    handleChange()
+    setTimeout(() => {
+      setLoadingImage(false)
+    }, 500)
+
+    setTimeout(() => {
+      setLoadingTextfield(false)
+    }, 700)
+  }, [])
+
+  const handleChange = () => {
+    setMotion((prev) => !prev)
+  }
 
   return (
     <Container maxWidth="lg" component="section" className={classes.section}>
-      <Grid container spacing={4} justify="center">
-        <Grid item xs={12}>
-          <center>
-            <Card elevation={0} className={classes.image}>
-              <CardMedia
-                component="img"
-                alt="Smartphone Aveil"
-                image={RobotImage}
-                title="Contemplative Reptile"
-              />
-            </Card>
-          </center>
+      <Grid container spacing={0} justify="flex-end">
+        <Grid item xs={6}>
+          <Zoom
+            in={motion}
+            style={{ transitionDelay: motion ? '1300ms' : '0ms' }}
+          >
+            <Paper elevation={0} className={classes.paper}>
+              <Typography className={classes.title}>Avi</Typography>
+              <Typography className={classes.subtitle}>
+                Ask me anything, I'II do my best to help you.
+              </Typography>
+            </Paper>
+          </Zoom>
         </Grid>
       </Grid>
-      <Grid container spacing={4} justify="center">
-        <Grid item xs={12}>
-          <center>
-            <Autocomplete
-              id="combo-box-autocomplete"
-              options={top100Films}
-              getOptionLabel={(option) => option.title}
-              style={{ width: 300 }}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  color="primary"
-                  variant="outlined"
-                  label="Ask Avi a Question"
-                  className={classes.texfield}
+      {!loadingImage ? (
+        <Grid container spacing={4} justify="center">
+          <Grid item xs={12}>
+            <center>
+              <Card elevation={0} className={classes.image}>
+                <CardMedia
+                  component="img"
+                  alt="Aveil"
+                  image={RobotImage}
+                  title="Contemplative Reptile"
                 />
-              )}
-            />
-          </center>
+              </Card>
+            </center>
+          </Grid>
         </Grid>
-      </Grid>
+      ) : (
+        <Loading />
+      )}
+      {!loadingTextfield ? (
+        <Grid container spacing={4} justify="center">
+          <Grid item xs={12}>
+            <center>
+              <Autocomplete
+                options={top100Films}
+                id="combo-box-autocomplete"
+                getOptionLabel={(option) => option.title}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    color="primary"
+                    variant="outlined"
+                    label="Ask Avi a Question..."
+                    className={classes.texfield}
+                  />
+                )}
+              />
+            </center>
+          </Grid>
+        </Grid>
+      ) : (
+        <></>
+      )}
     </Container>
   )
 }
@@ -158,3 +209,74 @@ const top100Films = [
 ]
 
 export default Section1
+
+// import React from 'react'
+// import Switch from '@material-ui/core/Switch'
+// import Paper from '@material-ui/core/Paper'
+// import Zoom from '@material-ui/core/Zoom'
+// import FormControlLabel from '@material-ui/core/FormControlLabel'
+// import { makeStyles } from '@material-ui/core/styles'
+
+// const useStyles = makeStyles((theme) => ({
+//   root: {
+//     height: 180,
+//   },
+//   container: {
+//     display: 'flex',
+//   },
+//   paper: {
+//     margin: theme.spacing(1),
+//   },
+//   svg: {
+//     width: 100,
+//     height: 100,
+//   },
+//   polygon: {
+//     fill: theme.palette.common.white,
+//     stroke: theme.palette.divider,
+//     strokeWidth: 1,
+//   },
+// }))
+
+// export default function SimpleZoom() {
+//   const classes = useStyles()
+//   const [checked, setChecked] = React.useState(false)
+
+//   const handleChange = () => {
+//     setChecked((prev) => !prev)
+//   }
+
+//   return (
+//     <div className={classes.root}>
+//       <FormControlLabel
+//         control={<Switch checked={checked} onChange={handleChange} />}
+//         label="Show"
+//       />
+//       <div className={classes.container}>
+//         <Zoom in={checked}>
+//           <Paper elevation={4} className={classes.paper}>
+//             <svg className={classes.svg}>
+//               <polygon
+//                 points="0,100 50,00, 100,100"
+//                 className={classes.polygon}
+//               />
+//             </svg>
+//           </Paper>
+//         </Zoom>
+//         <Zoom
+//           in={checked}
+//           style={{ transitionDelay: checked ? '500ms' : '0ms' }}
+//         >
+//           <Paper elevation={4} className={classes.paper}>
+//             <svg className={classes.svg}>
+//               <polygon
+//                 points="0,100 50,00, 100,100"
+//                 className={classes.polygon}
+//               />
+//             </svg>
+//           </Paper>
+//         </Zoom>
+//       </div>
+//     </div>
+//   )
+// }

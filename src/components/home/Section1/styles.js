@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles((theme) => ({
   section: {
-    marginTop: theme.spacing(8),
+    marginTop: theme.spacing(1),
     paddingTop: theme.spacing(3),
     paddingBottom: theme.spacing(3),
     [theme.breakpoints.up('sm')]: {
@@ -25,15 +25,24 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: '#3043E9',
   },
   image: {
-    backgroundColor: '#fafafa',
+    backgroundColor: '#FAFAFA',
     maxWidth: 250,
   },
   texfield: {
-    // borderRadius: '30px',
     // background: '#3043E9',
-    // color: '#fff',
-    // borderColor: '#fff',
+    borderRadius: 30,
+    maxWidth: 300,
   },
+  subtitle: {
+    paddingTop: 3,
+    paddingLeft: 18,
+    paddingRight: 10,
+    paddingBottom: 3,
+    borderRadius: 10,
+    background: '#E2E2E2',
+  },
+  title: { marginLeft: 18, fontWeight: 'bold' },
+  paper: { background: '#FAFAFA' },
 }))
 
 export default useStyles

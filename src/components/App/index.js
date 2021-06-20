@@ -7,13 +7,14 @@ import { CssBaseline, ThemeProvider } from '@material-ui/core'
 import './firebaseConfig'
 import theme from '../Theme'
 import Router from '../Router'
+import Loading from '../common/Loading'
 import SnackBar from '../common/SnackBar'
 import { store, persistor } from '../../redux/storeConfig/store'
 
 const App = () => {
   return (
     <Provider store={store}>
-      <PersistGate persistor={persistor} loading={<h3>Loading</h3>}>
+      <PersistGate persistor={persistor} loading={<Loading />}>
         <CssBaseline />
         <ThemeProvider theme={theme}>
           <Router />
