@@ -11,12 +11,8 @@ import {
   ListItemText,
   ListItemAvatar,
 } from '@material-ui/core'
-import {
-  QuestionAnswer,
-  MultilineChartSharp,
-  SupervisedUserCircle,
-} from '@material-ui/icons'
 import { useEffect, useState } from 'react'
+import { Timeline, Fingerprint, QuestionAnswer } from '@material-ui/icons'
 
 /* import internal modules */
 import useStyles from './styles'
@@ -62,7 +58,7 @@ const Section2 = () => {
             <ListItem>
               <ListItemAvatar>
                 <Avatar className={classes.blue}>
-                  <SupervisedUserCircle />
+                  <Fingerprint />
                 </Avatar>
               </ListItemAvatar>
               <ListItemText secondary="Avi answers your questions in a personalized way to make it as easy to understand as possible." />
@@ -78,7 +74,7 @@ const Section2 = () => {
             <ListItem>
               <ListItemAvatar>
                 <Avatar className={classes.blue}>
-                  <MultilineChartSharp />
+                  <Timeline />
                 </Avatar>
               </ListItemAvatar>
               <ListItemText secondary="The more you chat the better responses you'll get as Avi adapts to you personality and interests." />
