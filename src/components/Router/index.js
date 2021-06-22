@@ -10,6 +10,9 @@ const LazyUsers = lazy(() => import('../../views/users'))
 const LazySignIn = lazy(() => import('../../views/signIn'))
 const LazySignUp = lazy(() => import('../../views/signUp'))
 const LazyGetApp = lazy(() => import('../../views/getApp'))
+const LazySubscriptionsPlans = lazy(() =>
+  import('../../views/subscriptionsPlans')
+)
 
 const RouterComponent = () => {
   return (
@@ -22,6 +25,11 @@ const RouterComponent = () => {
           <Route exact path="/users" component={LazyUsers} />
           <Route exact path="/getapp" component={LazyGetApp} />
           <Route exact path="/signup" component={LazySignUp} />
+          <Route
+            exact
+            path="/subscription"
+            component={LazySubscriptionsPlans}
+          />
         </Switch>
       </Suspense>
     </Router>
