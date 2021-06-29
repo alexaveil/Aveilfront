@@ -1,9 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* import external modules */
 import {
-  Box,
   Grid,
-  Link,
   Paper,
   Avatar,
   Button,
@@ -14,15 +12,14 @@ import {
 } from '@material-ui/core'
 import { useHistory } from 'react-router'
 import { useEffect, useState } from 'react'
-import { LockOutlined } from '@material-ui/icons'
 import { useDispatch, useSelector } from 'react-redux'
 
 /* import internal modules */
 import useStyles from './styles'
-import Copyright from '../common/Copyright'
-import { sendPasswordReset, signInWithEmailPassword } from '../../apis/users'
-import { setHandleAlert } from '../../redux/actions/common/common'
+import LogoImage from '../../assets/logo.png'
 import { setLoginData } from '../../redux/actions/user/user'
+import { setHandleAlert } from '../../redux/actions/common/common'
+import { sendPasswordReset, signInWithEmailPassword } from '../../apis/users'
 
 const SignIn = () => {
   const classes = useStyles()
@@ -166,24 +163,25 @@ const SignIn = () => {
     }
   }
 
+  const handleSignupClick = () => {
+    history.push('/signup')
+  }
+
   return (
     <Grid container component="main" className={classes.root} justify="center">
       <Grid item xs={12} sm={8} md={4} component={Paper} elevation={6} square>
         <div className={classes.paper}>
-          <Avatar className={classes.avatar}>
-            <LockOutlined />
-          </Avatar>
+          <Avatar alt="Logo" src={LogoImage} className={classes.avatar} />
           <Typography component="h1" variant="h5">
-            {!_sendPasswordReset ? 'Sign In' : 'Reset Password'}
+            {!_sendPasswordReset ? 'Log in to Aveil' : 'Reset Password'}
           </Typography>
           <form className={classes.form}>
             <TextField
               variant="outlined"
               margin="normal"
-              required
               fullWidth
               id="email"
-              label="Email Address"
+              label="Email"
               name="email"
               autoComplete="email"
               autoFocus
@@ -194,7 +192,6 @@ const SignIn = () => {
               <TextField
                 variant="outlined"
                 margin="normal"
-                required
                 fullWidth
                 name="password"
                 label="Password"
@@ -227,7 +224,17 @@ const SignIn = () => {
               className={classes.submit}
               onClick={handleButtonClick}
             >
-              {!_sendPasswordReset ? 'Sign In' : 'Reset'}
+              {!_sendPasswordReset ? 'Log in' : 'Reset'}
+            </Button>
+            <Button
+              type="button"
+              fullWidth
+              variant="contained"
+              color="secondary"
+              className={classes.signup}
+              onClick={handleSignupClick}
+            >
+              Sign up
             </Button>
             <Grid container>
               <Grid item xs>
@@ -240,15 +247,7 @@ const SignIn = () => {
                   {!_sendPasswordReset ? '¿Forgot password?' : 'Back'}
                 </Typography>
               </Grid>
-              <Grid item>
-                <Link href="/signup" variant="body2">
-                  {"¿Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
             </Grid>
-            <Box mt={5}>
-              <Copyright />
-            </Box>
           </form>
         </div>
       </Grid>

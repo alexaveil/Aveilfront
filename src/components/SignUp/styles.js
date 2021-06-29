@@ -17,10 +17,15 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(3),
   },
   submit: {
+    borderRadius: 20,
     margin: theme.spacing(3, 0, 2),
   },
   datePicker: {
     width: '100%',
+  },
+  signin: {
+    borderRadius: 20,
+    marginBottom: theme.spacing(2),
   },
 }))
 

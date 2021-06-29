@@ -31,12 +31,17 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
+    borderRadius: 20,
   },
   linkForgotPassword: {
     cursor: 'pointer',
     '&:hover': {
       textDecoration: 'underline',
     },
+  },
+  signup: {
+    borderRadius: 20,
+    marginBottom: theme.spacing(2),
   },
 }))
 

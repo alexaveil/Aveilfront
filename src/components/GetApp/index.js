@@ -21,7 +21,7 @@ const GetApp = () => {
                 component="img"
                 image={LogoImage}
                 alt="Get App Aveil"
-                title="Contemplative Reptile"
+                title="Get App Aveil"
               />
             </Card>
             <Typography variant="h6" className={classes.title}>

@@ -2,7 +2,6 @@
 /* import external modules */
 import {
   Grid,
-  Link,
   Avatar,
   Button,
   Container,
@@ -17,12 +16,12 @@ import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router'
 import { useEffect, useState } from 'react'
 import DateFnsUtils from '@date-io/date-fns'
-import { LockOutlined } from '@material-ui/icons'
 
 /* import internal modules */
 import useStyles from './styles'
-import { createUserFirestore, signUpWithEmailPassword } from '../../apis/users'
+import LogoImage from '../../assets/logo.png'
 import { setHandleAlert } from '../../redux/actions/common/common'
+import { createUserFirestore, signUpWithEmailPassword } from '../../apis/users'
 
 const SignUp = () => {
   const classes = useStyles()
@@ -41,9 +40,9 @@ const SignUp = () => {
 
   useEffect(() => {
     const birthDay = {
-      month: selectedDate.getMonth(),
-      day: selectedDate.getDate(),
-      year: selectedDate.getFullYear(),
+      month: selectedDate?.getMonth(),
+      day: selectedDate?.getDate(),
+      year: selectedDate?.getFullYear(),
     }
     setDataForm({
       ...dataForm,
@@ -159,14 +158,16 @@ const SignUp = () => {
     setSelectedDate(date)
   }
 
+  const handleSigninClick = () => {
+    history.push('/')
+  }
+
   return (
     <Container component="main" maxWidth="xs">
       <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlined />
-        </Avatar>
+        <Avatar alt="Logo" src={LogoImage} className={classes.avatar} />
         <Typography component="h1" variant="h5">
-          Sign up
+          Create your account
         </Typography>
         <form className={classes.form}>
           <Grid container spacing={2}>
@@ -175,7 +176,6 @@ const SignUp = () => {
                 autoComplete="fname"
                 name="firstName"
                 variant="outlined"
-                required
                 fullWidth
                 id="firstName"
                 label="First Name"
@@ -187,7 +187,6 @@ const SignUp = () => {
             <Grid item xs={12} sm={6}>
               <TextField
                 variant="outlined"
-                required
                 fullWidth
                 id="lastName"
                 label="Last Name"
@@ -200,7 +199,6 @@ const SignUp = () => {
             <Grid item xs={12}>
               <TextField
                 variant="outlined"
-                required
                 fullWidth
                 id="email"
                 label="Email Address"
@@ -213,7 +211,6 @@ const SignUp = () => {
             <Grid item xs={12}>
               <TextField
                 variant="outlined"
-                required
                 fullWidth
                 name="password"
                 label="Password"
@@ -250,13 +247,16 @@ const SignUp = () => {
           >
             Sign Up
           </Button>
-          <Grid container justify="flex-end">
-            <Grid item>
-              <Link href="/" variant="body2">
-                Already have an account? Sign in
-              </Link>
-            </Grid>
-          </Grid>
+          <Button
+            type="button"
+            fullWidth
+            variant="contained"
+            color="secondary"
+            className={classes.signin}
+            onClick={handleSigninClick}
+          >
+            Sign in
+          </Button>
         </form>
       </div>
     </Container>
