@@ -1,25 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* import external modules */
-import {
-  Grid,
-  Avatar,
-  Button,
-  Container,
-  TextField,
-  Typography,
-} from '@material-ui/core'
-import {
-  KeyboardDatePicker,
-  MuiPickersUtilsProvider,
-} from '@material-ui/pickers'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router'
 import { useEffect, useState } from 'react'
 import DateFnsUtils from '@date-io/date-fns'
+import { MuiPickersUtilsProvider } from '@material-ui/pickers'
+import { Grid, Avatar, Button, Typography } from '@material-ui/core'
 
 /* import internal modules */
-import useStyles from './styles'
 import LogoImage from '../../assets/logo.png'
+import { useStyles, CssTextField, CssKeyboardDatePicker } from './styles'
 import { setHandleAlert } from '../../redux/actions/common/common'
 import { createUserFirestore, signUpWithEmailPassword } from '../../apis/users'
 
@@ -39,14 +29,9 @@ const SignUp = () => {
   )
 
   useEffect(() => {
-    const birthDay = {
-      month: selectedDate?.getMonth(),
-      day: selectedDate?.getDate(),
-      year: selectedDate?.getFullYear(),
-    }
     setDataForm({
       ...dataForm,
-      birthDay,
+      birthDay: selectedDate,
     })
   }, [selectedDate])
 
@@ -158,108 +143,124 @@ const SignUp = () => {
     setSelectedDate(date)
   }
 
-  const handleSigninClick = () => {
-    history.push('/')
-  }
-
   return (
-    <Container component="main" maxWidth="xs">
-      <div className={classes.paper}>
-        <Avatar alt="Logo" src={LogoImage} className={classes.avatar} />
-        <Typography component="h1" variant="h5">
-          Create your account
-        </Typography>
-        <form className={classes.form}>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                autoComplete="fname"
-                name="firstName"
-                variant="outlined"
+    <>
+      <Grid
+        container
+        component="main"
+        className={classes.root}
+        justify="center"
+      >
+        <Grid item xs={12} sm={8} md={4}>
+          <div className={classes.paper}>
+            <Avatar alt="Logo" src={LogoImage} className={classes.avatar} />
+            <Typography component="h1" variant="h5" className={classes.title}>
+              Create your account
+            </Typography>
+            <form className={classes.form}>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={6}>
+                  <CssTextField
+                    autoComplete="fname"
+                    name="firstName"
+                    variant="outlined"
+                    fullWidth
+                    id="firstName"
+                    label={
+                      <span className={classes.textWhite}>First Name</span>
+                    }
+                    autoFocus
+                    value={dataForm?.firstName}
+                    onChange={onChangeDataForm}
+                    InputProps={{
+                      className: classes.inputTextColor,
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <CssTextField
+                    variant="outlined"
+                    fullWidth
+                    id="lastName"
+                    label={<span className={classes.textWhite}>Last Name</span>}
+                    name="lastName"
+                    autoComplete="lname"
+                    value={dataForm?.lastName}
+                    onChange={onChangeDataForm}
+                    InputProps={{
+                      className: classes.inputTextColor,
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <CssTextField
+                    variant="outlined"
+                    fullWidth
+                    id="email"
+                    label={
+                      <span className={classes.textWhite}>Email Address</span>
+                    }
+                    name="email"
+                    autoComplete="email"
+                    value={dataForm?.email}
+                    onChange={onChangeDataForm}
+                    InputProps={{
+                      className: classes.inputTextColor,
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <CssTextField
+                    variant="outlined"
+                    fullWidth
+                    name="password"
+                    label={<span className={classes.textWhite}>Password</span>}
+                    type="password"
+                    id="password"
+                    autoComplete="current-password"
+                    value={dataForm?.password}
+                    onChange={onChangeDataForm}
+                    InputProps={{
+                      className: classes.inputTextColor,
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    <CssKeyboardDatePicker
+                      id="date-birth-picker-dialog"
+                      label={
+                        <span className={classes.textWhite}>Date of birth</span>
+                      }
+                      format="MM/dd/yyyy"
+                      value={dataForm?.selectedDateBirth}
+                      onChange={handleDateChange}
+                      KeyboardButtonProps={{
+                        'aria-label': 'change date',
+                      }}
+                      className={classes.datePicker}
+                      InputProps={{
+                        className: classes.inputTextColor,
+                      }}
+                    />
+                  </MuiPickersUtilsProvider>
+                </Grid>
+              </Grid>
+              <Button
+                type="button"
                 fullWidth
-                id="firstName"
-                label="First Name"
-                autoFocus
-                value={dataForm?.firstName}
-                onChange={onChangeDataForm}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                variant="outlined"
-                fullWidth
-                id="lastName"
-                label="Last Name"
-                name="lastName"
-                autoComplete="lname"
-                value={dataForm?.lastName}
-                onChange={onChangeDataForm}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-                value={dataForm?.email}
-                onChange={onChangeDataForm}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                value={dataForm?.password}
-                onChange={onChangeDataForm}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <KeyboardDatePicker
-                  id="date-birth-picker-dialog"
-                  label="Date of birth"
-                  format="MM/dd/yyyy"
-                  value={dataForm?.selectedDateBirth}
-                  onChange={handleDateChange}
-                  KeyboardButtonProps={{
-                    'aria-label': 'change date',
-                  }}
-                  className={classes.datePicker}
-                />
-              </MuiPickersUtilsProvider>
-            </Grid>
-          </Grid>
-          <Button
-            type="button"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-            onClick={signUpWithEmailPasswordFunction}
-          >
-            Sign Up
-          </Button>
-          <Button
-            type="button"
-            fullWidth
-            variant="contained"
-            color="secondary"
-            className={classes.signin}
-            onClick={handleSigninClick}
-          >
-            Sign in
-          </Button>
-        </form>
-      </div>
-    </Container>
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+                onClick={signUpWithEmailPasswordFunction}
+              >
+                Sign Up
+              </Button>
+            </form>
+          </div>
+        </Grid>
+      </Grid>
+    </>
   )
 }
 

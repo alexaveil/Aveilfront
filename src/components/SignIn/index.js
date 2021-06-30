@@ -2,11 +2,9 @@
 /* import external modules */
 import {
   Grid,
-  Paper,
   Avatar,
   Button,
   Checkbox,
-  TextField,
   Typography,
   FormControlLabel,
 } from '@material-ui/core'
@@ -15,8 +13,8 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 /* import internal modules */
-import useStyles from './styles'
 import LogoImage from '../../assets/logo.png'
+import { useStyles, CssTextField } from './styles'
 import { setLoginData } from '../../redux/actions/user/user'
 import { setHandleAlert } from '../../redux/actions/common/common'
 import { sendPasswordReset, signInWithEmailPassword } from '../../apis/users'
@@ -169,37 +167,43 @@ const SignIn = () => {
 
   return (
     <Grid container component="main" className={classes.root} justify="center">
-      <Grid item xs={12} sm={8} md={4} component={Paper} elevation={6} square>
+      <Grid item xs={12} sm={8} md={4}>
         <div className={classes.paper}>
           <Avatar alt="Logo" src={LogoImage} className={classes.avatar} />
-          <Typography component="h1" variant="h5">
+          <Typography component="h1" variant="h5" className={classes.title}>
             {!_sendPasswordReset ? 'Log in to Aveil' : 'Reset Password'}
           </Typography>
           <form className={classes.form}>
-            <TextField
+            <CssTextField
               variant="outlined"
               margin="normal"
               fullWidth
               id="email"
-              label="Email"
+              label={<span className={classes.textWhite}>Email</span>}
               name="email"
               autoComplete="email"
               autoFocus
               value={dataForm?.email}
               onChange={onChangeDataForm}
+              InputProps={{
+                className: classes.inputTextColor,
+              }}
             />
             {!_sendPasswordReset && (
-              <TextField
+              <CssTextField
                 variant="outlined"
                 margin="normal"
                 fullWidth
                 name="password"
-                label="Password"
+                label={<span className={classes.textWhite}>Password</span>}
                 type="password"
                 id="password"
                 autoComplete="current-password"
                 value={dataForm?.password}
                 onChange={onChangeDataForm}
+                InputProps={{
+                  className: classes.inputTextColor,
+                }}
               />
             )}
             {!_sendPasswordReset && (
@@ -211,8 +215,10 @@ const SignIn = () => {
                     onChange={onChangeDataForm}
                     value={dataForm?.remember}
                     checked={dataForm?.remember}
+                    className={classes.textGray}
                   />
                 }
+                className={classes.textGray}
                 label="Remember me"
               />
             )}
@@ -230,7 +236,6 @@ const SignIn = () => {
               type="button"
               fullWidth
               variant="contained"
-              color="secondary"
               className={classes.signup}
               onClick={handleSignupClick}
             >

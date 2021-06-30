@@ -1,9 +1,14 @@
 /* import external modules */
-import { makeStyles } from '@material-ui/core/styles'
+import { TextField } from '@material-ui/core'
+import { makeStyles, withStyles } from '@material-ui/core/styles'
 
-const useStyles = makeStyles((theme) => ({
+export const useStyles = makeStyles((theme) => ({
   root: {
     height: '100vh',
+    background: '#000639',
+  },
+  title: {
+    color: 'white',
   },
   image: {
     backgroundImage: 'url(https://source.unsplash.com/random)',
@@ -16,14 +21,13 @@ const useStyles = makeStyles((theme) => ({
     backgroundPosition: 'center',
   },
   paper: {
-    margin: theme.spacing(8, 4),
+    margin: theme.spacing(7, 4),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
   },
   avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
+    marginBottom: theme.spacing(3),
   },
   form: {
     width: '100%', // Fix IE 11 issue.
@@ -42,7 +46,41 @@ const useStyles = makeStyles((theme) => ({
   signup: {
     borderRadius: 20,
     marginBottom: theme.spacing(2),
+    color: '#000639',
+    background: 'white',
+  },
+  textWhite: {
+    color: 'white',
+  },
+  textGray: {
+    color: 'gray',
+  },
+  inputTextColor: {
+    color: 'white',
   },
 }))
 
-export default useStyles
+export const CssTextField = withStyles({
+  root: {
+    '& label.Mui-focused': {
+      color: 'white',
+    },
+    '& .MuiInput-underline:after': {
+      borderBottomColor: 'white',
+    },
+    '& .MuiOutlinedInput-root': {
+      '& fieldset': {
+        borderColor: 'white',
+      },
+      '&:hover fieldset': {
+        borderColor: 'white',
+      },
+      '&.Mui-focused fieldset': {
+        borderColor: 'white',
+      },
+    },
+    borderRadius: 10,
+    color: 'white',
+    opacity: '69%',
+  },
+})(TextField)

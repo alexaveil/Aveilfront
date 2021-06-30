@@ -12,6 +12,8 @@ import {
   Typography,
   ListItemIcon,
   ListItemText,
+  Avatar,
+  Button,
 } from '@material-ui/core'
 import {
   Mail,
@@ -27,6 +29,7 @@ import { useHistory } from 'react-router-dom'
 
 /* import internal modules */
 import useStyles from './styles'
+import LogoImage from '../../assets/logo.png'
 import AlertDialog from '../common/AlertDialog'
 // import { useRedirectToLogin } from '../customHooks/useRedirectToLogin'
 
@@ -36,6 +39,10 @@ const MiniDrawer = ({ children }) => {
   const history = useHistory()
   const [open, setOpen] = useState(false)
   // const isAuthenticated = useRedirectToLogin()
+
+  const goToPage = (path) => {
+    history.push(path)
+  }
 
   const handleDrawerOpen = () => {
     setOpen(true)
@@ -69,10 +76,20 @@ const MiniDrawer = ({ children }) => {
           >
             <Menu />
           </IconButton>
+          <Avatar alt="Logo" src={LogoImage} className={classes.avatar} />
           <Typography variant="h6" noWrap>
             Aveil
           </Typography>
           <div className={classes.grow} />
+          <Button onClick={() => goToPage('/')} color="inherit">
+            Login
+          </Button>
+          <Button onClick={() => goToPage('/subscription')} color="inherit">
+            Plans
+          </Button>
+          <Button onClick={() => goToPage('/getapp')} color="inherit">
+            Download
+          </Button>
           <AlertDialog title="Handle user" iconOpenButton={<AccountCircle />}>
             <h3>user</h3>
           </AlertDialog>

@@ -65,6 +65,9 @@ const useStyles = makeStyles((theme) => ({
   grow: {
     flexGrow: 1,
   },
+  avatar: {
+    margin: theme.spacing(1),
+  },
 }))
 
 export default useStyles
