@@ -67,6 +67,7 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     margin: theme.spacing(1),
+    cursor: 'pointer',
   },
 }))
 

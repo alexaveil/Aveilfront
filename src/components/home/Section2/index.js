@@ -34,12 +34,12 @@ const Section2 = () => {
       <Grid container spacing={4} justify="center">
         <Grid item xs={12}>
           <Typography variant="h6" color="textPrimary" align="center">
-            {`"WORLD'S MOST ADVANCED AI CHATBOT"`}
+            <b>{`"WORLD'S MOST ADVANCED AI CHATBOT"`}</b>
           </Typography>
         </Grid>
       </Grid>
       <Grid container spacing={4} justify="center">
-        <Grid item xs={6}>
+        <Grid item xs={12} sm={12} md={5} xl={5} lg={5}>
           {!loading ? (
             <Card elevation={0} className={classes.image}>
               <CardMedia
@@ -53,7 +53,7 @@ const Section2 = () => {
             <Loading />
           )}
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} sm={12} md={7} xl={7} lg={7}>
           <List className={classes.list}>
             <ListItem>
               <ListItemAvatar>
@@ -61,7 +61,7 @@ const Section2 = () => {
                   <Fingerprint />
                 </Avatar>
               </ListItemAvatar>
-              <ListItemText secondary="Avi answers your questions in a personalized way to make it as easy to understand as possible." />
+              <ListItemText primary="Avi answers your questions in a personalized way to make it as easy to understand as possible." />
             </ListItem>
             <ListItem>
               <ListItemAvatar>
@@ -69,7 +69,7 @@ const Section2 = () => {
                   <QuestionAnswer />
                 </Avatar>
               </ListItemAvatar>
-              <ListItemText secondary="Get answers to your questions in the fastest way and also have really interesting conversations with a super inteligent, unique and charming chatbot." />
+              <ListItemText primary="Get answers to your questions in the fastest way and also have really interesting conversations with a super inteligent, unique and charming chatbot." />
             </ListItem>
             <ListItem>
               <ListItemAvatar>
@@ -77,10 +77,10 @@ const Section2 = () => {
                   <Timeline />
                 </Avatar>
               </ListItemAvatar>
-              <ListItemText secondary="The more you chat the better responses you'll get as Avi adapts to you personality and interests." />
+              <ListItemText primary="The more you chat the better responses you'll get as Avi adapts to you personality and interests." />
             </ListItem>
             <ListItem>
-              <ListItemText primary="Powered by Open AI's GPT-3." />
+              <ListItemText secondary="Powered by Open AI's GPT-3." />
             </ListItem>
           </List>
         </Grid>

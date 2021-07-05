@@ -26,6 +26,22 @@ const useStyles = makeStyles((theme) => ({
     borderColor: '#000000',
     borderRadius: '20px',
   },
+  buttonsGetApp: {
+    textAlign: 'start',
+    [theme.breakpoints.up('md')]: {
+      textAlign: 'end',
+    },
+  },
+  titleButtonsGetApp: {
+    marginRight: 25,
+    textAlign: 'start',
+    [theme.breakpoints.up('md')]: {
+      textAlign: 'end',
+    },
+  },
+  titleContactUs: {
+    color: '#615F5F',
+  },
 }))
 
 export default useStyles

@@ -9,6 +9,8 @@ const useStyles = makeStyles({
     fontSize: 16,
     marginTop: 30,
     marginBottom: 30,
+    color: '#000000',
+    fontWeight: 'bold',
   },
   name: {
     color: '#615F5F',
@@ -16,10 +18,11 @@ const useStyles = makeStyles({
     marginBottom: 30,
   },
   message: {
-    color: '#292929',
+    color: '#000000',
     paddingLeft: '15%',
     paddingRight: '15%',
     alignItems: 'center',
+    fontWeight: 'bold',
   },
 })
 

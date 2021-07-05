@@ -17,11 +17,13 @@ const SimpleCard = () => {
         </Typography>
         <div className={classes.messageContainer}>
           <Typography className={classes.message} align="justify" component="p">
-            "Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text
-            ever since the 1500s, when an unknown printer took a galley of type
-            and scrambled it to make a type specimen book Lorem Ipsum is simply
-            dummy text of the printing and."
+            <i>
+              "Lorem Ipsum is simply dummy text of the printing and typesetting
+              industry. Lorem Ipsum has been the industry's standard dummy text
+              ever since the 1500s, when an unknown printer took a galley of
+              type and scrambled it to make a type specimen book Lorem Ipsum is
+              simply dummy text of the printing and."
+            </i>
           </Typography>
         </div>
         <Typography className={classes.name}>Sara Conor's</Typography>

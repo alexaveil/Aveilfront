@@ -17,16 +17,28 @@ const useStyles = makeStyles((theme) => ({
     borderColor: '#000000',
     borderRadius: '20px',
   },
-  list: {
-    maxWidth: 460,
-  },
   blue: {
     color: theme.palette.getContrastText('#3043E9'),
     backgroundColor: '#3043E9',
   },
   image: {
     backgroundColor: '#fafafa',
-    maxWidth: 250,
+    maxWidth: 200,
+    [theme.breakpoints.down('lg')]: {
+      marginLeft: 300,
+    },
+    [theme.breakpoints.down('xl')]: {
+      marginLeft: 250,
+    },
+    [theme.breakpoints.down('md')]: {
+      marginLeft: 150,
+    },
+    [theme.breakpoints.down('sm')]: {
+      display: 'none',
+    },
+    [theme.breakpoints.down('xs')]: {
+      display: 'none',
+    },
   },
 }))
 

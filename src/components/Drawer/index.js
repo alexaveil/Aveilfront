@@ -76,8 +76,13 @@ const MiniDrawer = ({ children }) => {
           >
             <Menu />
           </IconButton>
-          <Avatar alt="Logo" src={LogoImage} className={classes.avatar} />
-          <Typography variant="h6" noWrap>
+          <Avatar
+            alt="Logo"
+            src={LogoImage}
+            className={classes.avatar}
+            onClick={() => goToPage('/')}
+          />
+          <Typography onClick={() => goToPage('/')} variant="h6" noWrap>
             Aveil
           </Typography>
           <div className={classes.grow} />
