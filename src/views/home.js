@@ -1,12 +1,13 @@
 /* import internal modules */
-import MiniDrawer from '../components/Drawer'
+import AppBar from '../components/common/AppBar'
 import HomeLayout from '../components/home/Layout'
 
 const Home = () => {
   return (
-    <MiniDrawer>
+    <>
+      <AppBar />
       <HomeLayout />
-    </MiniDrawer>
+    </>
   )
 }
 

@@ -10,7 +10,6 @@ const useStyles = makeStyles({
     marginTop: 30,
     marginBottom: 30,
     color: '#000000',
-    fontWeight: 'bold',
   },
   name: {
     color: '#615F5F',

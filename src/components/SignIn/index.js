@@ -178,10 +178,8 @@ const SignIn = () => {
               variant="outlined"
               margin="normal"
               fullWidth
-              id="email"
               label={<span className={classes.textWhite}>Email</span>}
               name="email"
-              autoComplete="email"
               autoFocus
               value={dataForm?.email}
               onChange={onChangeDataForm}
@@ -197,8 +195,6 @@ const SignIn = () => {
                 name="password"
                 label={<span className={classes.textWhite}>Password</span>}
                 type="password"
-                id="password"
-                autoComplete="current-password"
                 value={dataForm?.password}
                 onChange={onChangeDataForm}
                 InputProps={{

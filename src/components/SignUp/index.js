@@ -161,11 +161,9 @@ const SignUp = () => {
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
                   <CssTextField
-                    autoComplete="fname"
                     name="firstName"
                     variant="outlined"
                     fullWidth
-                    id="firstName"
                     label={
                       <span className={classes.textWhite}>First Name</span>
                     }
@@ -181,10 +179,8 @@ const SignUp = () => {
                   <CssTextField
                     variant="outlined"
                     fullWidth
-                    id="lastName"
                     label={<span className={classes.textWhite}>Last Name</span>}
                     name="lastName"
-                    autoComplete="lname"
                     value={dataForm?.lastName}
                     onChange={onChangeDataForm}
                     InputProps={{
@@ -196,12 +192,10 @@ const SignUp = () => {
                   <CssTextField
                     variant="outlined"
                     fullWidth
-                    id="email"
                     label={
                       <span className={classes.textWhite}>Email Address</span>
                     }
                     name="email"
-                    autoComplete="email"
                     value={dataForm?.email}
                     onChange={onChangeDataForm}
                     InputProps={{
@@ -216,8 +210,6 @@ const SignUp = () => {
                     name="password"
                     label={<span className={classes.textWhite}>Password</span>}
                     type="password"
-                    id="password"
-                    autoComplete="current-password"
                     value={dataForm?.password}
                     onChange={onChangeDataForm}
                     InputProps={{

@@ -17,21 +17,35 @@ const useStyles = makeStyles((theme) => ({
     borderColor: '#000000',
     borderRadius: '20px',
   },
+  list: {
+    textAlign: 'start',
+    marginTop: 40,
+    marginLeft: 20,
+    [theme.breakpoints.down('md')]: {
+      marginTop: 0,
+      marginLeft: 0,
+    },
+  },
+  listItem: {
+    marginTop: 10,
+  },
   blue: {
-    color: theme.palette.getContrastText('#3043E9'),
-    backgroundColor: '#3043E9',
+    color: '#3043E9',
+    fill: '#3043E9',
+    backgroundColor: '#fafafa',
   },
   image: {
     backgroundColor: '#fafafa',
-    maxWidth: 200,
+    marginTop: 25,
+    maxWidth: 210,
     [theme.breakpoints.down('lg')]: {
-      marginLeft: 300,
-    },
-    [theme.breakpoints.down('xl')]: {
       marginLeft: 250,
     },
+    [theme.breakpoints.down('xl')]: {
+      marginLeft: 230,
+    },
     [theme.breakpoints.down('md')]: {
-      marginLeft: 150,
+      display: 'none',
     },
     [theme.breakpoints.down('sm')]: {
       display: 'none',

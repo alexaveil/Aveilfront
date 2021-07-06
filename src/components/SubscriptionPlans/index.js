@@ -35,7 +35,8 @@ const tiers = [
     buttonVariant: 'contained',
   },
   {
-    title: 'Pro Plus',
+    title: 'Pro Annual',
+    subheader: '- $48 (40% discount)',
     price: '72',
     description: [
       'Get unlimited answers and as much time as you want ',
@@ -59,8 +60,8 @@ const SubscriptionsPlans = () => {
       {/* Hero unit */}
       <Container maxWidth="sm" component="main" className={classes.heroContent}>
         <Typography
-          component="h4"
-          variant="h4"
+          component="h5"
+          variant="h5"
           align="center"
           color="textPrimary"
           gutterBottom
@@ -69,19 +70,17 @@ const SubscriptionsPlans = () => {
         </Typography>
       </Container>
       {/* End hero unit */}
-      <Container maxWidth="md" component="main">
+      <Container maxWidth="lg" component="main">
         <Grid container spacing={5} alignItems="flex-end">
-          <Grid item xs={12} sm={6} md={4}>            
-            <img src={SubscriptionImage} alt="Aveil" className={classes.image}/>
+          <Grid item xs={12} sm={12} md={4} lg={4}>
+            <img
+              src={SubscriptionImage}
+              alt="Aveil"
+              className={classes.image}
+            />
           </Grid>
           {tiers.map((tier) => (
-            <Grid
-              item
-              key={tier.title}
-              xs={12}
-              sm={6}
-              md={4}
-            >
+            <Grid item key={tier.title} xs={12} sm={12} md={4} lg={4}>
               <Card>
                 <CardHeader
                   title={tier.title}
@@ -100,7 +99,7 @@ const SubscriptionsPlans = () => {
                       ${tier.price}
                     </Typography>
                     <Typography variant="h6" color="textSecondary">
-                      {tier.title !== 'Pro Plus' ? '/mo' : '/year'}
+                      {tier.title !== 'Pro Annual' ? '/mo' : '/year'}
                     </Typography>
                   </div>
                   <ul className={classes.listItems}>

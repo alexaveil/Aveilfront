@@ -1,9 +1,9 @@
 /* import external modules */
-import { Card, Grid, Container, CardMedia, Typography } from '@material-ui/core'
+import { Card, Grid, Container, CardMedia } from '@material-ui/core'
 
 /* import internal modules */
 import useStyles from './styles'
-import LogoImage from '../../assets/logo.png'
+// import LogoImage from '../../assets/logo.png'
 import AppStoreImage from '../../assets/app-store.png'
 import GooglePlayImage from '../../assets/google-play.png'
 import GetAppImage from '../../assets/download-aveil-app.png'
@@ -14,7 +14,7 @@ const GetApp = () => {
   return (
     <Container maxWidth="lg" component="section" className={classes.section}>
       <Grid container justify="flex-end" direction="row">
-        <Grid item xs={8}>
+        {/* <Grid item xs={9}>
           <Grid container direction="row">
             <Card elevation={0} className={classes.logo}>
               <CardMedia
@@ -28,7 +28,7 @@ const GetApp = () => {
               Aveil
             </Typography>
           </Grid>
-        </Grid>
+        </Grid> */}
       </Grid>
       <Grid container justify="center">
         <Grid item xs={12}>
@@ -38,38 +38,32 @@ const GetApp = () => {
                 component="img"
                 image={GetAppImage}
                 alt="Get App Aveil"
-                title="Contemplative Reptile"
+                title="Aveil"
               />
             </Card>
           </center>
         </Grid>
       </Grid>
       <Grid container justify="center">
-        <Grid item xs={12}>
-          <center>
-            <Card elevation={0} className={classes.imageGetApp}>
-              <CardMedia
-                component="img"
-                image={AppStoreImage}
-                alt="Google Play"
-                title="Contemplative Reptile"
-              />
-            </Card>
-          </center>
+        <Grid item xl={2} lg={2}>
+          <Card elevation={0} className={classes.imageGetAppApple}>
+            <CardMedia
+              component="img"
+              image={AppStoreImage}
+              alt="Google Play"
+              title="Aveil"
+            />
+          </Card>
         </Grid>
-      </Grid>
-      <Grid container justify="center">
-        <Grid item xs={12}>
-          <center>
-            <Card elevation={0} className={classes.imageGetApp}>
-              <CardMedia
-                component="img"
-                image={GooglePlayImage}
-                alt="Google Play"
-                title="Contemplative Reptile"
-              />
-            </Card>
-          </center>
+        <Grid item xl={2} lg={2}>
+          <Card elevation={0} className={classes.imageGetAppGoogle}>
+            <CardMedia
+              component="img"
+              image={GooglePlayImage}
+              alt="Google Play"
+              title="Aveil"
+            />
+          </Card>
         </Grid>
       </Grid>
     </Container>

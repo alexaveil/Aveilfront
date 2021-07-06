@@ -1,7 +1,8 @@
 /* import external modules */
-import { makeStyles } from '@material-ui/core/styles'
+import { TextField } from '@material-ui/core'
+import { makeStyles, withStyles } from '@material-ui/core/styles'
 
-const useStyles = makeStyles((theme) => ({
+export const useStyles = makeStyles((theme) => ({
   section: {
     marginTop: theme.spacing(1),
     paddingTop: theme.spacing(3),
@@ -29,20 +30,53 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 250,
   },
   texfield: {
-    // background: '#3043E9',
     borderRadius: 30,
     maxWidth: 300,
   },
   subtitle: {
     paddingTop: 3,
-    paddingLeft: 18,
-    paddingRight: 10,
+    paddingLeft: 13,
+    maxWidth: 345,
     paddingBottom: 3,
     borderRadius: 10,
     background: '#E2E2E2',
+    [theme.breakpoints.up('md')]: {},
   },
-  title: { marginLeft: 18, fontWeight: 'bold' },
+  title: {
+    paddingLeft: 13,
+    fontWeight: 'bold',
+  },
   paper: { background: '#FAFAFA' },
+  textWhite: {
+    color: 'white',
+  },
+  inputTextColor: {
+    color: 'white',
+  },
 }))
 
-export default useStyles
+export const CssTextField = withStyles({
+  root: {
+    '& label.Mui-focused': {
+      color: '#3043E9',
+    },
+    '& .MuiInput-underline:after': {
+      display: 'none',
+      // borderBottomColor: 'white',
+    },
+    '& .MuiOutlinedInput-root': {
+      '& fieldset': {
+        borderColor: '#3043E9',
+      },
+      '&:hover fieldset': {
+        borderColor: '#3043E9',
+      },
+      '&.Mui-focused fieldset': {
+        borderColor: '#3043E9',
+      },
+    },
+    borderRadius: 10,
+    color: 'white',
+    opacity: '69%',
+  },
+})(TextField)

@@ -13,9 +13,9 @@ import { useEffect, useState } from 'react'
 import { Autocomplete } from '@material-ui/lab'
 
 /* import internal modules */
-import useStyles from './styles'
-import RobotImage from '../../../assets/robot.png'
+import { useStyles } from './styles'
 import Loading from '../../common/Loading'
+import RobotImage from '../../../assets/robot.png'
 
 const Section1 = () => {
   const classes = useStyles()
@@ -47,8 +47,10 @@ const Section1 = () => {
             style={{ transitionDelay: motion ? '1300ms' : '0ms' }}
           >
             <Paper elevation={0} className={classes.paper}>
-              <Typography className={classes.title}>Avi</Typography>
-              <Typography className={classes.subtitle}>
+              <Typography className={classes.title} align="left">
+                Avi
+              </Typography>
+              <Typography className={classes.subtitle} align="left">
                 Ask me anything, I'II do my best to help you.
               </Typography>
             </Paper>
@@ -64,7 +66,7 @@ const Section1 = () => {
                   component="img"
                   alt="Aveil"
                   image={RobotImage}
-                  title="Contemplative Reptile"
+                  title="Aveil"
                 />
               </Card>
             </center>

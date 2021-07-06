@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles((theme) => ({
   heroContent: {
-    padding: theme.spacing(2, 0, 4),
+    padding: theme.spacing(2, 0, 7),
   },
   cardHeader: {
     backgroundColor: theme.palette.primary.main,
@@ -21,10 +21,7 @@ const useStyles = makeStyles((theme) => ({
   },
   image: {
     width: '100%',
-    marginBottom: theme.spacing(15),
-    [theme.breakpoints.down('md')]: {
-      marginBottom: theme.spacing(3),
-    },
+    marginBottom: '17%',
   },
 }))
 

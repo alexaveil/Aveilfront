@@ -38,24 +38,24 @@ const Section2 = () => {
           </Typography>
         </Grid>
       </Grid>
-      <Grid container spacing={4} justify="center">
-        <Grid item xs={12} sm={12} md={5} xl={5} lg={5}>
+      <Grid container spacing={4} justify="flex-start">
+        <Grid item xs={12} sm={12} md={12} xl={5} lg={5}>
           {!loading ? (
             <Card elevation={0} className={classes.image}>
               <CardMedia
                 component="img"
                 alt="Smartphone Aveil"
                 image={SmartphoneAveilImage}
-                title="Contemplative Reptile"
+                title="Aveil"
               />
             </Card>
           ) : (
             <Loading />
           )}
         </Grid>
-        <Grid item xs={12} sm={12} md={7} xl={7} lg={7}>
+        <Grid item xs={12} sm={12} md={12} xl={5} lg={5}>
           <List className={classes.list}>
-            <ListItem>
+            <ListItem className={classes.listItem}>
               <ListItemAvatar>
                 <Avatar className={classes.blue}>
                   <Fingerprint />
@@ -63,7 +63,7 @@ const Section2 = () => {
               </ListItemAvatar>
               <ListItemText primary="Avi answers your questions in a personalized way to make it as easy to understand as possible." />
             </ListItem>
-            <ListItem>
+            <ListItem className={classes.listItem}>
               <ListItemAvatar>
                 <Avatar className={classes.blue}>
                   <QuestionAnswer />
@@ -71,7 +71,7 @@ const Section2 = () => {
               </ListItemAvatar>
               <ListItemText primary="Get answers to your questions in the fastest way and also have really interesting conversations with a super inteligent, unique and charming chatbot." />
             </ListItem>
-            <ListItem>
+            <ListItem className={classes.listItem}>
               <ListItemAvatar>
                 <Avatar className={classes.blue}>
                   <Timeline />
@@ -79,7 +79,7 @@ const Section2 = () => {
               </ListItemAvatar>
               <ListItemText primary="The more you chat the better responses you'll get as Avi adapts to you personality and interests." />
             </ListItem>
-            <ListItem>
+            <ListItem className={classes.listItem}>
               <ListItemText secondary="Powered by Open AI's GPT-3." />
             </ListItem>
           </List>

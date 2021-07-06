@@ -102,7 +102,7 @@ const Chat = () => {
                 alt="Aveil"
                 component="img"
                 image={RobotImage}
-                title="Contemplative Reptile"
+                title="Aveil"
                 className={classes.imageCircle}
               />
             </Card>

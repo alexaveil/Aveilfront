@@ -13,13 +13,23 @@ const useStyles = makeStyles((theme) => ({
   },
   image: {
     backgroundColor: '#fafafa',
-    maxWidth: 200,
+    maxWidth: 300,
+    // marginTop: 13,
   },
-  imageGetApp: {
+  imageGetAppGoogle: {
     backgroundColor: '#fafafa',
-    maxWidth: 150,
-    maxHeight: 50,
-    marginBottom: 5,
+    maxWidth: 200,
+    marginTop: 20,
+    marginLeft: 7,
+    [theme.breakpoints.down('md')]: {
+      marginLeft: 0,
+    },
+  },
+  imageGetAppApple: {
+    backgroundColor: '#fafafa',
+    maxWidth: 200,
+    marginTop: 20,
+    marginRight: 7,
   },
   title: {
     fontWeight: 'bold',
