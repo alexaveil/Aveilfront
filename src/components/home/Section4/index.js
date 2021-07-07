@@ -23,17 +23,32 @@ const Section4 = () => {
           </Typography>
           <ul className={classes.ul}>
             <li>
-              <Typography href="#" variant="subtitle1" color="textSecondary">
+              <Typography
+                href="#"
+                variant="subtitle1"
+                color="textSecondary"
+                className={classes.itemContactUs}
+              >
                 {'Address: Cra 768 # 38 - 00'}
               </Typography>
             </li>
             <li>
-              <Typography href="#" variant="subtitle1" color="textSecondary">
+              <Typography
+                href="#"
+                variant="subtitle1"
+                color="textSecondary"
+                className={classes.itemContactUs}
+              >
                 {'Email: aveil@example.com'}
               </Typography>
             </li>
             <li>
-              <Typography href="#" variant="subtitle1" color="textSecondary">
+              <Typography
+                href="#"
+                variant="subtitle1"
+                color="textSecondary"
+                className={classes.itemContactUs}
+              >
                 {'Phone: 35472747'}
               </Typography>
             </li>
@@ -53,18 +68,18 @@ const Section4 = () => {
               <Button
                 size="large"
                 variant="outlined"
-                className={classes.button}
                 startIcon={<Apple />}
+                className={classes.button}
               >
                 iOS
               </Button>
             </li>
             <li>
               <Button
-                variant="outlined"
                 size="large"
-                className={classes.button}
+                variant="outlined"
                 startIcon={<Android />}
+                className={classes.button}
               >
                 Android
               </Button>

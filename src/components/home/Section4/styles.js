@@ -25,6 +25,11 @@ const useStyles = makeStyles((theme) => ({
     width: '150px',
     borderColor: '#000000',
     borderRadius: '20px',
+
+    '&:hover': {
+      color: '#ffffff',
+      backgroundColor: '#000000',
+    },
   },
   buttonsGetApp: {
     textAlign: 'start',
@@ -41,6 +46,15 @@ const useStyles = makeStyles((theme) => ({
   },
   titleContactUs: {
     color: '#615F5F',
+
+    '&:hover': {
+      color: '#000000',
+    },
+  },
+  itemContactUs: {
+    '&:hover': {
+      color: '#000000',
+    },
   },
 }))
 
