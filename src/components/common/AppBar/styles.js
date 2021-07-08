@@ -40,6 +40,20 @@ const useStyles = makeStyles((theme) => ({
   items: {
     marginRight: theme.spacing(3),
   },
+  itemLogin: {
+    backgroundColor: 'white',
+    color: 'black',
+    textTransform: 'capitalize',
+    borderRadius: 13,
+    width: 70,
+    height: 30,
+    marginTop: 9,
+    marginRight: 20,
+    '&:hover': {
+      color: '#E5E5E5',
+      backgroundColor: 'gray',
+    },
+  },
 }))
 
 export default useStyles

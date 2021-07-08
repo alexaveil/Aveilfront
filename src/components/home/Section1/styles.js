@@ -47,7 +47,7 @@ export const useStyles = makeStyles((theme) => ({
     fontWeight: 'bold',
   },
   paper: { background: '#FAFAFA' },
-  textWhite: {
+  textLabel: {
     color: 'white',
   },
   inputTextColor: {
@@ -58,25 +58,25 @@ export const useStyles = makeStyles((theme) => ({
 export const CssTextField = withStyles({
   root: {
     '& label.Mui-focused': {
-      color: '#3043E9',
+      color: 'white',
     },
     '& .MuiInput-underline:after': {
-      display: 'none',
-      // borderBottomColor: 'white',
+      borderBottomColor: 'white',
     },
     '& .MuiOutlinedInput-root': {
       '& fieldset': {
-        borderColor: '#3043E9',
+        borderColor: 'white',
+        borderRadius: 30,
       },
       '&:hover fieldset': {
-        borderColor: '#3043E9',
+        borderColor: 'white',
       },
       '&.Mui-focused fieldset': {
-        borderColor: '#3043E9',
+        borderColor: 'white',
       },
     },
-    borderRadius: 10,
+    borderRadius: 30,
+    background: '#3043E9',
     color: 'white',
-    opacity: '69%',
   },
 })(TextField)

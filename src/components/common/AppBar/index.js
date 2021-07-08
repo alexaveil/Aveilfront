@@ -173,13 +173,6 @@ const AppBarComponent = () => {
           <div className={classes.sectionDesktop}>
             <div className={classes.grow} />
             <Button
-              onClick={() => goToPage('/')}
-              className={classes.item}
-              color="inherit"
-            >
-              Login
-            </Button>
-            <Button
               onClick={() => goToPage('/subscription')}
               className={classes.item}
               color="inherit"
@@ -192,6 +185,13 @@ const AppBarComponent = () => {
               color="inherit"
             >
               Download
+            </Button>
+            <Button
+              onClick={() => goToPage('/')}
+              className={classes.itemLogin}
+              color="inherit"
+            >
+              Log in
             </Button>
             <IconButton
               edge="end"

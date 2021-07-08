@@ -80,7 +80,10 @@ const Section2 = () => {
               <ListItemText primary="The more you chat the better responses you'll get as Avi adapts to you personality and interests." />
             </ListItem>
             <ListItem className={classes.listItem}>
-              <ListItemText secondary="Powered by Open AI's GPT-3." />
+              <ListItemText
+                className={classes.textPowered}
+                secondary="Powered by Open AI's GPT-3."
+              />
             </ListItem>
           </List>
         </Grid>

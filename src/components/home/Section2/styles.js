@@ -54,6 +54,19 @@ const useStyles = makeStyles((theme) => ({
       display: 'none',
     },
   },
+  shapeSection: {
+    margin: 10,
+  },
+  diamondShape: {
+    background: '#3043E9',
+    height: 10,
+    textAlign: 'center',
+    transform: 'rotate(45deg)',
+    width: 10,
+  },
+  textPowered: {
+    marginLeft: 55,
+  },
 }))
 
 export default useStyles

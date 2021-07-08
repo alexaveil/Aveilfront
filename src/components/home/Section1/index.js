@@ -6,14 +6,13 @@ import {
   Paper,
   Container,
   CardMedia,
-  TextField,
   Typography,
 } from '@material-ui/core'
 import { useEffect, useState } from 'react'
 import { Autocomplete } from '@material-ui/lab'
 
 /* import internal modules */
-import { useStyles } from './styles'
+import { useStyles, CssTextField } from './styles'
 import Loading from '../../common/Loading'
 import RobotImage from '../../../assets/robot.png'
 
@@ -84,11 +83,18 @@ const Section1 = () => {
                 id="combo-box-autocomplete"
                 getOptionLabel={(option) => option.title}
                 renderInput={(params) => (
-                  <TextField
+                  <CssTextField
                     {...params}
                     color="primary"
                     variant="outlined"
-                    label="Ask Avi a Question..."
+                    label={
+                      <span className={classes.textLabel}>
+                        Ask Avi a Question...
+                      </span>
+                    }
+                    InputProps={{
+                      className: classes.inputTextColor,
+                    }}
                     className={classes.texfield}
                   />
                 )}
