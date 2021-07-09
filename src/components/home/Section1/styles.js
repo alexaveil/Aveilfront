@@ -49,6 +49,7 @@ export const useStyles = makeStyles((theme) => ({
   paper: { background: '#FAFAFA' },
   textLabel: {
     color: 'white',
+    marginLeft: 60,
   },
   inputTextColor: {
     color: 'white',

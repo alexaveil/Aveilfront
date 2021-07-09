@@ -23,6 +23,9 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     marginBottom: '17%',
   },
+  titleSubscribe: {
+    marginTop: theme.spacing(2),
+  },
 }))
 
 export default useStyles

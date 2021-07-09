@@ -61,7 +61,7 @@ export const CssTextField = withStyles({
         borderColor: 'white',
       },
       '&.Mui-focused fieldset': {
-        borderColor: 'white',
+        borderColor: '#3043E9',
       },
     },
     borderRadius: 10,

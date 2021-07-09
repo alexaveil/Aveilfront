@@ -50,8 +50,9 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 9,
     marginRight: 20,
     '&:hover': {
-      color: '#E5E5E5',
-      backgroundColor: 'gray',
+      backgroundColor: 'white',
+      color: 'black',
+      boxShadow: '2px 2px white',
     },
   },
 }))

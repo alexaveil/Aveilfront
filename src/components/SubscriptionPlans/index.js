@@ -47,6 +47,7 @@ const tiers = [
       'Unlock all characters',
       'Early access to new features',
       'No ads',
+      '40% discount',
     ],
     buttonText: 'Subscribe',
     buttonVariant: 'outlined',
@@ -60,11 +61,12 @@ const SubscriptionsPlans = () => {
       {/* Hero unit */}
       <Container maxWidth="sm" component="main" className={classes.heroContent}>
         <Typography
-          component="h5"
+          gutterBottom
           variant="h5"
+          component="h5"
           align="center"
           color="textPrimary"
-          gutterBottom
+          className={classes.titleSubscribe}
         >
           Subscribe to Aveil Pro
         </Typography>

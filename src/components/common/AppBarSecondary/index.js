@@ -16,7 +16,7 @@ const AppBarSecondaryComponent = () => {
 
   return (
     <div className={classes.grow}>
-      <AppBar position="static" className={classes.appBar}>
+      <AppBar position="static" elevation={0} className={classes.appBar}>
         <Toolbar>
           <Avatar
             alt="Logo"

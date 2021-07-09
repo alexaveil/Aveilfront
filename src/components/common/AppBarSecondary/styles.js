@@ -6,10 +6,11 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   appBar: {
-    backgroundColor: 'white',
+    backgroundColor: '#fafafa',
+    alignItems: 'center',
   },
   title: {
-    color: '#3043E9',
+    color: 'black',
     cursor: 'pointer',
     [theme.breakpoints.up('sm')]: {
       display: 'block',
@@ -29,11 +30,9 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     marginRight: theme.spacing(2),
-    marginLeft: theme.spacing(10),
     cursor: 'pointer',
     [theme.breakpoints.down('md')]: {
       display: 'flex',
-      marginLeft: theme.spacing(14),
     },
   },
   item: {

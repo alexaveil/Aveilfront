@@ -14,6 +14,7 @@ const Section3 = () => {
     width: 30,
     height: 30,
     cursor: 'pointer',
+    color: '#615F5F',
   }
 
   const indicatorStyles = {
