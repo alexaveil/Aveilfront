@@ -200,6 +200,7 @@ const AppBarComponent = () => {
               aria-haspopup="true"
               onClick={handleProfileMenuOpen}
               color="inherit"
+              className={classes.handleUserButton}
             >
               <AccountCircle />
             </IconButton>

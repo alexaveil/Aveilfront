@@ -3,7 +3,12 @@ import { Typography } from '@material-ui/core'
 
 const Copyright = () => {
   return (
-    <Typography variant="body2" color="textSecondary" align="center">
+    <Typography
+      align="center"
+      variant="body2"
+      color="textSecondary"
+      style={{ marginBottom: 40 }}
+    >
       {'Copyright © Aveil '}
       {new Date().getFullYear()}
       {'. '}

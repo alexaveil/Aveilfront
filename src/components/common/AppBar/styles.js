@@ -26,19 +26,25 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     marginRight: theme.spacing(2),
-    marginLeft: theme.spacing(10),
+    marginLeft: theme.spacing(20),
     cursor: 'pointer',
     [theme.breakpoints.down('md')]: {
       display: 'flex',
-      marginLeft: theme.spacing(1),
+      marginLeft: theme.spacing(5),
     },
   },
   item: {
     marginRight: theme.spacing(3),
     textTransform: 'capitalize',
   },
-  items: {
-    marginRight: theme.spacing(3),
+  handleUserButton: {
+    marginRight: theme.spacing(50),
+    [theme.breakpoints.down('xl')]: {
+      marginRight: theme.spacing(40),
+    },
+    [theme.breakpoints.down('md')]: {
+      marginRight: theme.spacing(27),
+    },
   },
   itemLogin: {
     backgroundColor: 'white',
@@ -48,11 +54,12 @@ const useStyles = makeStyles((theme) => ({
     width: 70,
     height: 30,
     marginTop: 9,
-    marginRight: 20,
+    marginRight: 30,
+    marginLeft: 15,
     '&:hover': {
       backgroundColor: 'white',
       color: 'black',
-      boxShadow: '2px 2px white',
+      boxShadow: '0px 0px 10px 1px white',
     },
   },
 }))

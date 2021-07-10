@@ -3,18 +3,17 @@ import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles((theme) => ({
   section: {
-    marginTop: theme.spacing(2),
+    marginTop: theme.spacing(1),
     paddingTop: theme.spacing(3),
     paddingBottom: theme.spacing(3),
     [theme.breakpoints.up('sm')]: {
-      paddingTop: theme.spacing(6),
+      paddingTop: theme.spacing(3),
       paddingBottom: theme.spacing(6),
     },
   },
   image: {
     backgroundColor: '#fafafa',
     maxWidth: 300,
-    // marginTop: 13,
   },
   imageGetAppGoogle: {
     backgroundColor: '#fafafa',

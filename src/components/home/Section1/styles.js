@@ -36,6 +36,7 @@ export const useStyles = makeStyles((theme) => ({
   subtitle: {
     paddingTop: 3,
     paddingLeft: 13,
+    marginLeft: 55,
     maxWidth: 345,
     paddingBottom: 3,
     borderRadius: 10,
@@ -43,6 +44,7 @@ export const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('md')]: {},
   },
   title: {
+    marginLeft: 55,
     paddingLeft: 13,
     fontWeight: 'bold',
   },

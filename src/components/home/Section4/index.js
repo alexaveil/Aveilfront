@@ -21,38 +21,6 @@ const Section4 = () => {
           >
             {'Contact Us'}
           </Typography>
-          <ul className={classes.ul}>
-            <li>
-              <Typography
-                href="#"
-                variant="subtitle1"
-                color="textSecondary"
-                className={classes.itemContactUs}
-              >
-                {'Address: Cra 768 # 38 - 00'}
-              </Typography>
-            </li>
-            <li>
-              <Typography
-                href="#"
-                variant="subtitle1"
-                color="textSecondary"
-                className={classes.itemContactUs}
-              >
-                {'Email: aveil@example.com'}
-              </Typography>
-            </li>
-            <li>
-              <Typography
-                href="#"
-                variant="subtitle1"
-                color="textSecondary"
-                className={classes.itemContactUs}
-              >
-                {'Phone: 35472747'}
-              </Typography>
-            </li>
-          </ul>
         </Grid>
         <Grid item xs={12} md={6}>
           <Typography

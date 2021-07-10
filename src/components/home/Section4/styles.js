@@ -45,7 +45,9 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   titleContactUs: {
+    marginTop: 30,
     color: '#615F5F',
+    textDecoration: 'underline',
 
     '&:hover': {
       color: '#000000',
