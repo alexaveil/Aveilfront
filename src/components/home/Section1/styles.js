@@ -30,8 +30,8 @@ export const useStyles = makeStyles((theme) => ({
     maxWidth: 250,
   },
   texfield: {
-    borderRadius: 30,
-    maxWidth: 300,
+    // borderRadius: 30,
+    // maxWidth: 300,
   },
   subtitle: {
     paddingTop: 3,
@@ -63,23 +63,16 @@ export const CssTextField = withStyles({
     '& label.Mui-focused': {
       color: 'white',
     },
-    '& .MuiInput-underline:after': {
+    '& .MuiFilledInput-underline:before': {
       borderBottomColor: 'white',
     },
-    '& .MuiOutlinedInput-root': {
-      '& fieldset': {
-        borderColor: 'white',
-        borderRadius: 30,
-      },
-      '&:hover fieldset': {
-        borderColor: 'white',
-      },
-      '&.Mui-focused fieldset': {
-        borderColor: 'white',
-      },
+    '& .MuiFilledInput-underline:after': {
+      borderBottomColor: 'white',
     },
-    borderRadius: 30,
-    background: '#3043E9',
-    color: 'white',
+    '& .MuiFilledInput-root': {
+      background: '#3043E9',
+      borderRadius: 30,
+    },
+    maxWidth: 300,
   },
 })(TextField)

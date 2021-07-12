@@ -73,7 +73,12 @@ const SubscriptionsPlans = () => {
       </Container>
       {/* End hero unit */}
       <Container maxWidth="lg" component="main">
-        <Grid container spacing={5} alignItems="flex-end">
+        <Grid
+          container
+          spacing={5}
+          alignItems="flex-end"
+          className={classes.container}
+        >
           <Grid item xs={12} sm={12} md={4} lg={4}>
             <img
               src={SubscriptionImage}

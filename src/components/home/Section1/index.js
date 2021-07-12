@@ -37,6 +37,10 @@ const Section1 = () => {
     setMotion((prev) => !prev)
   }
 
+  const CustomPaper = (props) => {
+    return <Paper elevation={8} {...props} />
+  }
+
   return (
     <Container maxWidth="lg" component="section" className={classes.section}>
       <Grid container spacing={0} justify="flex-end">
@@ -81,20 +85,18 @@ const Section1 = () => {
               <Autocomplete
                 options={top100Films}
                 id="combo-box-autocomplete"
+                PaperComponent={CustomPaper}
                 getOptionLabel={(option) => option.title}
                 renderInput={(params) => (
                   <CssTextField
                     {...params}
                     color="primary"
-                    variant="outlined"
+                    variant="filled"
                     label={
                       <span className={classes.textLabel}>
                         Ask Avi a Question...
                       </span>
                     }
-                    InputProps={{
-                      className: classes.inputTextColor,
-                    }}
                     className={classes.texfield}
                   />
                 )}

@@ -59,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
     '&:hover': {
       backgroundColor: 'white',
       color: 'black',
-      boxShadow: '0px 0px 10px 1px white',
+      boxShadow: '0px 0px 5px 0.5px white',
     },
   },
 }))

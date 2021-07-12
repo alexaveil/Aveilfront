@@ -81,5 +81,6 @@ export const CssTextField = withStyles({
     },
     borderRadius: 10,
     color: 'white',
+    opacity: '69%',
   },
 })(TextField)
