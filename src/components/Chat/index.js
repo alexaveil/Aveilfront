@@ -1,19 +1,20 @@
 /* import external modules */
 import {
   Grid,
+  Card,
   Paper,
   Button,
-  TextField,
+  InputBase,
   Container,
-  Typography,
   CardMedia,
-  Card,
+  Typography,
 } from '@material-ui/core'
 // import { Circle } from 'rc-progress'
 import { Brush, MoreVert, Person, Search, Send } from '@material-ui/icons'
 
 /* import internal modules */
 import useStyles from './styles'
+import { useState } from 'react'
 import RobotImage from '../../assets/robot-chat.png'
 
 const questions = [
@@ -38,7 +39,7 @@ const questions = [
 const messages = [
   {
     id: 1,
-    text: 'Lorem Ipsum is simply dummy text',
+    text: `¿What's 2 + 2?`,
     receiver: false,
   },
   {
@@ -59,67 +60,17 @@ const messages = [
   {
     id: 5,
     text: 'Lorem Ipsum is simply dummy text',
-    receiver: false,
-  },
-  {
-    id: 6,
-    text: 'Lorem Ipsum is simply dummy text',
-    receiver: true,
-  },
-  {
-    id: 7,
-    text: 'Lorem Ipsum is simply dummy text',
-    receiver: true,
-  },
-  {
-    id: 8,
-    text: 'Lorem Ipsum is simply dummy text',
-    receiver: true,
-  },
-  {
-    id: 9,
-    text: 'Lorem Ipsum is simply dummy text',
-    receiver: false,
-  },
-  {
-    id: 10,
-    text: 'Lorem Ipsum is simply dummy text',
-    receiver: true,
-  },
-  {
-    id: 11,
-    text: 'Lorem Ipsum is simply dummy text',
-    receiver: true,
-  },
-  {
-    id: 12,
-    text: 'Lorem Ipsum is simply dummy text',
-    receiver: true,
-  },
-  {
-    id: 13,
-    text: 'Lorem Ipsum is simply dummy text',
-    receiver: false,
-  },
-  {
-    id: 14,
-    text: 'Lorem Ipsum is simply dummy text',
-    receiver: true,
-  },
-  {
-    id: 15,
-    text: 'Lorem Ipsum is simply dummy text',
-    receiver: true,
-  },
-  {
-    id: 16,
-    text: 'Lorem Ipsum is simply dummy text',
     receiver: true,
   },
 ]
 
 const Chat = () => {
   const classes = useStyles()
+  const [typeMessage, setTypeMessage] = useState('')
+
+  const onChangeData = (event) => {
+    setTypeMessage(event.target.value)
+  }
 
   const renderQuestions = questions.map((question) => {
     return (
@@ -129,18 +80,24 @@ const Chat = () => {
     )
   })
 
-  const renderMessages = messages.map((message) => {
+  const renderMessages = messages.map((message, key) => {
     return (
-      <div
-        elevation={3}
-        className={
-          message.receiver
-            ? classes.messagesReceiverText
-            : classes.messagesSendText
-        }
-        key={message.id}
-      >
-        {message.text}
+      <div key={message.id}>
+        {message.id === 2 && (
+          <Typography className={classes.messagesReceiverTitle}>
+            Select your favorite answer
+          </Typography>
+        )}
+        <div
+          elevation={3}
+          className={
+            message.receiver
+              ? classes.messagesReceiverText
+              : classes.messagesSendText
+          }
+        >
+          {message.text}
+        </div>
       </div>
     )
   })
@@ -225,24 +182,26 @@ const Chat = () => {
             </Paper>
           </Grid>
           <Grid container spacing={2} className={classes.typeSendMessage}>
-            <Grid item xs={12} md={9} lg={10} xl={10}>
-              <TextField
-                fullWidth={true}
-                variant="outlined"
-                label="Type a message"
+            <Grid
+              item
+              xs={typeMessage ? 10 : 12}
+              md={typeMessage ? 11 : 12}
+              lg={typeMessage ? 11 : 12}
+              xl={typeMessage ? 11 : 12}
+            >
+              <InputBase
+                value={typeMessage}
+                onChange={onChangeData}
+                placeholder="Type a message..."
                 className={classes.typeMessages}
+                inputProps={{ 'aria-label': 'naked' }}
               />
             </Grid>
-            <Grid item xs={12} md={3} lg={2} xl={2}>
-              <Button
-                color="primary"
-                endIcon={<Send />}
-                variant="contained"
-                className={classes.sendButton}
-              >
-                Send
-              </Button>
-            </Grid>
+            {typeMessage && (
+              <Grid item xs={2} md={1} lg={1} xl={1}>
+                <Send color="primary" className={classes.sendButton} />
+              </Grid>
+            )}
           </Grid>
         </Grid>
       </Grid>

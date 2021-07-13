@@ -3,9 +3,15 @@ import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles((theme) => ({
   gridLeftContainer: {
-    borderWidth: '2px',
-    borderStyle: 'solid',
-    borderColor: '#E5E5E5',
+    borderTopWidth: '2px',
+    borderTopStyle: 'solid',
+    borderTopColor: '#E5E5E5',
+    borderLeftWidth: '2px',
+    borderLeftStyle: 'solid',
+    borderLeftColor: '#E5E5E5',
+    borderBottomWidth: '2px',
+    borderBottomStyle: 'solid',
+    borderBottomColor: '#E5E5E5',
     marginTop: 7,
   },
   userNameText: { padding: 10, color: 'gray' },
@@ -34,8 +40,13 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 10,
     textAlign: 'center',
     borderRadius: 10,
-    maxWidth: 300,
-    marginLeft: '60%',
+    maxWidth: 120,
+    marginLeft: '77%',
+    [theme.breakpoints.down('xs')]: {
+      marginLeft: '12%',
+      textAlign: 'center',
+      maxWidth: 260,
+    },
   },
   messagesReceiverText: {
     padding: 10,
@@ -43,32 +54,48 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 10,
     background: '#E5E5E5',
     borderRadius: 10,
-    maxWidth: 300,
-    marginLeft: '5%',
+    maxWidth: 260,
+    marginLeft: '7%',
+    [theme.breakpoints.down('xs')]: {
+      marginLeft: '12%',
+    },
+  },
+  messagesReceiverTitle: {
+    fontSize: 13,
+    marginLeft: '7%',
+    color: '#3043E9',
+    fontWeight: 600,
+    [theme.breakpoints.down('xs')]: {
+      marginLeft: '12%',
+      marginTop: 15,
+    },
   },
   paperMessages: {
-    height: '77vh',
+    height: '83vh',
     borderWidth: '2px',
     borderStyle: 'solid',
     borderColor: '#E5E5E5',
     width: '100%',
-    paddingTop: 40,
+    paddingTop: 140,
     overflowX: 'hidden',
     overflowY: 'auto',
+  },
+  typeSendMessage: {
+    height: '12vh',
+    borderWidth: '2px',
+    borderStyle: 'solid',
+    borderColor: '#E5E5E5',
+    [theme.breakpoints.down('sm')]: {
+      height: '12vh',
+    },
   },
   typeMessages: {
     marginTop: 20,
     width: '100%',
-    [theme.breakpoints.down('md')]: {
-      // width: 700,
-    },
+    marginLeft: 30,
   },
   sendButton: {
-    marginTop: 30,
-    [theme.breakpoints.down('sm')]: {
-      marginTop: 2,
-      marginLeft: 0,
-    },
+    marginTop: 20,
   },
   circle: { maxHeight: 110, position: 'absolute' },
   imageCircle: { backgroundColor: '#fafafa', maxWidth: 110 },
@@ -90,15 +117,6 @@ const useStyles = makeStyles((theme) => ({
     display: 'block',
     padding: 7,
     cursor: 'pointer',
-  },
-  typeSendMessage: {
-    height: '19vh',
-    borderWidth: '2px',
-    borderStyle: 'solid',
-    borderColor: '#E5E5E5',
-    [theme.breakpoints.down('sm')]: {
-      height: '27vh',
-    },
   },
 }))
 
