@@ -2,6 +2,9 @@
 import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles((theme) => ({
+  container: {
+    width: '100%',
+  },
   gridLeftContainer: {
     borderTopWidth: '2px',
     borderTopStyle: 'solid',
@@ -12,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
     borderBottomWidth: '2px',
     borderBottomStyle: 'solid',
     borderBottomColor: '#E5E5E5',
-    marginTop: 7,
+    marginTop: 0,
   },
   userNameText: { padding: 10, color: 'gray' },
   iconPerson: { color: 'gray', marginLeft: 20 },
@@ -21,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   containerQuestions: {
     borderWidth: '2px',
     borderStyle: 'solid',
-    borderColor: '#E5E5E5',
+    borderColor: 'gray',
     borderRadius: 10,
     textAlign: 'left',
     marginTop: 20,
@@ -71,31 +74,49 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   paperMessages: {
-    height: '83vh',
-    borderWidth: '2px',
-    borderStyle: 'solid',
-    borderColor: '#E5E5E5',
+    height: '81.7vh',
+    borderLeftWidth: '2px',
+    borderLeftStyle: 'solid',
+    borderLeftColor: '#E5E5E5',
+    borderRightWidth: '2px',
+    borderRightStyle: 'solid',
+    borderRightColor: '#E5E5E5',
     width: '100%',
     paddingTop: 140,
     overflowX: 'hidden',
     overflowY: 'auto',
+    [theme.breakpoints.up('xl')]: {
+      height: '85.6vh',
+    },
   },
   typeSendMessage: {
-    height: '12vh',
+    alignItems: 'center',
+    height: '9vh',
     borderWidth: '2px',
     borderStyle: 'solid',
     borderColor: '#E5E5E5',
     [theme.breakpoints.down('sm')]: {
-      height: '12vh',
+      height: '9vh',
     },
   },
   typeMessages: {
-    marginTop: 20,
-    width: '100%',
+    width: '93%',
     marginLeft: 30,
+    [theme.breakpoints.down('xl')]: {
+      marginTop: 7,
+    },
   },
   sendButton: {
-    marginTop: 20,
+    cursor: 'pointer',
+    [theme.breakpoints.down('xl')]: {
+      marginTop: 7,
+    },
+  },
+  disabledSendButton: {
+    color: 'gray',
+    [theme.breakpoints.down('xl')]: {
+      marginTop: 7,
+    },
   },
   circle: { maxHeight: 110, position: 'absolute' },
   imageCircle: { backgroundColor: '#fafafa', maxWidth: 110 },
