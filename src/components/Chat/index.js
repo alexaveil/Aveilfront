@@ -7,6 +7,9 @@ import {
   InputBase,
   CardMedia,
   Typography,
+  Menu,
+  MenuItem,
+  Container,
 } from '@material-ui/core'
 import { useState } from 'react'
 // import { Circle } from 'rc-progress'
@@ -66,6 +69,10 @@ const messages = [
 const Chat = () => {
   const classes = useStyles()
   const [typeMessage, setTypeMessage] = useState('')
+  const [enableDarkTheme, setEnableDarkTheme] = useState(false)
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null)
+
+  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl)
 
   const onChangeData = (event) => {
     setTypeMessage(event.target.value)
@@ -101,109 +108,158 @@ const Chat = () => {
     )
   })
 
+  const handleMobileMenuOpen = (event) => {
+    setMobileMoreAnchorEl(event.currentTarget)
+  }
+
+  const handleMobileMenuClose = () => {
+    setMobileMoreAnchorEl(null)
+  }
+
+  const mobileMenuId = 'primary-search-account-menu-mobile'
+  const renderMobileMenu = (
+    <Menu
+      anchorEl={mobileMoreAnchorEl}
+      anchorOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+      }}
+      id={mobileMenuId}
+      keepMounted
+      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+      open={isMobileMenuOpen}
+      onClose={handleMobileMenuClose}
+    >
+      <MenuItem>
+        <Button className={classes.item} color="inherit">
+          Profile
+        </Button>
+      </MenuItem>
+    </Menu>
+  )
+
   return (
-    // <Container maxWidth="xl" component="div" className={classes.container}>
-    <Grid container justify="center">
+    <Container maxWidth="xl" component="section" className={classes.container}>
       <Grid
-        item
-        md={4}
-        lg={4}
-        xl={4}
-        xs={12}
-        className={classes.gridLeftContainer}
+        container
+        justify="center"
+        className={
+          enableDarkTheme ? classes.darkContainer : classes.lightContainer
+        }
       >
-        <Grid container direction="row">
-          <Person fontSize="large" className={classes.iconPerson} />
-          <Typography className={classes.userNameText}>User Name</Typography>
-        </Grid>
-        <Typography className={classes.title} align="center">
-          Avi
-        </Typography>
-        <Grid container justify="center">
-          <Card elevation={0}>
-            <CardMedia
-              alt="Aveil"
-              component="img"
-              image={RobotImage}
-              title="Aveil"
-              className={classes.imageCircle}
-            />
-          </Card>
-          {/* <Circle
+        <Grid
+          item
+          md={4}
+          lg={4}
+          xl={4}
+          xs={12}
+          className={classes.gridLeftContainer}
+        >
+          <Grid container direction="row" className={classes.containerUserName}>
+            <Person fontSize="large" className={classes.iconPerson} />
+            <Typography className={classes.userNameText}>User Name</Typography>
+          </Grid>
+          <Typography className={classes.title} align="center">
+            Avi
+          </Typography>
+          <Grid container justify="center">
+            <Card elevation={0}>
+              <CardMedia
+                alt="Aveil"
+                component="img"
+                image={RobotImage}
+                title="Aveil"
+                className={classes.imageCircle}
+              />
+            </Card>
+            {/* <Circle
               percent="25"
               strokeWidth="3"
               strokeColor="#3043E9"
               className={classes.circle}
             /> */}
+          </Grid>
+          <Typography className={classes.titleQuestions} align="center">
+            Other relevant questions:
+          </Typography>
+          <center>
+            <Grid
+              container
+              justify="center"
+              className={classes.containerQuestions}
+            >
+              <Paper elevation={0} className={classes.questionsText}>
+                {renderQuestions}
+              </Paper>
+            </Grid>
+          </center>
+          <Grid container justify="center">
+            <Button
+              color="primary"
+              variant="contained"
+              size="large"
+              className={classes.askButton}
+            >
+              Ask
+            </Button>
+          </Grid>
         </Grid>
-        <Typography className={classes.titleQuestions} align="center">
-          Other relevant questions:
-        </Typography>
-        <center>
-          <Grid
-            container
-            justify="center"
-            className={classes.containerQuestions}
-          >
-            <Paper elevation={0} className={classes.questionsText}>
-              {renderQuestions}
+
+        <Grid item xs={12} md={8} lg={8} xl={8}>
+          <Grid container>
+            <div className={classes.iconsHeaderContainer}>
+              <div className={classes.iconsHeaderItem}>
+                <Search className={classes.iconsHeader} />
+              </div>
+              <div className={classes.iconsHeaderItem}>
+                <Brush
+                  className={classes.iconsHeader}
+                  onClick={() => setEnableDarkTheme(!enableDarkTheme)}
+                />
+              </div>
+              <div className={classes.iconsHeaderItem}>
+                <MoreVert
+                  aria-haspopup="true"
+                  aria-label="show more"
+                  aria-controls={mobileMenuId}
+                  onClick={handleMobileMenuOpen}
+                  className={classes.iconsHeader}
+                />
+              </div>
+            </div>
+          </Grid>
+          <Grid container>
+            <Paper elevation={0} className={classes.paperMessages}>
+              {renderMessages}
             </Paper>
           </Grid>
-        </center>
-        <Grid container justify="center">
-          <Button
-            color="primary"
-            variant="contained"
-            className={classes.askButton}
-          >
-            Ask
-          </Button>
-        </Grid>
-      </Grid>
-
-      <Grid item xs={12} md={8} lg={8} xl={8}>
-        <Grid container>
-          <div className={classes.iconsHeaderContainer}>
-            <div className={classes.iconsHeaderItem}>
-              <Search className={classes.iconsHeader} />
-            </div>
-            <div className={classes.iconsHeaderItem}>
-              <Brush className={classes.iconsHeader} />
-            </div>
-            <div className={classes.iconsHeaderItem}>
-              <MoreVert className={classes.iconsHeader} />
-            </div>
-          </div>
-        </Grid>
-        <Grid container>
-          <Paper elevation={0} className={classes.paperMessages}>
-            {renderMessages}
-          </Paper>
-        </Grid>
-        <Grid container className={classes.typeSendMessage}>
-          <Grid item xs={10} md={11} lg={11} xl={11}>
-            <InputBase
-              value={typeMessage}
-              onChange={onChangeData}
-              placeholder="Type a message..."
-              className={classes.typeMessages}
-              inputProps={{ 'aria-label': 'naked' }}
-            />
-          </Grid>
-          {
-            <Grid item xs={2} md={1} lg={1} xl={1}>
-              <Send
-                color="primary"
-                className={
-                  typeMessage ? classes.sendButton : classes.disabledSendButton
-                }
+          <Grid container className={classes.typeSendMessage}>
+            <Grid item xs={10} md={11} lg={11} xl={11}>
+              <InputBase
+                value={typeMessage}
+                onChange={onChangeData}
+                placeholder="Type a message..."
+                className={classes.typeMessages}
+                inputProps={{ 'aria-label': 'naked' }}
               />
             </Grid>
-          }
+            {
+              <Grid item xs={2} md={1} lg={1} xl={1}>
+                <Send
+                  color="primary"
+                  className={
+                    typeMessage
+                      ? classes.sendButton
+                      : classes.disabledSendButton
+                  }
+                />
+              </Grid>
+            }
+          </Grid>
         </Grid>
       </Grid>
-    </Grid>
-    // </Container>
+      {renderMobileMenu}
+    </Container>
   )
 }
 

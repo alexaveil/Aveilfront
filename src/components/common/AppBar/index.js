@@ -159,10 +159,10 @@ const AppBarComponent = () => {
             alt="Logo"
             src={LogoImage}
             className={classes.avatar}
-            onClick={() => goToPage('/')}
+            onClick={() => goToPage('/home')}
           />
           <Typography
-            onClick={() => goToPage('/')}
+            onClick={() => goToPage('/home')}
             className={classes.title}
             variant="h6"
             noWrap

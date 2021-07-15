@@ -64,6 +64,7 @@ export const CssTextField = withStyles({
   root: {
     '& label.Mui-focused': {
       color: 'white',
+      opacity: '69%',
     },
     '& .MuiInput-underline:after': {
       borderBottomColor: 'white',
@@ -71,6 +72,7 @@ export const CssTextField = withStyles({
     '& .MuiOutlinedInput-root': {
       '& fieldset': {
         borderColor: 'white',
+        opacity: '69%',
       },
       '&:hover fieldset': {
         borderColor: 'white',
@@ -81,6 +83,5 @@ export const CssTextField = withStyles({
     },
     borderRadius: 10,
     color: 'white',
-    opacity: '69%',
   },
 })(TextField)

@@ -60,6 +60,13 @@ export const useStyles = makeStyles((theme) => ({
 
 export const CssTextField = withStyles({
   root: {
+    '& .MuiInputBase-input': {
+      color: 'white',
+      marginLeft: 10,
+    },
+    '& .MuiSvgIcon-root': {
+      color: 'white',
+    },
     '& label.Mui-focused': {
       color: 'white',
     },

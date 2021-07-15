@@ -3,7 +3,25 @@ import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    width: '100%',
+    backgroundColor: 'white',
+  },
+  lightContainer: {
+    backgroundColor: 'white',
+    padding: 40,
+    [theme.breakpoints.up('xl')]: {
+      padding: '5%',
+    },
+    [theme.breakpoints.down('xs')]: {
+      padding: 0,
+    },
+  },
+  containerUserName: {
+    paddingTop: 30,
+    paddingLeft: 30,
+    [theme.breakpoints.up('xl')]: {
+      paddingTop: '10%',
+      paddingLeft: '10%',
+    },
   },
   gridLeftContainer: {
     borderTopWidth: '2px',
@@ -16,26 +34,49 @@ const useStyles = makeStyles((theme) => ({
     borderBottomStyle: 'solid',
     borderBottomColor: '#E5E5E5',
     marginTop: 0,
+    [theme.breakpoints.down('xs')]: {
+      borderRightWidth: '2px',
+      borderRightStyle: 'solid',
+      borderRightColor: '#E5E5E5',
+    },
   },
   userNameText: { padding: 10, color: 'gray' },
-  iconPerson: { color: 'gray', marginLeft: 20 },
-  title: { fontWeight: 'bold', paddingTop: 50, paddingBottom: 40 },
-  titleQuestions: { fontWeight: 'bold', paddingTop: 30 },
+  iconPerson: { color: 'gray' },
+  title: {
+    fontWeight: 'bold',
+    paddingTop: 35,
+    paddingBottom: 40,
+    [theme.breakpoints.up('xl')]: {
+      paddingTop: '30%',
+    },
+  },
+  titleQuestions: { fontWeight: 'bold', paddingTop: 21 },
   containerQuestions: {
-    borderWidth: '2px',
+    borderWidth: '1px',
     borderStyle: 'solid',
-    borderColor: 'gray',
+    borderColor: '#9f9e9e',
     borderRadius: 10,
     textAlign: 'left',
     marginTop: 20,
     maxWidth: 270,
+    [theme.breakpoints.up('xl')]: {
+      marginTop: '10%',
+    },
   },
   questionsText: {
     padding: 7,
-    color: 'gray',
-    backgroundColor: '#fafafa',
+    color: '#9f9e9e',
+    backgroundColor: 'white',
   },
-  askButton: { borderRadius: 20, marginTop: 20, marginBottom: 20 },
+  askButton: {
+    borderRadius: 20,
+    marginTop: 20,
+    marginBottom: 20,
+    textTransform: 'capitalize',
+    [theme.breakpoints.up('xl')]: {
+      marginTop: '10%',
+    },
+  },
   messagesSendText: {
     padding: 10,
     color: 'white',
@@ -119,7 +160,13 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   circle: { maxHeight: 110, position: 'absolute' },
-  imageCircle: { backgroundColor: '#fafafa', maxWidth: 110 },
+  imageCircle: {
+    backgroundColor: 'white',
+    maxWidth: 110,
+    [theme.breakpoints.up('xl')]: {
+      maxWidth: 180,
+    },
+  },
   iconsHeader: {
     color: 'gray',
   },
@@ -138,6 +185,18 @@ const useStyles = makeStyles((theme) => ({
     display: 'block',
     padding: 7,
     cursor: 'pointer',
+  },
+
+  /* Dark Theme */
+  darkContainer: {
+    backgroundColor: '#000427',
+    padding: 40,
+    [theme.breakpoints.up('xl')]: {
+      padding: '5%',
+    },
+    [theme.breakpoints.down('xs')]: {
+      padding: 0,
+    },
   },
 }))
 
