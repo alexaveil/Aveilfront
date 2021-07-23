@@ -109,7 +109,7 @@ const SignIn = () => {
 
     if (email && password) {
       signInWithEmailPassword(email, password)
-        .then((userCredential) => {
+        .then((response) => {
           const alert = {
             message: `Welcome`,
             severity: 'success',
@@ -245,7 +245,7 @@ const SignIn = () => {
                   onClick={handleResetPasswordFunction}
                   className={classes.linkForgotPassword}
                 >
-                  {!_sendPasswordReset ? '¿Forgot password?' : 'Back'}
+                  {/* {!_sendPasswordReset ? '¿Forgot password?' : 'Back'} */}
                 </Typography>
               </Grid>
             </Grid>

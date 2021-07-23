@@ -1,17 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* import external modules */
+import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router'
-import { useEffect, useState } from 'react'
 import DateFnsUtils from '@date-io/date-fns'
-import { MuiPickersUtilsProvider } from '@material-ui/pickers'
 import { Grid, Avatar, Button, Typography } from '@material-ui/core'
+import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers'
 
 /* import internal modules */
 import LogoImage from '../../assets/logo.png'
-import { useStyles, CssTextField, CssKeyboardDatePicker } from './styles'
+import { useStyles, CssTextField } from './styles'
+import { signUpWithEmailPassword } from '../../apis/users'
 import { setHandleAlert } from '../../redux/actions/common/common'
-import { createUserFirestore, signUpWithEmailPassword } from '../../apis/users'
+// import { createUserFirestore, signUpWithEmailPassword } from '../../apis/users'
 
 const SignUp = () => {
   const classes = useStyles()
@@ -22,18 +23,8 @@ const SignUp = () => {
     password: '',
     firstName: '',
     lastName: '',
-    birthDay: {},
   })
-  const [selectedDate, setSelectedDate] = useState(
-    new Date('2014-08-18T21:11:54')
-  )
-
-  useEffect(() => {
-    setDataForm({
-      ...dataForm,
-      birthDay: selectedDate,
-    })
-  }, [selectedDate])
+  const [selectedDate, handleDateChange] = useState(new Date())
 
   const showMessageAlert = ({ message, severity, status }) => {
     dispatch(setHandleAlert({ message, severity, status }))
@@ -46,8 +37,14 @@ const SignUp = () => {
     })
   }
 
-  const validateRequiredFields = ({ email, password, firstName, lastName }) => {
-    if (!email || !password || !firstName || !lastName) {
+  const validateRequiredFields = ({
+    email,
+    password,
+    firstName,
+    lastName,
+    selectedDate,
+  }) => {
+    if (!email || !password || !firstName || !lastName || !selectedDate) {
       const warningAlert = {
         message: 'All fields are required',
         severity: 'warning',
@@ -58,51 +55,32 @@ const SignUp = () => {
     }
   }
 
-  const registerUserFirebaseAuthAndFirestore = ({
+  const registerUser = ({
     email,
     password,
     firstName,
     lastName,
-    birthDay,
+    selectedDate,
   }) => {
-    signUpWithEmailPassword(email, password)
-      .then((userCredential) => {
-        registerUserFirebaseFirestore({
-          email,
-          password,
-          firstName,
-          lastName,
-          birthDay,
-        })
-      })
-      .catch((error) => {
-        const errorAlert = {
-          message: error.message,
-          severity: 'error',
-          status: true,
-        }
-
-        showMessageAlert(errorAlert)
-        console.error(`${error.code} -> ${error.message}`)
-      })
-  }
-
-  const registerUserFirebaseFirestore = ({
-    email,
-    password,
-    firstName,
-    lastName,
-    birthDay,
-  }) => {
-    const data = {
+    const dataUser = {
       email,
-      firstName,
-      lastName,
-      birthDay,
+      password,
+      last_name: lastName,
+      birth_date: `${selectedDate.getDate()}/${selectedDate.getMonth()}/${selectedDate.getFullYear()}`,
+      first_name: firstName,
     }
-    createUserFirestore(data)
-      .then((docRef) => {
-        console.log('Document written with ID: ', docRef.id)
+
+    signUpWithEmailPassword(dataUser)
+      .then((response) => {
+        /* Firebase
+        // registerUserFirebaseFirestore({
+        //   email,
+        //   password,
+        //   firstName,
+        //   lastName,
+        //   selectedDate,
+        // })
+        */
         const alert = {
           message: `The user ${email} was create`,
           severity: 'success',
@@ -123,24 +101,62 @@ const SignUp = () => {
       })
   }
 
-  const signUpWithEmailPasswordFunction = () => {
-    const { email, password, firstName, lastName, birthDay } = dataForm
+  // const registerUserFirebaseFirestore = ({
+  //   email,
+  //   password,
+  //   firstName,
+  //   lastName,
+  //   selectedDate,
+  // }) => {
+  //   const data = {
+  //     email,
+  //     firstName,
+  //     lastName,
+  //     selectedDate,
+  //   }
+  //   createUserFirestore(data)
+  //     .then((docRef) => {
+  //       console.log('Document written with ID: ', docRef.id)
+  //       const alert = {
+  //         message: `The user ${email} was create`,
+  //         severity: 'success',
+  //         status: true,
+  //       }
+  //       showMessageAlert(alert)
+  //       history.push('/home')
+  //     })
+  //     .catch((error) => {
+  //       const errorAlert = {
+  //         message: error.message,
+  //         severity: 'error',
+  //         status: true,
+  //       }
 
-    if (email && password && firstName && lastName && birthDay) {
-      registerUserFirebaseAuthAndFirestore({
+  //       showMessageAlert(errorAlert)
+  //       console.error(`${error.code} -> ${error.message}`)
+  //     })
+  // }
+
+  const signUpWithEmailPasswordFunction = () => {
+    const { email, password, firstName, lastName } = dataForm
+
+    if (email && password && firstName && lastName && selectedDate) {
+      registerUser({
         email,
         password,
         firstName,
         lastName,
-        birthDay,
+        selectedDate,
       })
     }
 
-    validateRequiredFields({ email, password, firstName, lastName, birthDay })
-  }
-
-  const handleDateChange = (date) => {
-    setSelectedDate(date)
+    validateRequiredFields({
+      email,
+      password,
+      firstName,
+      lastName,
+      selectedDate,
+    })
   }
 
   return (
@@ -219,17 +235,16 @@ const SignUp = () => {
                 </Grid>
                 <Grid item xs={12}>
                   <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <CssKeyboardDatePicker
-                      id="date-birth-picker-dialog"
+                    <DatePicker
+                      disableFuture
+                      openTo="year"
+                      format="dd/MM/yyyy"
                       label={
                         <span className={classes.textWhite}>Date of birth</span>
                       }
-                      format="MM/dd/yyyy"
-                      value={dataForm?.selectedDateBirth}
+                      views={['year', 'month', 'date']}
+                      value={selectedDate}
                       onChange={handleDateChange}
-                      KeyboardButtonProps={{
-                        'aria-label': 'change date',
-                      }}
                       className={classes.datePicker}
                       InputProps={{
                         className: classes.inputTextColor,

@@ -1,13 +1,20 @@
+/* import external modules */
 import 'firebase/auth'
+import axios from 'axios'
 import 'firebase/firestore'
 import firebase from 'firebase/app'
 
-export const signUpWithEmailPassword = (email, password) => {
-  return firebase.auth().createUserWithEmailAndPassword(email, password)
+/* import internal modules */
+import { BASE_URL } from '../config'
+
+export const signUpWithEmailPassword = (data) => {
+  /* return firebase.auth().createUserWithEmailAndPassword(email, password) */
+  return axios.post(`${BASE_URL}/register`, JSON.stringify(data))
 }
 
 export const signInWithEmailPassword = (email, password) => {
-  return firebase.auth().signInWithEmailAndPassword(email, password)
+  /* return firebase.auth().signInWithEmailAndPassword(email, password) */
+  return axios.post(`${BASE_URL}/login`, JSON.stringify({ email, password }))
 }
 
 export const createUserFirestore = (data) => {
