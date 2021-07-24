@@ -54,6 +54,23 @@ const SignUp = () => {
     }
   }
 
+  const getBirthdayFormat = () => {
+    let dd = selectedDate.getDate()
+    let mm = selectedDate.getMonth() + 1
+    let yyyy = selectedDate.getFullYear()
+
+    if (dd < 10) {
+      dd = '0' + dd
+    }
+    if (mm < 10) {
+      mm = '0' + mm
+    }
+
+    let birthDate = dd + '/' + mm + '/' + yyyy
+
+    return birthDate
+  }
+
   const registerUser = ({
     email,
     password,
@@ -61,14 +78,7 @@ const SignUp = () => {
     lastName,
     selectedDate,
   }) => {
-    const birthDate =
-      selectedDate.getDate() +
-      '/' +
-      selectedDate.getMonth() +
-      '/' +
-      selectedDate.getFullYear()
-
-    console.log(birthDate, '25/12/2009')
+    let birthDate = getBirthdayFormat()
 
     let userFormData = new FormData()
     userFormData.append('email', email)
@@ -86,7 +96,7 @@ const SignUp = () => {
             status: true,
           }
           showMessageAlert(alert)
-          history.push('/home')
+          history.push('/profile')
         }
       })
       .catch((error) => {
@@ -202,7 +212,7 @@ const SignUp = () => {
                     <DatePicker
                       disableFuture
                       openTo="year"
-                      format="dd/mm/yyyy"
+                      format="dd/MM/yyyy"
                       label={
                         <span className={classes.textWhite}>Date of birth</span>
                       }

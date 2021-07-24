@@ -1,1 +1,1 @@
-export const BASE_URL = 'http://35.208.61.157:8000'
+export const BASE_URL = 'https://chatbotserver.info:8000'

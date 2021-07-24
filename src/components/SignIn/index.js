@@ -114,6 +114,8 @@ const SignIn = () => {
     if (email && password) {
       signInWithEmailPassword(userFormData)
         .then((response) => {
+          console.log(response.headers['set-cookie'])
+
           if (response.status >= 200 && response.status <= 299) {
             const alert = {
               message: `Welcome`,

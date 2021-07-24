@@ -11,6 +11,7 @@ import {
   Menu,
   MenuItem,
   Container,
+  Switch,
 } from '@material-ui/core'
 import { useEffect, useState } from 'react'
 // import { Circle } from 'rc-progress'
@@ -135,7 +136,13 @@ const Chat = () => {
 
   const renderQuestions = questions.map((question) => {
     return (
-      <div elevation={3} className={classes.questionsText} key={question.id}>
+      <div
+        elevation={3}
+        className={
+          enableDarkTheme ? classes.questionsTextDark : classes.questionsText
+        }
+        key={question.id}
+      >
         {question.text}
       </div>
     )
@@ -157,7 +164,11 @@ const Chat = () => {
             <div key={key}>
               <div
                 elevation={3}
-                className={classes.messagesReceiverText}
+                className={
+                  enableDarkTheme
+                    ? classes.messagesReceiverTextDark
+                    : classes.messagesReceiverText
+                }
                 onClick={() => selectedAnswer(answer)}
               >
                 {answer}
@@ -190,37 +201,73 @@ const Chat = () => {
       transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
+      className={classes.mobileMenu}
     >
       <MenuItem>
-        <Button className={classes.item} color="inherit">
-          Profile
-        </Button>
+        Dark Mode
+        <Switch
+          checked={enableDarkTheme}
+          onChange={() => setEnableDarkTheme(!enableDarkTheme)}
+          color="primary"
+          name="checkedB"
+          inputProps={{ 'aria-label': 'primary checkbox' }}
+        />
       </MenuItem>
     </Menu>
   )
 
   return (
     <Container maxWidth="xl" component="section" className={classes.container}>
-      <Grid
-        container
-        justify="center"
-        className={
-          enableDarkTheme ? classes.darkContainer : classes.lightContainer
-        }
-      >
+      <Grid container justify="center" className={classes.containerGrid}>
         <Grid
           item
           md={4}
           lg={4}
           xl={4}
           xs={12}
-          className={classes.gridLeftContainer}
+          className={
+            enableDarkTheme
+              ? classes.gridLeftContainerDark
+              : classes.gridLeftContainer
+          }
         >
-          <Grid container direction="row" className={classes.containerUserName}>
-            <Person fontSize="large" className={classes.iconPerson} />
-            <Typography className={classes.userNameText}>User Name</Typography>
+          <Grid container className={classes.headerIntoSmall}>
+            <div className={classes.iconsHeaderContainerSmall}>
+              <div className={classes.iconsHeaderItemSmall}>
+                <Search className={classes.iconsHeader} />
+              </div>
+              <div className={classes.iconsHeaderItem}>
+                <MoreVert
+                  aria-haspopup="true"
+                  aria-label="show more"
+                  aria-controls={mobileMenuId}
+                  onClick={handleMobileMenuOpen}
+                  className={classes.iconsHeader}
+                />
+              </div>
+            </div>
           </Grid>
-          <Typography className={classes.title} align="center">
+          <Grid container direction="row" className={classes.containerUserName}>
+            <Person
+              fontSize="large"
+              className={
+                enableDarkTheme ? classes.iconPersonDark : classes.iconPerson
+              }
+            />
+            <Typography
+              className={
+                enableDarkTheme
+                  ? classes.userNameTextDark
+                  : classes.userNameText
+              }
+            >
+              User Name
+            </Typography>
+          </Grid>
+          <Typography
+            className={enableDarkTheme ? classes.titleDark : classes.title}
+            align="center"
+          >
             Avi
           </Typography>
           <Grid container justify="center">
@@ -230,7 +277,11 @@ const Chat = () => {
                 component="img"
                 image={RobotImage}
                 title="Aveil"
-                className={classes.imageCircle}
+                className={
+                  enableDarkTheme
+                    ? classes.imageCircleDark
+                    : classes.imageCircle
+                }
               />
             </Card>
             {/* <Circle
@@ -240,16 +291,34 @@ const Chat = () => {
               className={classes.circle}
             /> */}
           </Grid>
-          <Typography className={classes.titleQuestions} align="center">
+          <Typography
+            className={
+              enableDarkTheme
+                ? classes.titleQuestionsDark
+                : classes.titleQuestions
+            }
+            align="center"
+          >
             Other relevant questions:
           </Typography>
           <center>
             <Grid
               container
               justify="center"
-              className={classes.containerQuestions}
+              className={
+                enableDarkTheme
+                  ? classes.containerQuestionsDark
+                  : classes.containerQuestions
+              }
             >
-              <Paper elevation={0} className={classes.questionsText}>
+              <Paper
+                elevation={0}
+                className={
+                  enableDarkTheme
+                    ? classes.questionsTextDark
+                    : classes.questionsText
+                }
+              >
                 {renderQuestions}
               </Paper>
             </Grid>
@@ -267,10 +336,22 @@ const Chat = () => {
         </Grid>
 
         <Grid item xs={12} md={8} lg={8} xl={8}>
-          <Grid container>
-            <div className={classes.iconsHeaderContainer}>
+          <Grid container className={classes.headerIntoLarge}>
+            <div
+              className={
+                enableDarkTheme
+                  ? classes.iconsHeaderContainerDark
+                  : classes.iconsHeaderContainer
+              }
+            >
               <div className={classes.iconsHeaderItem}>
-                <Search className={classes.iconsHeader} />
+                <Search
+                  className={
+                    enableDarkTheme
+                      ? classes.iconsHeaderDark
+                      : classes.iconsHeader
+                  }
+                />
               </div>
               {/* <div className={classes.iconsHeaderItem}>
                 <Brush
@@ -284,23 +365,52 @@ const Chat = () => {
                   aria-label="show more"
                   aria-controls={mobileMenuId}
                   onClick={handleMobileMenuOpen}
-                  className={classes.iconsHeader}
+                  className={
+                    enableDarkTheme
+                      ? classes.iconsHeaderDark
+                      : classes.iconsHeader
+                  }
                 />
               </div>
             </div>
           </Grid>
-          <Grid container>
-            <Paper elevation={0} className={classes.paperMessages}>
+          <Grid
+            container
+            className={
+              enableDarkTheme
+                ? classes.paperMessagesContainerDark
+                : classes.paperMessagesContainer
+            }
+          >
+            <Paper
+              elevation={0}
+              className={
+                enableDarkTheme
+                  ? classes.paperMessagesDark
+                  : classes.paperMessages
+              }
+            >
               {renderMessages}
             </Paper>
           </Grid>
-          <Grid container className={classes.typeSendMessage}>
+          <Grid
+            container
+            className={
+              enableDarkTheme
+                ? classes.typeSendMessageDark
+                : classes.typeSendMessage
+            }
+          >
             <Grid item xs={10} md={11} lg={11} xl={11}>
               <InputBase
                 value={typeMessage}
                 onChange={onChangeData}
                 placeholder="Type a message..."
-                className={classes.typeMessages}
+                className={
+                  enableDarkTheme
+                    ? classes.typeMessagesDark
+                    : classes.typeMessages
+                }
                 inputProps={{ 'aria-label': 'naked' }}
               />
             </Grid>
