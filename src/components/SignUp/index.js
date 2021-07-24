@@ -12,7 +12,6 @@ import LogoImage from '../../assets/logo.png'
 import { useStyles, CssTextField } from './styles'
 import { signUpWithEmailPassword } from '../../apis/users'
 import { setHandleAlert } from '../../redux/actions/common/common'
-// import { createUserFirestore, signUpWithEmailPassword } from '../../apis/users'
 
 const SignUp = () => {
   const classes = useStyles()
@@ -62,36 +61,37 @@ const SignUp = () => {
     lastName,
     selectedDate,
   }) => {
-    const dataUser = {
-      email,
-      password,
-      last_name: lastName,
-      birth_date: `${selectedDate.getDate()}/${selectedDate.getMonth()}/${selectedDate.getFullYear()}`,
-      first_name: firstName,
-    }
+    const birthDate =
+      selectedDate.getDate() +
+      '/' +
+      selectedDate.getMonth() +
+      '/' +
+      selectedDate.getFullYear()
 
-    signUpWithEmailPassword(dataUser)
+    console.log(birthDate, '25/12/2009')
+
+    let userFormData = new FormData()
+    userFormData.append('email', email)
+    userFormData.append('password', password)
+    userFormData.append('last_name', lastName)
+    userFormData.append('first_name', firstName)
+    userFormData.append('birth_date', birthDate)
+
+    signUpWithEmailPassword(userFormData)
       .then((response) => {
-        /* Firebase
-        // registerUserFirebaseFirestore({
-        //   email,
-        //   password,
-        //   firstName,
-        //   lastName,
-        //   selectedDate,
-        // })
-        */
-        const alert = {
-          message: `The user ${email} was create`,
-          severity: 'success',
-          status: true,
+        if (response.status >= 200 && response.status <= 299) {
+          const alert = {
+            message: `The user ${email} was create`,
+            severity: 'success',
+            status: true,
+          }
+          showMessageAlert(alert)
+          history.push('/home')
         }
-        showMessageAlert(alert)
-        history.push('/home')
       })
       .catch((error) => {
         const errorAlert = {
-          message: error.message,
+          message: error?.response?.data?.message,
           severity: 'error',
           status: true,
         }
@@ -100,42 +100,6 @@ const SignUp = () => {
         console.error(`${error.code} -> ${error.message}`)
       })
   }
-
-  // const registerUserFirebaseFirestore = ({
-  //   email,
-  //   password,
-  //   firstName,
-  //   lastName,
-  //   selectedDate,
-  // }) => {
-  //   const data = {
-  //     email,
-  //     firstName,
-  //     lastName,
-  //     selectedDate,
-  //   }
-  //   createUserFirestore(data)
-  //     .then((docRef) => {
-  //       console.log('Document written with ID: ', docRef.id)
-  //       const alert = {
-  //         message: `The user ${email} was create`,
-  //         severity: 'success',
-  //         status: true,
-  //       }
-  //       showMessageAlert(alert)
-  //       history.push('/home')
-  //     })
-  //     .catch((error) => {
-  //       const errorAlert = {
-  //         message: error.message,
-  //         severity: 'error',
-  //         status: true,
-  //       }
-
-  //       showMessageAlert(errorAlert)
-  //       console.error(`${error.code} -> ${error.message}`)
-  //     })
-  // }
 
   const signUpWithEmailPasswordFunction = () => {
     const { email, password, firstName, lastName } = dataForm
@@ -238,7 +202,7 @@ const SignUp = () => {
                     <DatePicker
                       disableFuture
                       openTo="year"
-                      format="dd/MM/yyyy"
+                      format="dd/mm/yyyy"
                       label={
                         <span className={classes.textWhite}>Date of birth</span>
                       }

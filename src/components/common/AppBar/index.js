@@ -15,15 +15,21 @@ import {
   MoreVert,
   AccountCircle,
   MonetizationOn,
+  Person,
+  ExitToApp,
 } from '@material-ui/icons'
 import { useState } from 'react'
 import { useHistory } from 'react-router'
+import { useDispatch } from 'react-redux'
 
 /* import internal modules */
 import useStyles from './styles'
+import { logout } from '../../../apis/users'
 import LogoImage from '../../../assets/logo.png'
+import { setHandleAlert } from '../../../redux/actions/common/common'
 
 const AppBarComponent = () => {
+  const dispatch = useDispatch()
   const history = useHistory()
   const classes = useStyles()
   const [anchorEl, setAnchorEl] = useState(null)
@@ -53,6 +59,36 @@ const AppBarComponent = () => {
     history.push(path)
   }
 
+  const logoutFunction = () => {
+    logout()
+      .then((response) => {
+        if (response.status >= 200 && response.status <= 299) {
+          const alert = {
+            message: `See you later`,
+            severity: 'success',
+            status: true,
+          }
+
+          showMessageAlert(alert)
+          history.push('/home')
+        }
+      })
+      .catch((error) => {
+        const errorAlert = {
+          message: error?.response?.data,
+          severity: 'error',
+          status: true,
+        }
+
+        showMessageAlert(errorAlert)
+        console.error(`${error.code} -> ${error.message}`)
+      })
+  }
+
+  const showMessageAlert = ({ message, severity, status }) => {
+    dispatch(setHandleAlert({ message, severity, status }))
+  }
+
   const menuId = 'primary-search-account-menu'
   const renderMenu = (
     <Menu
@@ -64,8 +100,32 @@ const AppBarComponent = () => {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={() => goToPage('/profile')}>
+        <IconButton
+          aria-label="profile"
+          aria-controls="primary-search-profile-menu"
+          aria-haspopup="true"
+          color="inherit"
+        >
+          <Person />
+        </IconButton>
+        <Button className={classes.item} color="inherit">
+          Profile
+        </Button>
+      </MenuItem>
+      <MenuItem onClick={logoutFunction}>
+        <IconButton
+          aria-label="logout"
+          aria-controls="primary-search-logout-menu"
+          aria-haspopup="true"
+          color="inherit"
+        >
+          <ExitToApp />
+        </IconButton>
+        <Button className={classes.item} color="inherit">
+          Log out
+        </Button>
+      </MenuItem>
     </Menu>
   )
 

@@ -78,7 +78,7 @@ const SignIn = () => {
         })
         .catch((error) => {
           const errorAlert = {
-            message: error.message,
+            message: error?.response?.data?.message,
             severity: 'error',
             status: true,
           }
@@ -107,21 +107,29 @@ const SignIn = () => {
   const signInWithEmailPasswordFunction = () => {
     const { email, password } = dataForm
 
-    if (email && password) {
-      signInWithEmailPassword(email, password)
-        .then((response) => {
-          const alert = {
-            message: `Welcome`,
-            severity: 'success',
-            status: true,
-          }
+    let userFormData = new FormData()
+    userFormData.append('email', email)
+    userFormData.append('password', password)
 
-          showMessageAlert(alert)
-          history.push('/home')
+    if (email && password) {
+      signInWithEmailPassword(userFormData)
+        .then((response) => {
+          if (response.status >= 200 && response.status <= 299) {
+            const alert = {
+              message: `Welcome`,
+              severity: 'success',
+              status: true,
+            }
+
+            console.log(response.headers['set-cookie'])
+
+            showMessageAlert(alert)
+            history.push('/home')
+          }
         })
         .catch((error) => {
           const errorAlert = {
-            message: error.message,
+            message: error?.response?.data?.message,
             severity: 'error',
             status: true,
           }

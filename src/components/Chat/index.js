@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* import external modules */
 import {
   Grid,
@@ -11,13 +12,14 @@ import {
   MenuItem,
   Container,
 } from '@material-ui/core'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 // import { Circle } from 'rc-progress'
 import { Brush, MoreVert, Person, Search, Send } from '@material-ui/icons'
 
 /* import internal modules */
 import useStyles from './styles'
 import RobotImage from '../../assets/robot-chat.png'
+import { getMessagesById } from '../../apis/messages'
 
 const questions = [
   {
@@ -38,31 +40,63 @@ const questions = [
   },
 ]
 
-const messages = [
+const messagesBurned = [
   {
-    id: 1,
-    text: `¿What's 2 + 2?`,
-    receiver: false,
+    answers: [
+      'I am called Bot.',
+      'My name is Bot.',
+      'My name is Bot.',
+      'My name is bot.',
+    ],
+    date: 'Sat, 24 Jul 2021 02:07:25 GMT',
+    question: 'What is your name?',
+    question_id: '60fb75ddba8dedbef9f0ff16',
   },
   {
-    id: 2,
-    text: 'Lorem Ipsum is simply dummy text',
-    receiver: true,
+    answers: [
+      'I am not a fan of black holes.',
+      "I don't like black holes, they are kind of scary in my opinion.",
+      "I don't know, never thought about it.",
+      'I love black holes.',
+    ],
+    date: 'Fri, 02 Jul 2021 12:40:08 GMT',
+    option_selected: 2,
+    question: 'I hate black holes, what do you think about black holes?',
+    question_id: '60df33580b6c822fda968dee',
   },
   {
-    id: 3,
-    text: 'Lorem Ipsum is simply dummy text',
-    receiver: true,
+    answers: [
+      'I think they are pretty much the greatest thing ever.',
+      'Black holes are quite fascinating.',
+      'I think we need to do more research on black holes.',
+      'They are fascinating.',
+    ],
+    date: 'Fri, 02 Jul 2021 12:39:42 GMT',
+    question: 'What do you think about black holes?',
+    question_id: '60df333e0b6c822fda968ded',
   },
   {
-    id: 4,
-    text: 'Lorem Ipsum is simply dummy text',
-    receiver: true,
+    answers: [
+      'I like them.',
+      'I have gone to a few. Sometimes they are really good, and sometimes they are really bad. It depends on the music and the singer, but also on the venue.',
+      "I don't like them.",
+      'I like concerts.',
+    ],
+    date: 'Fri, 02 Jul 2021 12:39:11 GMT',
+    option_selected: 2,
+    question: 'What do you think about concerts?',
+    question_id: '60df331f0b6c822fda968dec',
   },
   {
-    id: 5,
-    text: 'Lorem Ipsum is simply dummy text',
-    receiver: true,
+    answers: [
+      'I think concerts are fun.',
+      'I think concerts are great.',
+      'I think they are great.',
+      'I think they are great.',
+    ],
+    date: 'Fri, 02 Jul 2021 12:38:42 GMT',
+    question: 'What do you think about concerts?',
+    question_id: '60df3302a5d2f5609e692738',
   },
 ]
 
@@ -70,12 +104,33 @@ const Chat = () => {
   const classes = useStyles()
   const [typeMessage, setTypeMessage] = useState('')
   const [enableDarkTheme, setEnableDarkTheme] = useState(false)
+  const [messages, setMessages] = useState([])
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null)
 
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl)
 
+  useEffect(() => {
+    getMessagesByIdFunction()
+  }, [])
+
+  const getMessagesByIdFunction = () => {
+    getMessagesById(0)
+      .then((response) => {
+        if (response.status >= 200 && response.status >= 299) {
+          setMessages(response.data)
+        }
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  }
+
   const onChangeData = (event) => {
     setTypeMessage(event.target.value)
+  }
+
+  const selectedAnswer = (answer) => {
+    setTypeMessage(answer)
   }
 
   const renderQuestions = questions.map((question) => {
@@ -86,24 +141,30 @@ const Chat = () => {
     )
   })
 
-  const renderMessages = messages.map((message, key) => {
+  const renderMessages = messagesBurned.map((message, key) => {
     return (
-      <div key={message.id}>
-        {message.id === 2 && (
-          <Typography className={classes.messagesReceiverTitle}>
-            Select your favorite answer
-          </Typography>
+      <div key={key}>
+        {message?.question && (
+          <div elevation={3} className={classes.messagesSendText}>
+            {message.question}
+          </div>
         )}
-        <div
-          elevation={3}
-          className={
-            message.receiver
-              ? classes.messagesReceiverText
-              : classes.messagesSendText
-          }
-        >
-          {message.text}
-        </div>
+        <Typography className={classes.messagesReceiverTitle}>
+          Select your favorite answer
+        </Typography>
+        {message?.answers?.map((answer, key) => {
+          return (
+            <div key={key}>
+              <div
+                elevation={3}
+                className={classes.messagesReceiverText}
+                onClick={() => selectedAnswer(answer)}
+              >
+                {answer}
+              </div>
+            </div>
+          )
+        })}
       </div>
     )
   })
@@ -211,12 +272,12 @@ const Chat = () => {
               <div className={classes.iconsHeaderItem}>
                 <Search className={classes.iconsHeader} />
               </div>
-              <div className={classes.iconsHeaderItem}>
+              {/* <div className={classes.iconsHeaderItem}>
                 <Brush
                   className={classes.iconsHeader}
                   onClick={() => setEnableDarkTheme(!enableDarkTheme)}
                 />
-              </div>
+              </div> */}
               <div className={classes.iconsHeaderItem}>
                 <MoreVert
                   aria-haspopup="true"
