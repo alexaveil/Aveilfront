@@ -37,22 +37,21 @@ const useStyles = makeStyles((theme) => ({
     borderBottomColor: '#E5E5E5',
     marginTop: 0,
     [theme.breakpoints.down('sm')]: {
-      borderRightWidth: '2px',
-      borderRightStyle: 'solid',
-      borderRightColor: '#E5E5E5',
+      border: 'none',
     },
   },
   userNameText: { padding: 10, color: 'gray' },
   iconPerson: { color: 'gray' },
   title: {
+    color: 'white',
     fontWeight: 'bold',
-    paddingTop: 35,
     paddingBottom: 40,
     [theme.breakpoints.up('xl')]: {
       paddingTop: '30%',
+      color: 'black',
     },
   },
-  titleQuestions: { fontWeight: 'bold', paddingTop: 14 },
+  titleQuestions: { fontWeight: 'bold', paddingTop: 44 },
   containerQuestions: {
     borderWidth: '1px',
     borderStyle: 'solid',
@@ -163,9 +162,9 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   disabledSendButton: {
-    color: 'gray',
+    color: '#b4b4b5',
     [theme.breakpoints.down('xl')]: {
-      marginTop: 7,
+      marginTop: 3,
     },
   },
   circle: { maxHeight: 110, position: 'absolute' },
@@ -173,7 +172,10 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: 'white',
     maxWidth: 63,
     [theme.breakpoints.up('xl')]: {
-      maxWidth: 130,
+      maxWidth: 120,
+    },
+    [theme.breakpoints.down('sm')]: {
+      maxWidth: 140,
     },
   },
   iconsHeader: {
@@ -224,6 +226,30 @@ const useStyles = makeStyles((theme) => ({
       display: 'none',
     },
   },
+  secondPageChat: {
+    [theme.breakpoints.down('sm')]: {
+      display: 'none',
+    },
+  },
+  imageCircleDesktop: {
+    [theme.breakpoints.down('sm')]: {
+      display: 'none',
+    },
+  },
+  imageCircleMobile: {
+    [theme.breakpoints.up('md')]: {
+      display: 'none',
+    },
+  },
+  arrowForward: {
+    color: 'gray',
+    marginTop: 10,
+    marginLeft: '45%',
+    cursor: 'pointer',
+    [theme.breakpoints.up('md')]: {
+      display: 'none',
+    },
+  },
 
   /* Dark Theme */
   gridLeftContainerDark: {
@@ -239,19 +265,17 @@ const useStyles = makeStyles((theme) => ({
     borderBottomColor: '#000326',
     marginTop: 0,
     [theme.breakpoints.down('sm')]: {
-      borderRightWidth: '2px',
-      borderRightStyle: 'solid',
-      borderRightColor: '#000326',
+      border: 'none',
     },
   },
-  titleQuestionsDark: { fontWeight: 'bold', paddingTop: 14, color: 'white' },
+  titleQuestionsDark: { fontWeight: 'bold', paddingTop: 44, color: 'white' },
   titleDark: {
     color: 'white',
     fontWeight: 'bold',
-    paddingTop: 35,
     paddingBottom: 40,
     [theme.breakpoints.up('xl')]: {
       paddingTop: '30%',
+      color: 'black',
     },
   },
   userNameTextDark: { padding: 10, color: 'white' },
@@ -260,7 +284,10 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: '#000638',
     maxWidth: 63,
     [theme.breakpoints.up('xl')]: {
-      maxWidth: 130,
+      maxWidth: 120,
+    },
+    [theme.breakpoints.down('sm')]: {
+      maxWidth: 140,
     },
   },
   containerQuestionsDark: {
@@ -288,6 +315,9 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: 10,
     width: '100%',
     backgroundColor: '#000326',
+    borderBottomWidth: '1px',
+    borderBottomStyle: 'solid',
+    borderBottomColor: '#b4b4b5',
   },
   paperMessagesDark: {
     height: '68.7vh',
@@ -320,25 +350,33 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   typeSendMessageDark: {
-    background: '#000638',
+    background: '#000326',
     alignItems: 'center',
     height: '9.3vh',
-    borderWidth: '2px',
-    borderStyle: 'solid',
-    borderColor: '#000326',
+    borderTopWidth: '1px',
+    borderTopStyle: 'solid',
+    borderTopColor: '#b4b4b5',
     [theme.breakpoints.down('sm')]: {
       height: '9vh',
     },
   },
   typeMessagesDark: {
-    borderRadius: 20,
     color: 'white',
     backgroundColor: '#000326',
     width: '93%',
-    paddingLeft: 30,
-    marginLeft: 30,
+    paddingLeft: 20,
+    marginLeft: 20,
     [theme.breakpoints.down('xl')]: {
       marginTop: 3,
+    },
+  },
+  arrowForwardDark: {
+    color: 'white',
+    marginTop: 10,
+    marginLeft: '45%',
+    cursor: 'pointer',
+    [theme.breakpoints.up('md')]: {
+      display: 'none',
     },
   },
 }))

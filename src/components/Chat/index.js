@@ -13,13 +13,21 @@ import {
   Container,
   Switch,
 } from '@material-ui/core'
-import { useEffect, useState } from 'react'
 // import { Circle } from 'rc-progress'
-import { Brush, MoreVert, Person, Search, Send } from '@material-ui/icons'
+import {
+  Send,
+  Person,
+  Search,
+  MoreVert,
+  ArrowForwardIos,
+} from '@material-ui/icons'
+import { useEffect, useState } from 'react'
+import { useHistory } from 'react-router-dom'
 
 /* import internal modules */
 import useStyles from './styles'
 import RobotImage from '../../assets/robot-chat.png'
+import RobotImageMobile from '../../assets/robot.png'
 import { getMessagesById } from '../../apis/messages'
 
 const questions = [
@@ -102,6 +110,7 @@ const messagesBurned = [
 ]
 
 const Chat = () => {
+  const history = useHistory()
   const classes = useStyles()
   const [typeMessage, setTypeMessage] = useState('')
   const [enableDarkTheme, setEnableDarkTheme] = useState(false)
@@ -216,6 +225,10 @@ const Chat = () => {
     </Menu>
   )
 
+  const goToChatMobile = () => {
+    history.push('/chatMobile')
+  }
+
   return (
     <Container maxWidth="xl" component="section" className={classes.container}>
       <Grid container justify="center" className={classes.containerGrid}>
@@ -231,22 +244,6 @@ const Chat = () => {
               : classes.gridLeftContainer
           }
         >
-          <Grid container className={classes.headerIntoSmall}>
-            <div className={classes.iconsHeaderContainerSmall}>
-              <div className={classes.iconsHeaderItemSmall}>
-                <Search className={classes.iconsHeader} />
-              </div>
-              <div className={classes.iconsHeaderItem}>
-                <MoreVert
-                  aria-haspopup="true"
-                  aria-label="show more"
-                  aria-controls={mobileMenuId}
-                  onClick={handleMobileMenuOpen}
-                  className={classes.iconsHeader}
-                />
-              </div>
-            </div>
-          </Grid>
           <Grid container direction="row" className={classes.containerUserName}>
             <Person
               fontSize="large"
@@ -263,6 +260,14 @@ const Chat = () => {
             >
               User Name
             </Typography>
+            <ArrowForwardIos
+              className={
+                enableDarkTheme
+                  ? classes.arrowForwardDark
+                  : classes.arrowForward
+              }
+              onClick={goToChatMobile}
+            />
           </Grid>
           <Typography
             className={enableDarkTheme ? classes.titleDark : classes.title}
@@ -271,11 +276,25 @@ const Chat = () => {
             Avi
           </Typography>
           <Grid container justify="center">
-            <Card elevation={0}>
+            <Card elevation={0} className={classes.imageCircleDesktop}>
               <CardMedia
                 alt="Aveil"
                 component="img"
                 image={RobotImage}
+                title="Aveil"
+                className={
+                  enableDarkTheme
+                    ? classes.imageCircleDark
+                    : classes.imageCircle
+                }
+              />
+            </Card>
+
+            <Card elevation={0} className={classes.imageCircleMobile}>
+              <CardMedia
+                alt="Aveil"
+                component="img"
+                image={RobotImageMobile}
                 title="Aveil"
                 className={
                   enableDarkTheme
@@ -335,7 +354,14 @@ const Chat = () => {
           </Grid>
         </Grid>
 
-        <Grid item xs={12} md={8} lg={8} xl={8}>
+        <Grid
+          item
+          xs={12}
+          md={8}
+          lg={8}
+          xl={8}
+          className={classes.secondPageChat}
+        >
           <Grid container className={classes.headerIntoLarge}>
             <div
               className={
@@ -353,12 +379,6 @@ const Chat = () => {
                   }
                 />
               </div>
-              {/* <div className={classes.iconsHeaderItem}>
-                <Brush
-                  className={classes.iconsHeader}
-                  onClick={() => setEnableDarkTheme(!enableDarkTheme)}
-                />
-              </div> */}
               <div className={classes.iconsHeaderItem}>
                 <MoreVert
                   aria-haspopup="true"
@@ -414,18 +434,14 @@ const Chat = () => {
                 inputProps={{ 'aria-label': 'naked' }}
               />
             </Grid>
-            {
-              <Grid item xs={2} md={1} lg={1} xl={1}>
-                <Send
-                  color="primary"
-                  className={
-                    typeMessage
-                      ? classes.sendButton
-                      : classes.disabledSendButton
-                  }
-                />
-              </Grid>
-            }
+            <Grid item xs={2} md={1} lg={1} xl={1}>
+              <Send
+                color="primary"
+                className={
+                  typeMessage ? classes.sendButton : classes.disabledSendButton
+                }
+              />
+            </Grid>
           </Grid>
         </Grid>
       </Grid>

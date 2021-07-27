@@ -14,7 +14,9 @@ export const signUpWithEmailPassword = (userFormData) => {
 
 export const signInWithEmailPassword = (userFormData) => {
   /* return firebase.auth().signInWithEmailAndPassword(email, password) */
-  return axios.post(`${BASE_URL}/login`, userFormData)
+  return axios.post(`${BASE_URL}/login`, userFormData, {
+    withCredentials: true,
+  })
 }
 
 export const logout = () => {
