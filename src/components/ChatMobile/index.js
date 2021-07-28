@@ -13,12 +13,14 @@ import {
 } from '@material-ui/core'
 import { useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { ArrowBackIos, MoreVert, Search, Send } from '@material-ui/icons'
 
 /* import internal modules */
 import useStyles from './styles'
 import RobotImageMobile from '../../assets/robot.png'
-import { ArrowBackIos, MoreVert, Search, Send } from '@material-ui/icons'
 import { getMessagesById } from '../../apis/messages'
+import { setHandleSelectedTheme } from '../../redux/actions/common/common'
 
 const messagesBurned = [
   {
@@ -81,12 +83,15 @@ const messagesBurned = [
 ]
 
 const ChatMobile = () => {
+  const dispatch = useDispatch()
   const history = useHistory()
   const classes = useStyles()
-  const [enableDarkTheme, setEnableDarkTheme] = useState(false)
   const [typeMessage, setTypeMessage] = useState('')
   const [messages, setMessages] = useState([])
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null)
+  const enableDarkTheme = useSelector(
+    (state) => state.common.handleSelectedTheme
+  )
 
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl)
 
@@ -104,6 +109,10 @@ const ChatMobile = () => {
       .catch((error) => {
         console.error(error)
       })
+  }
+
+  const handleThemeFunction = () => {
+    dispatch(setHandleSelectedTheme(!enableDarkTheme))
   }
 
   const onChangeData = (event) => {
@@ -145,7 +154,7 @@ const ChatMobile = () => {
         Dark Mode
         <Switch
           checked={enableDarkTheme}
-          onChange={() => setEnableDarkTheme(!enableDarkTheme)}
+          onChange={handleThemeFunction}
           color="primary"
           name="checkedB"
           inputProps={{ 'aria-label': 'primary checkbox' }}
@@ -191,21 +200,38 @@ const ChatMobile = () => {
       <Container
         maxWidth="lg"
         component="section"
-        className={classes.container}
+        className={enableDarkTheme ? classes.containerDark : classes.container}
       >
         <Grid
           container
           justify="space-between"
           className={classes.containerHearderGrid}
         >
-          <ArrowBackIos className={classes.arrowBackIos} onClick={goToBack} />
+          <ArrowBackIos
+            className={
+              enableDarkTheme ? classes.arrowBackIosDark : classes.arrowBackIos
+            }
+            onClick={goToBack}
+          />
           <Grid>
             <Avatar
               alt="Aveil"
               src={RobotImageMobile}
-              className={classes.avatarMobile}
+              className={
+                enableDarkTheme
+                  ? classes.avatarMobileDark
+                  : classes.avatarMobile
+              }
             />
-            <Typography className={classes.titleAvatarMobile}>Avi</Typography>
+            <Typography
+              className={
+                enableDarkTheme
+                  ? classes.titleAvatarMobileDark
+                  : classes.titleAvatarMobile
+              }
+            >
+              Avi
+            </Typography>
           </Grid>
           <Grid>
             <Search

@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
   },
   paperMessagesContainer: {},
   paperMessages: {
-    height: '67vh',
+    height: '76vh',
     width: '100%',
     paddingTop: 15,
     paddingBottom: 15,
@@ -108,14 +108,14 @@ const useStyles = makeStyles((theme) => ({
     overflowX: 'hidden',
     overflowY: 'auto',
     backgroundColor: '#000326',
-    height: '67vh',
+    height: '76vh',
     [theme.breakpoints.up('sm')]: {
       height: '76vh',
     },
   },
   typeMessagesDark: {
     color: 'white',
-    backgroundColor: '#000326',
+    backgroundColor: '#000427',
     width: '93%',
     paddingLeft: 10,
     marginLeft: 5,
@@ -128,8 +128,9 @@ const useStyles = makeStyles((theme) => ({
     borderTopColor: '#b4b4b5',
     alignItems: 'center',
     height: '9vh',
+    backgroundColor: '#0a0f45',
   },
-  iconsHeaderDark: {},
+  iconsHeaderDark: { color: 'white', cursor: 'pointer', marginTop: 9 },
   messagesReceiverTextDark: {
     cursor: 'pointer',
     padding: 10,
@@ -139,6 +140,25 @@ const useStyles = makeStyles((theme) => ({
     color: 'white',
     marginTop: 10,
     background: '#000638',
+  },
+  containerDark: {
+    backgroundColor: '#0a0f45',
+    width: '100%',
+    height: '15vh',
+  },
+  titleAvatarMobileDark: {
+    textAlign: 'center',
+    fontWeight: 600,
+    fontSize: 13,
+    color: 'white',
+  },
+  arrowBackIosDark: {
+    color: 'white',
+    cursor: 'pointer',
+    marginTop: 9,
+  },
+  avatarMobileDark: {
+    backgroundColor: '#0d1557',
   },
 }))
 

@@ -6,6 +6,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: 'white',
     paddingLeft: '4%',
     paddingRight: '4%',
+    height: '100vh',
   },
   containerGrid: {
     backgroundColor: 'white',
@@ -48,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: 40,
     [theme.breakpoints.up('xl')]: {
       paddingTop: '30%',
-      color: 'black',
+      color: 'white',
     },
   },
   titleQuestions: { fontWeight: 'bold', paddingTop: 44 },
@@ -252,6 +253,15 @@ const useStyles = makeStyles((theme) => ({
   },
 
   /* Dark Theme */
+  containerDark: {
+    backgroundColor: 'white',
+    paddingLeft: '4%',
+    paddingRight: '4%',
+    height: '100vh',
+    [theme.breakpoints.down('xs')]: {
+      backgroundColor: '#000638',
+    },
+  },
   gridLeftContainerDark: {
     background: '#000638',
     borderTopWidth: '2px',
@@ -270,12 +280,12 @@ const useStyles = makeStyles((theme) => ({
   },
   titleQuestionsDark: { fontWeight: 'bold', paddingTop: 44, color: 'white' },
   titleDark: {
-    color: 'white',
+    color: '#000638',
     fontWeight: 'bold',
     paddingBottom: 40,
     [theme.breakpoints.up('xl')]: {
       paddingTop: '30%',
-      color: 'black',
+      color: '#000638',
     },
   },
   userNameTextDark: { padding: 10, color: 'white' },

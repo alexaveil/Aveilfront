@@ -23,12 +23,14 @@ import {
 } from '@material-ui/icons'
 import { useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 
 /* import internal modules */
 import useStyles from './styles'
 import RobotImage from '../../assets/robot-chat.png'
 import RobotImageMobile from '../../assets/robot.png'
 import { getMessagesById } from '../../apis/messages'
+import { setHandleSelectedTheme } from '../../redux/actions/common/common'
 
 const questions = [
   {
@@ -110,12 +112,15 @@ const messagesBurned = [
 ]
 
 const Chat = () => {
+  const dispatch = useDispatch()
   const history = useHistory()
   const classes = useStyles()
   const [typeMessage, setTypeMessage] = useState('')
-  const [enableDarkTheme, setEnableDarkTheme] = useState(false)
   const [messages, setMessages] = useState([])
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null)
+  const enableDarkTheme = useSelector(
+    (state) => state.common.handleSelectedTheme
+  )
 
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl)
 
@@ -197,6 +202,10 @@ const Chat = () => {
     setMobileMoreAnchorEl(null)
   }
 
+  const handleThemeFunction = () => {
+    dispatch(setHandleSelectedTheme(!enableDarkTheme))
+  }
+
   const mobileMenuId = 'primary-search-account-menu-mobile'
   const renderMobileMenu = (
     <Menu
@@ -216,7 +225,7 @@ const Chat = () => {
         Dark Mode
         <Switch
           checked={enableDarkTheme}
-          onChange={() => setEnableDarkTheme(!enableDarkTheme)}
+          onChange={handleThemeFunction}
           color="primary"
           name="checkedB"
           inputProps={{ 'aria-label': 'primary checkbox' }}
@@ -230,7 +239,11 @@ const Chat = () => {
   }
 
   return (
-    <Container maxWidth="xl" component="section" className={classes.container}>
+    <Container
+      maxWidth="xl"
+      component="section"
+      className={enableDarkTheme ? classes.containerDark : classes.container}
+    >
       <Grid container justify="center" className={classes.containerGrid}>
         <Grid
           item

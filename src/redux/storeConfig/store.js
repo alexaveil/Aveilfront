@@ -10,7 +10,7 @@ import rootReducer from '../reducers/rootReducer'
 const persistConfig = {
   key: 'aveil-chatbot-approot',
   storage,
-  whitelist: ['user'],
+  whitelist: ['common'],
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
