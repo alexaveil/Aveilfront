@@ -95,6 +95,7 @@ const SignUp = () => {
             severity: 'success',
             status: true,
           }
+          window.sessionStorage.setItem('token', response.data.access_token)
           showMessageAlert(alert)
           history.push('/profile')
         }

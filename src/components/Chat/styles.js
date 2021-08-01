@@ -27,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   gridLeftContainer: {
+    height: 689,
     borderTopWidth: '2px',
     borderTopStyle: 'solid',
     borderTopColor: '#E5E5E5',
@@ -40,16 +41,18 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down('sm')]: {
       border: 'none',
     },
+    [theme.breakpoints.up('xl')]: {
+      height: 874,
+    },
   },
   userNameText: { padding: 10, color: 'gray' },
   iconPerson: { color: 'gray' },
   title: {
-    color: 'white',
+    paddingTop: '23%',
     fontWeight: 'bold',
     paddingBottom: 40,
     [theme.breakpoints.up('xl')]: {
       paddingTop: '30%',
-      color: 'white',
     },
   },
   titleQuestions: { fontWeight: 'bold', paddingTop: 44 },
@@ -62,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 20,
     maxWidth: 270,
     [theme.breakpoints.up('xl')]: {
-      marginTop: '10%',
+      marginTop: '6%',
     },
   },
   questionsText: {
@@ -72,8 +75,8 @@ const useStyles = makeStyles((theme) => ({
   },
   askButton: {
     borderRadius: 20,
-    marginTop: 20,
-    marginBottom: 20,
+    marginTop: 27,
+    marginBottom: 50,
     textTransform: 'capitalize',
     [theme.breakpoints.up('xl')]: {
       marginTop: '10%',
@@ -122,7 +125,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   paperMessages: {
-    height: '68.7vh',
+    height: 577,
     borderLeftWidth: '2px',
     borderLeftStyle: 'solid',
     borderLeftColor: '#E5E5E5',
@@ -171,7 +174,7 @@ const useStyles = makeStyles((theme) => ({
   circle: { maxHeight: 110, position: 'absolute' },
   imageCircle: {
     backgroundColor: 'white',
-    maxWidth: 63,
+    maxWidth: 93,
     [theme.breakpoints.up('xl')]: {
       maxWidth: 120,
     },
@@ -257,12 +260,13 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: 'white',
     paddingLeft: '4%',
     paddingRight: '4%',
-    height: '100vh',
+    height: '110vh',
     [theme.breakpoints.down('xs')]: {
       backgroundColor: '#000638',
     },
   },
   gridLeftContainerDark: {
+    height: 689,
     background: '#000638',
     borderTopWidth: '2px',
     borderTopStyle: 'solid',
@@ -273,26 +277,34 @@ const useStyles = makeStyles((theme) => ({
     borderBottomWidth: '2px',
     borderBottomStyle: 'solid',
     borderBottomColor: '#000326',
+    borderRightWidth: '1px',
+    borderRightStyle: 'solid',
+    borderRightColor: '#b4b4b5',
     marginTop: 0,
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.only('sm')]: {
       border: 'none',
+      height: 824,
+    },
+    [theme.breakpoints.up('xl')]: {
+      height: 874,
     },
   },
   titleQuestionsDark: { fontWeight: 'bold', paddingTop: 44, color: 'white' },
   titleDark: {
-    color: '#000638',
+    color: 'white',
+    paddingTop: '23%',
     fontWeight: 'bold',
     paddingBottom: 40,
     [theme.breakpoints.up('xl')]: {
       paddingTop: '30%',
-      color: '#000638',
+      color: 'white',
     },
   },
   userNameTextDark: { padding: 10, color: 'white' },
   iconPersonDark: { color: 'white' },
   imageCircleDark: {
     backgroundColor: '#000638',
-    maxWidth: 63,
+    maxWidth: 93,
     [theme.breakpoints.up('xl')]: {
       maxWidth: 120,
     },
@@ -306,7 +318,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 20,
     maxWidth: 270,
     [theme.breakpoints.up('xl')]: {
-      marginTop: '10%',
+      marginTop: '6%',
     },
   },
   questionsTextDark: {
@@ -330,7 +342,7 @@ const useStyles = makeStyles((theme) => ({
     borderBottomColor: '#b4b4b5',
   },
   paperMessagesDark: {
-    height: '68.7vh',
+    height: 577,
     width: '100%',
     paddingTop: 40,
     paddingBottom: 15,

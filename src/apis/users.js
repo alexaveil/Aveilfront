@@ -8,19 +8,15 @@ import firebase from 'firebase/app'
 import { BASE_URL } from '../config'
 
 export const signUpWithEmailPassword = (userFormData) => {
-  /* return firebase.auth().createUserWithEmailAndPassword(email, password) */
-  return axios.post(`${BASE_URL}/register`, userFormData)
+  return axios.post(`${BASE_URL}/user/register`, userFormData)
 }
 
 export const signInWithEmailPassword = (userFormData) => {
-  /* return firebase.auth().signInWithEmailAndPassword(email, password) */
-  return axios.post(`${BASE_URL}/login`, userFormData, {
-    withCredentials: true,
-  })
+  return axios.post(`${BASE_URL}/user/login`, userFormData)
 }
 
 export const logout = () => {
-  return axios.post(`${BASE_URL}/logout`)
+  return axios.post(`${BASE_URL}/user/logout`)
 }
 
 export const createUserFirestore = (data) => {

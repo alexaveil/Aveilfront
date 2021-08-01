@@ -29,27 +29,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import useStyles from './styles'
 import RobotImage from '../../assets/robot-chat.png'
 import RobotImageMobile from '../../assets/robot.png'
-import { getMessagesById } from '../../apis/messages'
 import { setHandleSelectedTheme } from '../../redux/actions/common/common'
-
-const questions = [
-  {
-    id: 1,
-    text: 'Lorem Ipsum is simply dummy text.',
-  },
-  {
-    id: 2,
-    text: 'Lorem Ipsum is simply dummy text.',
-  },
-  {
-    id: 3,
-    text: 'Lorem Ipsum is simply dummy text.',
-  },
-  {
-    id: 4,
-    text: 'Lorem Ipsum is simply dummy text.',
-  },
-]
+import { getMessagesById, getQuestionSuggestions } from '../../apis/messages'
 
 const messagesBurned = [
   {
@@ -116,7 +97,9 @@ const Chat = () => {
   const history = useHistory()
   const classes = useStyles()
   const [typeMessage, setTypeMessage] = useState('')
+  const [loading, setLoading] = useState(false)
   const [messages, setMessages] = useState([])
+  const [questionsSuggestion, setQuestionsSuggestion] = useState([])
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null)
   const enableDarkTheme = useSelector(
     (state) => state.common.handleSelectedTheme
@@ -126,12 +109,36 @@ const Chat = () => {
 
   useEffect(() => {
     getMessagesByIdFunction()
+    getQuestionsSuggestionFunction()
   }, [])
+
+  const getQuestionsSuggestionFunction = () => {
+    setLoading(true)
+
+    getQuestionSuggestions()
+      .then((response) => {
+        console.log(response)
+        if (response.status >= 200 && response.status <= 299) {
+          setQuestionsSuggestion([
+            'Have you ever weilded a sword?',
+            'Have you ever been on a cable car?',
+            'Whats your favourite TV program?',
+            'Do you like reality TV programs?',
+          ])
+          // setQuestionsSuggestion(response.data)
+          setLoading(false)
+        }
+      })
+      .catch((error) => {
+        console.error(error)
+        setLoading(false)
+      })
+  }
 
   const getMessagesByIdFunction = () => {
     getMessagesById(0)
       .then((response) => {
-        if (response.status >= 200 && response.status >= 299) {
+        if (response.status >= 200 && response.status <= 299) {
           setMessages(response.data)
         }
       })
@@ -148,19 +155,21 @@ const Chat = () => {
     setTypeMessage(answer)
   }
 
-  const renderQuestions = questions.map((question) => {
-    return (
-      <div
-        elevation={3}
-        className={
-          enableDarkTheme ? classes.questionsTextDark : classes.questionsText
-        }
-        key={question.id}
-      >
-        {question.text}
-      </div>
-    )
-  })
+  const renderQuestionsSuggestions = questionsSuggestion.map(
+    (question, key) => {
+      return (
+        <div
+          elevation={3}
+          className={
+            enableDarkTheme ? classes.questionsTextDark : classes.questionsText
+          }
+          key={key}
+        >
+          {question}
+        </div>
+      )
+    }
+  )
 
   const renderMessages = messagesBurned.map((message, key) => {
     return (
@@ -334,26 +343,30 @@ const Chat = () => {
             Other relevant questions:
           </Typography>
           <center>
-            <Grid
-              container
-              justify="center"
-              className={
-                enableDarkTheme
-                  ? classes.containerQuestionsDark
-                  : classes.containerQuestions
-              }
-            >
-              <Paper
-                elevation={0}
+            {!loading ? (
+              <Grid
+                container
+                justify="center"
                 className={
                   enableDarkTheme
-                    ? classes.questionsTextDark
-                    : classes.questionsText
+                    ? classes.containerQuestionsDark
+                    : classes.containerQuestions
                 }
               >
-                {renderQuestions}
-              </Paper>
-            </Grid>
+                <Paper
+                  elevation={0}
+                  className={
+                    enableDarkTheme
+                      ? classes.questionsTextDark
+                      : classes.questionsText
+                  }
+                >
+                  {renderQuestionsSuggestions}
+                </Paper>
+              </Grid>
+            ) : (
+              <h4>Loading</h4>
+            )}
           </center>
           <Grid container justify="center">
             <Button

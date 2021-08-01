@@ -102,7 +102,7 @@ const ChatMobile = () => {
   const getMessagesByIdFunction = () => {
     getMessagesById(0)
       .then((response) => {
-        if (response.status >= 200 && response.status >= 299) {
+        if (response.status >= 200 && response.status <= 299) {
           setMessages(response.data)
         }
       })

@@ -114,17 +114,13 @@ const SignIn = () => {
     if (email && password) {
       signInWithEmailPassword(userFormData)
         .then((response) => {
-          console.log(response.headers['set-cookie'])
-
           if (response.status >= 200 && response.status <= 299) {
             const alert = {
               message: `Welcome`,
               severity: 'success',
               status: true,
             }
-
-            console.log(response.headers['set-cookie'])
-
+            window.sessionStorage.setItem('token', response.data.access_token)
             showMessageAlert(alert)
             history.push('/home')
           }
