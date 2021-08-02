@@ -67,14 +67,14 @@ const SignIn = () => {
     if (email) {
       sendPasswordReset(email)
         .then(() => {
-          const errorAlert = {
+          const successAlert = {
             message: 'E-mail send',
             severity: 'success',
             status: true,
           }
 
           setSendPasswordReset(false)
-          showMessageAlert(errorAlert)
+          showMessageAlert(successAlert)
         })
         .catch((error) => {
           const errorAlert = {

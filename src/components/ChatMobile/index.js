@@ -14,7 +14,13 @@ import {
 import { useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { ArrowBackIos, MoreVert, Search, Send } from '@material-ui/icons'
+import {
+  ArrowBackIos,
+  Favorite,
+  MoreVert,
+  Search,
+  Send,
+} from '@material-ui/icons'
 
 /* import internal modules */
 import useStyles from './styles'
@@ -176,17 +182,26 @@ const ChatMobile = () => {
         </Typography>
         {message?.answers?.map((answer, key) => {
           return (
-            <div key={key}>
-              <div
-                elevation={3}
-                className={
-                  enableDarkTheme
-                    ? classes.messagesReceiverTextDark
-                    : classes.messagesReceiverText
-                }
-                onClick={() => selectedAnswer(answer)}
-              >
-                {answer}
+            <div
+              key={key}
+              className={
+                enableDarkTheme
+                  ? classes.messagesReceiverContainerDark
+                  : classes.messagesReceiverContainer
+              }
+            >
+              <div className={classes.messagesReceiverItem}>
+                <div elevation={3} onClick={() => selectedAnswer(answer)}>
+                  {answer}
+                </div>
+              </div>
+              <div className={classes.messagesReceiverItem}>
+                <Favorite
+                  color="disabled"
+                  fontSize="small"
+                  className={classes.favorite}
+                  onClick={() => selectedAnswer(answer)}
+                />
               </div>
             </div>
           )
@@ -239,6 +254,7 @@ const ChatMobile = () => {
                 enableDarkTheme ? classes.iconsHeaderDark : classes.iconsHeader
               }
             />
+            &nbsp;&nbsp;&nbsp;&nbsp;
             <MoreVert
               aria-haspopup="true"
               aria-label="show more"

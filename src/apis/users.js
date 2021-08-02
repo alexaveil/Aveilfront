@@ -19,6 +19,10 @@ export const logout = () => {
   return axios.post(`${BASE_URL}/user/logout`)
 }
 
+export const addInterests = (interestsFormData) => {
+  return axios.post(`${BASE_URL}/user/add_interests`, interestsFormData)
+}
+
 export const createUserFirestore = (data) => {
   return firebase.firestore().collection('users').add(data)
 }

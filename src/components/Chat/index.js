@@ -20,6 +20,7 @@ import {
   Search,
   MoreVert,
   ArrowForwardIos,
+  Favorite,
 } from '@material-ui/icons'
 import { useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
@@ -27,6 +28,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 /* import internal modules */
 import useStyles from './styles'
+import Loading from '../common/Loading'
 import RobotImage from '../../assets/robot-chat.png'
 import RobotImageMobile from '../../assets/robot.png'
 import { setHandleSelectedTheme } from '../../redux/actions/common/common'
@@ -117,7 +119,6 @@ const Chat = () => {
 
     getQuestionSuggestions()
       .then((response) => {
-        console.log(response)
         if (response.status >= 200 && response.status <= 299) {
           setQuestionsSuggestion([
             'Have you ever weilded a sword?',
@@ -185,17 +186,29 @@ const Chat = () => {
         {message?.answers?.map((answer, key) => {
           return (
             <div key={key}>
+              {/* {message?.option_selected === key + 1 && ( */}
               <div
-                elevation={3}
                 className={
                   enableDarkTheme
-                    ? classes.messagesReceiverTextDark
-                    : classes.messagesReceiverText
+                    ? classes.messagesReceiverContainerDark
+                    : classes.messagesReceiverContainer
                 }
-                onClick={() => selectedAnswer(answer)}
               >
-                {answer}
+                <div className={classes.messagesReceiverItem}>
+                  <div elevation={3} onClick={() => selectedAnswer(answer)}>
+                    {answer}
+                  </div>
+                </div>
+                <div className={classes.messagesReceiverItem}>
+                  <Favorite
+                    color="disabled"
+                    fontSize="small"
+                    className={classes.favorite}
+                    onClick={() => selectedAnswer(answer)}
+                  />
+                </div>
               </div>
+              {/* )} */}
             </div>
           )
         })}
@@ -365,7 +378,7 @@ const Chat = () => {
                 </Paper>
               </Grid>
             ) : (
-              <h4>Loading</h4>
+              <Loading />
             )}
           </center>
           <Grid container justify="center">
@@ -405,6 +418,7 @@ const Chat = () => {
                   }
                 />
               </div>
+              &nbsp;&nbsp;&nbsp;&nbsp;
               <div className={classes.iconsHeaderItem}>
                 <MoreVert
                   aria-haspopup="true"

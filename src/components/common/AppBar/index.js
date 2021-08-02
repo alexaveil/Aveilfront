@@ -251,7 +251,7 @@ const AppBarComponent = () => {
               className={classes.itemLogin}
               color="inherit"
             >
-              Log in
+              Sign in
             </Button>
             <IconButton
               edge="end"

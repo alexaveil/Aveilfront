@@ -7,7 +7,7 @@ const useStyles = makeStyles((theme) => ({
   },
   appBar: {
     backgroundColor: '#fafafa',
-    marginLeft: '20%',
+    paddingLeft: '20%',
   },
   title: {
     color: 'black',
