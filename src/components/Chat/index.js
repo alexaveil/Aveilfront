@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 /* import external modules */
 import {
@@ -22,8 +23,8 @@ import {
   ArrowForwardIos,
   Favorite,
 } from '@material-ui/icons'
-import { useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
+import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 /* import internal modules */
@@ -101,6 +102,9 @@ const Chat = () => {
   const [typeMessage, setTypeMessage] = useState('')
   const [loading, setLoading] = useState(false)
   const [messages, setMessages] = useState([])
+  const [currentHeightGridLeftQuestions, setCurrentHeightGridLeftQuestions] =
+    useState(0)
+  const [currentHeightGridLeft, setCurrentHeightGridLeft] = useState(0)
   const [questionsSuggestion, setQuestionsSuggestion] = useState([])
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null)
   const enableDarkTheme = useSelector(
@@ -108,11 +112,27 @@ const Chat = () => {
   )
 
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl)
+  const autoScrollRef = useRef()
+  const gridLeftContainerQuestionsRef = useRef()
+  const gridLeftContainerRef = useRef()
 
   useEffect(() => {
     getMessagesByIdFunction()
     getQuestionsSuggestionFunction()
+
+    autoScrollRef.current.scrollTo(0, 1000)
   }, [])
+
+  const fixHeightComponent = () => {
+    const currentGridLeftContainer = gridLeftContainerRef?.current?.clientHeight
+    setCurrentHeightGridLeft(currentGridLeftContainer)
+
+    const current = gridLeftContainerQuestionsRef?.current?.clientHeight
+    if (current > 150) {
+      const newCurrentDifference = current - 150
+      setCurrentHeightGridLeftQuestions(newCurrentDifference)
+    }
+  }
 
   const getQuestionsSuggestionFunction = () => {
     setLoading(true)
@@ -120,14 +140,9 @@ const Chat = () => {
     getQuestionSuggestions()
       .then((response) => {
         if (response.status >= 200 && response.status <= 299) {
-          setQuestionsSuggestion([
-            'Have you ever weilded a sword?',
-            'Have you ever been on a cable car?',
-            'Whats your favourite TV program?',
-            'Do you like reality TV programs?',
-          ])
-          // setQuestionsSuggestion(response.data)
+          setQuestionsSuggestion(response.data)
           setLoading(false)
+          fixHeightComponent()
         }
       })
       .catch((error) => {
@@ -203,7 +218,11 @@ const Chat = () => {
                   <Favorite
                     color="disabled"
                     fontSize="small"
-                    className={classes.favorite}
+                    className={
+                      enableDarkTheme
+                        ? classes.favoriteDarkDisabled
+                        : classes.favorite
+                    }
                     onClick={() => selectedAnswer(answer)}
                   />
                 </div>
@@ -278,6 +297,7 @@ const Chat = () => {
               ? classes.gridLeftContainerDark
               : classes.gridLeftContainer
           }
+          ref={gridLeftContainerRef}
         >
           <Grid container direction="row" className={classes.containerUserName}>
             <Person
@@ -365,6 +385,7 @@ const Chat = () => {
                     ? classes.containerQuestionsDark
                     : classes.containerQuestions
                 }
+                ref={gridLeftContainerQuestionsRef}
               >
                 <Paper
                   elevation={0}
@@ -449,6 +470,13 @@ const Chat = () => {
                   ? classes.paperMessagesDark
                   : classes.paperMessages
               }
+              ref={autoScrollRef}
+              style={{
+                height:
+                  currentHeightGridLeft > 800
+                    ? 730 + currentHeightGridLeftQuestions
+                    : 593 + currentHeightGridLeftQuestions,
+              }}
             >
               {renderMessages}
             </Paper>

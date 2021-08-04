@@ -20,16 +20,12 @@ import {
 } from '@material-ui/icons'
 import { useState } from 'react'
 import { useHistory } from 'react-router'
-import { useDispatch } from 'react-redux'
 
 /* import internal modules */
 import useStyles from './styles'
-import { logout } from '../../../apis/users'
 import LogoImage from '../../../assets/logo.png'
-import { setHandleAlert } from '../../../redux/actions/common/common'
 
 const AppBarComponent = () => {
-  const dispatch = useDispatch()
   const history = useHistory()
   const classes = useStyles()
   const [anchorEl, setAnchorEl] = useState(null)
@@ -60,33 +56,8 @@ const AppBarComponent = () => {
   }
 
   const logoutFunction = () => {
-    logout()
-      .then((response) => {
-        if (response.status >= 200 && response.status <= 299) {
-          const alert = {
-            message: `See you later`,
-            severity: 'success',
-            status: true,
-          }
-
-          showMessageAlert(alert)
-          history.push('/home')
-        }
-      })
-      .catch((error) => {
-        const errorAlert = {
-          message: error?.response?.data,
-          severity: 'error',
-          status: true,
-        }
-
-        showMessageAlert(errorAlert)
-        console.error(`${error.code} -> ${error.message}`)
-      })
-  }
-
-  const showMessageAlert = ({ message, severity, status }) => {
-    dispatch(setHandleAlert({ message, severity, status }))
+    window.sessionStorage.setItem('token', null)
+    history.push('/')
   }
 
   const menuId = 'primary-search-account-menu'
@@ -184,7 +155,7 @@ const AppBarComponent = () => {
           <Lock />
         </IconButton>
         <Button
-          onClick={() => goToPage('/')}
+          onClick={logoutFunction}
           className={classes.item}
           color="inherit"
         >

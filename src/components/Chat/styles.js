@@ -6,7 +6,6 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: 'white',
     paddingLeft: '4%',
     paddingRight: '4%',
-    height: '100vh',
   },
   containerGrid: {
     backgroundColor: 'white',
@@ -27,7 +26,6 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   gridLeftContainer: {
-    height: 690,
     borderTopWidth: '2px',
     borderTopStyle: 'solid',
     borderTopColor: '#E5E5E5',
@@ -37,12 +35,15 @@ const useStyles = makeStyles((theme) => ({
     borderBottomWidth: '2px',
     borderBottomStyle: 'solid',
     borderBottomColor: '#E5E5E5',
+    borderRightWidth: '2px',
+    borderRightStyle: 'solid',
+    borderRightColor: '#E5E5E5',
     marginTop: 0,
     [theme.breakpoints.down('sm')]: {
       border: 'none',
     },
     [theme.breakpoints.up('xl')]: {
-      height: 874,
+      // height: 874,
     },
   },
   userNameText: { padding: 10, color: 'gray' },
@@ -60,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
     borderWidth: '1px',
     borderStyle: 'solid',
     borderColor: '#9f9e9e',
-    borderRadius: 10,
+    borderRadius: 5,
     textAlign: 'left',
     marginTop: 20,
     maxWidth: 270,
@@ -130,21 +131,6 @@ const useStyles = makeStyles((theme) => ({
     alignSelf: 'auto',
     order: 0,
   },
-  messagesReceiverText: {
-    // cursor: 'pointer',
-    // padding: 10,
-    // color: 'black',
-    // marginTop: 10,
-    // background: '#E5E5E5',
-    // borderRadius: 10,
-    // maxWidth: 270,
-    // marginLeft: '7%',
-    // [theme.breakpoints.down('xs')]: {
-    //   marginLeft: '11%',
-    //   marginRight: '5%',
-    //   maxWidth: 260,
-    // },
-  },
   favorite: {
     // cursor: 'pointer',
   },
@@ -159,29 +145,25 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   paperMessages: {
-    height: 577,
-    borderLeftWidth: '2px',
-    borderLeftStyle: 'solid',
-    borderLeftColor: '#E5E5E5',
-    borderRightWidth: '2px',
-    borderRightStyle: 'solid',
-    borderRightColor: '#E5E5E5',
     width: '100%',
     paddingTop: 40,
     paddingBottom: 15,
     overflowX: 'hidden',
     overflowY: 'auto',
     [theme.breakpoints.up('xl')]: {
-      height: '66.6vh',
+      // height: '66.6vh',
     },
   },
   paperMessagesContainer: {},
   typeSendMessage: {
     alignItems: 'center',
     height: '9vh',
-    borderWidth: '2px',
-    borderStyle: 'solid',
-    borderColor: '#E5E5E5',
+    borderTopWidth: '1px',
+    borderTopStyle: 'solid',
+    borderTopColor: '#E5E5E5',
+    borderBottomWidth: '1px',
+    borderBottomStyle: 'solid',
+    borderBottomColor: '#E5E5E5',
     [theme.breakpoints.down('sm')]: {
       height: '9vh',
     },
@@ -189,6 +171,7 @@ const useStyles = makeStyles((theme) => ({
   typeMessages: {
     width: '93%',
     marginLeft: 30,
+    paddingLeft: 10,
     [theme.breakpoints.down('xl')]: {
       marginTop: 3,
     },
@@ -225,9 +208,12 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'flex-end',
     alignItems: 'center',
     paddingTop: 10,
-    borderWidth: '2px',
-    borderStyle: 'solid',
-    borderColor: '#E5E5E5',
+    borderBottomWidth: '2px',
+    borderBottomStyle: 'solid',
+    borderBottomColor: '#E5E5E5',
+    borderTopWidth: '2px',
+    borderTopStyle: 'solid',
+    borderTopColor: '#E5E5E5',
     width: '100%',
   },
   iconsHeaderItem: {
@@ -265,6 +251,9 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   secondPageChat: {
+    borderRightWidth: '2px',
+    borderRightStyle: 'solid',
+    borderRightColor: '#E5E5E5',
     [theme.breakpoints.down('sm')]: {
       display: 'none',
     },
@@ -294,13 +283,11 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: 'white',
     paddingLeft: '4%',
     paddingRight: '4%',
-    height: '110vh',
     [theme.breakpoints.down('xs')]: {
       backgroundColor: '#000638',
     },
   },
   gridLeftContainerDark: {
-    height: 689,
     background: '#000638',
     borderTopWidth: '2px',
     borderTopStyle: 'solid',
@@ -317,13 +304,9 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 0,
     [theme.breakpoints.only('sm')]: {
       border: 'none',
-      height: 824,
     },
     [theme.breakpoints.only('xs')]: {
       border: 'none',
-    },
-    [theme.breakpoints.up('xl')]: {
-      height: 874,
     },
   },
   titleQuestionsDark: { fontWeight: 'bold', paddingTop: 44, color: 'white' },
@@ -379,7 +362,6 @@ const useStyles = makeStyles((theme) => ({
     borderBottomColor: '#b4b4b5',
   },
   paperMessagesDark: {
-    height: 577,
     width: '100%',
     paddingTop: 40,
     paddingBottom: 15,
@@ -387,7 +369,7 @@ const useStyles = makeStyles((theme) => ({
     overflowY: 'auto',
     backgroundColor: '#000326',
     [theme.breakpoints.up('xl')]: {
-      height: '66.6vh',
+      // height: '66.6vh',
     },
   },
   paperMessagesContainerDark: {
@@ -432,8 +414,8 @@ const useStyles = makeStyles((theme) => ({
     color: 'white',
     backgroundColor: '#000326',
     width: '93%',
-    paddingLeft: 20,
-    marginLeft: 20,
+    paddingLeft: 10,
+    marginLeft: 30,
     [theme.breakpoints.down('xl')]: {
       marginTop: 3,
     },
@@ -446,6 +428,12 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('md')]: {
       display: 'none',
     },
+  },
+  favoriteDark: {
+    color: '#3044e9',
+  },
+  favoriteDarkDisabled: {
+    color: '#2d3581',
   },
 }))
 

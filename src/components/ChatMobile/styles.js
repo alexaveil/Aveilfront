@@ -99,9 +99,9 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 7,
   },
   typeMessages: {
-    width: '90%',
-    paddingLeft: 10,
+    width: '89%',
     marginLeft: 23,
+    paddingLeft: 10,
     marginTop: 3,
     backgroundColor: 'white',
     borderRadius: 20,
@@ -132,9 +132,9 @@ const useStyles = makeStyles((theme) => ({
   typeMessagesDark: {
     color: 'white',
     backgroundColor: '#000427',
-    width: '93%',
+    width: '89%',
     paddingLeft: 10,
-    marginLeft: 5,
+    marginLeft: 23,
     marginTop: 3,
     borderRadius: 20,
   },
