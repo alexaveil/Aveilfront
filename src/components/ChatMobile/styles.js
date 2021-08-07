@@ -31,7 +31,10 @@ const useStyles = makeStyles((theme) => ({
   mobileMenu: {
     marginTop: 50,
   },
-  paperMessagesContainer: {},
+  paperMessagesContainer: {
+    paddingTop: 10,
+    backgroundColor: 'white',
+  },
   paperMessages: {
     height: '71vh',
     width: '100%',
@@ -116,6 +119,7 @@ const useStyles = makeStyles((theme) => ({
 
   paperMessagesContainerDark: {
     backgroundColor: '#000326',
+    paddingTop: 10,
   },
   paperMessagesDark: {
     width: '100%',

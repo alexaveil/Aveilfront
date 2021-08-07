@@ -32,7 +32,10 @@ import useStyles from './styles'
 import Loading from '../common/Loading'
 import RobotImage from '../../assets/robot-chat.png'
 import RobotImageMobile from '../../assets/robot.png'
-import { setHandleSelectedTheme } from '../../redux/actions/common/common'
+import {
+  setHandleAlert,
+  setHandleSelectedTheme,
+} from '../../redux/actions/common/common'
 import { getMessagesById, getQuestionSuggestions } from '../../apis/messages'
 
 const messagesBurned = [
@@ -134,6 +137,10 @@ const Chat = () => {
     }
   }
 
+  const showMessageAlert = ({ message, severity, status }) => {
+    dispatch(setHandleAlert({ message, severity, status }))
+  }
+
   const getQuestionsSuggestionFunction = () => {
     setLoading(true)
 
@@ -146,20 +153,48 @@ const Chat = () => {
         }
       })
       .catch((error) => {
+        const message =
+          error.name === 'Error'
+            ? 'Algo ocurrió en el servidor'
+            : error?.response?.data?.message_error
+
+        const errorAlert = {
+          message,
+          severity: 'error',
+          status: true,
+        }
+
+        showMessageAlert(errorAlert)
         console.error(error)
         setLoading(false)
       })
   }
 
   const getMessagesByIdFunction = () => {
-    getMessagesById(0)
+    setLoading(true)
+
+    getMessagesById(1)
       .then((response) => {
         if (response.status >= 200 && response.status <= 299) {
           setMessages(response.data)
+          setLoading(false)
         }
       })
       .catch((error) => {
+        const message =
+          error.name === 'Error'
+            ? 'Algo ocurrió en el servidor'
+            : error?.response?.data?.message_error
+
+        const errorAlert = {
+          message,
+          severity: 'error',
+          status: true,
+        }
+
+        showMessageAlert(errorAlert)
         console.error(error)
+        setLoading(false)
       })
   }
 
@@ -191,7 +226,16 @@ const Chat = () => {
     return (
       <div key={key}>
         {message?.question && (
-          <div elevation={3} className={classes.messagesSendText}>
+          <div
+            elevation={3}
+            className={classes.messagesSendText}
+            style={{
+              maxWidth:
+                message.question.length < 20
+                  ? message.question.length + 130
+                  : 260,
+            }}
+          >
             {message.question}
           </div>
         )}

@@ -24,6 +24,7 @@ import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { addInterests } from '../../apis/users'
 import { setHandleAlert } from '../../redux/actions/common/common'
+import Loading from '../common/Loading'
 
 /* import internal modules */
 import useStyles from './styles'
@@ -32,6 +33,7 @@ const Profile = () => {
   const classes = useStyles()
   const history = useHistory()
   const dispatch = useDispatch()
+  const [loading, setLoading] = useState(false)
   const [selectedChips, setSelectedChips] = useState([])
 
   const handleDelete = (chipName) => {
@@ -53,6 +55,7 @@ const Profile = () => {
   }
 
   const addInterestsFunction = () => {
+    setLoading(true)
     let interestsFormData = new FormData()
     interestsFormData.append('interests', JSON.stringify(selectedChips))
 
@@ -66,18 +69,25 @@ const Profile = () => {
           }
 
           showMessageAlert(alert)
+          setLoading(false)
           history.push('/home')
         }
       })
       .catch((error) => {
+        const message =
+          error.name === 'Error'
+            ? 'Algo ocurrió en el servidor'
+            : error?.response?.data?.message_error
+
         const errorAlert = {
-          message: error?.response?.data?.message,
+          message,
           severity: 'error',
           status: true,
         }
 
-        console.error(error)
         showMessageAlert(errorAlert)
+        console.error(error)
+        setLoading(false)
       })
   }
 
@@ -118,6 +128,7 @@ const Profile = () => {
                   ? () => handleDelete('Learning')
                   : undefined
               }
+              className={classes.chip}
             />
             <Chip
               clickable
@@ -131,6 +142,7 @@ const Profile = () => {
                   ? () => handleDelete('Music')
                   : undefined
               }
+              className={classes.chip}
             />
             <Chip
               clickable
@@ -148,6 +160,7 @@ const Profile = () => {
                   ? () => handleDelete('Animals')
                   : undefined
               }
+              className={classes.chip}
             />
             <Chip
               clickable
@@ -161,6 +174,7 @@ const Profile = () => {
                   ? () => handleDelete('Art')
                   : undefined
               }
+              className={classes.chip}
             />
             <Chip
               clickable
@@ -176,6 +190,7 @@ const Profile = () => {
                   ? () => handleDelete('Sports')
                   : undefined
               }
+              className={classes.chip}
             />
             <Chip
               clickable
@@ -193,6 +208,7 @@ const Profile = () => {
                   ? () => handleDelete('Fashion')
                   : undefined
               }
+              className={classes.chip}
             />
             <Chip
               clickable
@@ -206,6 +222,7 @@ const Profile = () => {
                   ? () => handleDelete('Cars')
                   : undefined
               }
+              className={classes.chip}
             />
             <Chip
               clickable
@@ -225,6 +242,7 @@ const Profile = () => {
                   ? () => handleDelete('Fitness')
                   : undefined
               }
+              className={classes.chip}
             />
             <Chip
               clickable
@@ -248,6 +266,7 @@ const Profile = () => {
                   ? () => handleDelete('Science')
                   : undefined
               }
+              className={classes.chip}
             />
             <Chip
               clickable
@@ -263,6 +282,7 @@ const Profile = () => {
                   ? () => handleDelete('Movies')
                   : undefined
               }
+              className={classes.chip}
             />
             <Chip
               clickable
@@ -278,6 +298,7 @@ const Profile = () => {
                   ? () => handleDelete('Dance')
                   : undefined
               }
+              className={classes.chip}
             />
             <Chip
               clickable
@@ -293,6 +314,7 @@ const Profile = () => {
                   ? () => handleDelete('Tech')
                   : undefined
               }
+              className={classes.chip}
             />
             <Chip
               clickable
@@ -316,6 +338,7 @@ const Profile = () => {
                   ? () => handleDelete('Social Media')
                   : undefined
               }
+              className={classes.chip}
             />
             <Chip
               clickable
@@ -339,6 +362,7 @@ const Profile = () => {
                   ? () => handleDelete('Video Games')
                   : undefined
               }
+              className={classes.chip}
             />
             <Chip
               clickable
@@ -352,6 +376,7 @@ const Profile = () => {
                   ? () => handleDelete('Food')
                   : undefined
               }
+              className={classes.chip}
             />
             <Chip
               clickable
@@ -367,18 +392,23 @@ const Profile = () => {
                   ? () => handleDelete('Memes')
                   : undefined
               }
+              className={classes.chip}
             />
             <Grid container justify="flex-end">
-              <Button
-                size="large"
-                color="primary"
-                disabled={selectedChips.length === 5 ? false : true}
-                variant="contained"
-                className={classes.doneButton}
-                onClick={addInterestsFunction}
-              >
-                Done
-              </Button>
+              {!loading ? (
+                <Button
+                  size="large"
+                  color="primary"
+                  disabled={selectedChips.length === 5 ? false : true}
+                  variant="contained"
+                  className={classes.doneButton}
+                  onClick={addInterestsFunction}
+                >
+                  Done
+                </Button>
+              ) : (
+                <Loading />
+              )}
             </Grid>
           </Grid>
         </Grid>

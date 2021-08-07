@@ -15,7 +15,11 @@ const persistConfig = {
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 
-const store = createStore(persistedReducer, composeWithDevTools())
+const store = createStore(
+  persistedReducer,
+  composeWithDevTools() &&
+    window.__REDUX_DEVTOOLS_EXTENSION__({ trace: true, traceLimit: 25 })
+)
 
 const persistor = persistStore(store) // used to create the persisted store, persistor will be used in the next step
 

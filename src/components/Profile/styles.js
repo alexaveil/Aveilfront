@@ -51,6 +51,12 @@ const useStyles = makeStyles((theme) => ({
       marginTop: '2%',
     },
   },
+  chip: {
+    '&:focus': {
+      backgroundColor: '#3043e9',
+      color: 'white',
+    },
+  },
 }))
 
 export default useStyles

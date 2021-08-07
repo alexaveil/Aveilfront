@@ -12,6 +12,7 @@ import LogoImage from '../../assets/logo.png'
 import { useStyles, CssTextField } from './styles'
 import { signUpWithEmailPassword } from '../../apis/users'
 import { setHandleAlert } from '../../redux/actions/common/common'
+import Loading from '../common/Loading'
 
 const SignUp = () => {
   const classes = useStyles()
@@ -23,6 +24,7 @@ const SignUp = () => {
     firstName: '',
     lastName: '',
   })
+  const [loading, setLoading] = useState(false)
   const [selectedDate, handleDateChange] = useState(new Date())
 
   const showMessageAlert = ({ message, severity, status }) => {
@@ -78,6 +80,8 @@ const SignUp = () => {
     lastName,
     selectedDate,
   }) => {
+    setLoading(true)
+
     let birthDate = getBirthdayFormat()
 
     let userFormData = new FormData()
@@ -97,18 +101,25 @@ const SignUp = () => {
           }
           window.sessionStorage.setItem('token', response.data.access_token)
           showMessageAlert(alert)
+          setLoading(false)
           history.push('/profile')
         }
       })
       .catch((error) => {
+        const message =
+          error.name === 'Error'
+            ? 'Algo ocurrió en el servidor'
+            : error?.response?.data?.message_error
+
         const errorAlert = {
-          message: error?.response?.data?.message,
+          message,
           severity: 'error',
           status: true,
         }
 
         showMessageAlert(errorAlert)
-        console.error(`${error.code} -> ${error.message}`)
+        console.error(error)
+        setLoading(false)
       })
   }
 
@@ -228,16 +239,20 @@ const SignUp = () => {
                   </MuiPickersUtilsProvider>
                 </Grid>
               </Grid>
-              <Button
-                type="button"
-                fullWidth
-                variant="contained"
-                color="primary"
-                className={classes.submit}
-                onClick={signUpWithEmailPasswordFunction}
-              >
-                Sign Up
-              </Button>
+              {!loading ? (
+                <Button
+                  type="button"
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  className={classes.submit}
+                  onClick={signUpWithEmailPasswordFunction}
+                >
+                  Sign Up
+                </Button>
+              ) : (
+                <Loading />
+              )}
             </form>
           </div>
         </Grid>

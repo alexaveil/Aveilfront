@@ -10,6 +10,10 @@ const theme = createMuiTheme({
     secondary: {
       main: '#E5E5E5',
     },
+    action: {
+      disabledBackground: '#2d3580',
+      disabled: '#E5E5E5',
+    },
   },
 })
 

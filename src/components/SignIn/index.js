@@ -18,6 +18,7 @@ import { useStyles, CssTextField } from './styles'
 import { setLoginData } from '../../redux/actions/user/user'
 import { setHandleAlert } from '../../redux/actions/common/common'
 import { sendPasswordReset, signInWithEmailPassword } from '../../apis/users'
+import Loading from '../common/Loading'
 
 const SignIn = () => {
   const classes = useStyles()
@@ -28,6 +29,7 @@ const SignIn = () => {
     password: '',
     remember: false,
   })
+  const [loading, setLoading] = useState(false)
   const loginData = useSelector((state) => state.user.loginData)
   const [_sendPasswordReset, setSendPasswordReset] = useState(false)
 
@@ -112,6 +114,8 @@ const SignIn = () => {
     userFormData.append('password', password)
 
     if (email && password) {
+      setLoading(true)
+
       signInWithEmailPassword(userFormData)
         .then((response) => {
           if (response.status >= 200 && response.status <= 299) {
@@ -122,18 +126,25 @@ const SignIn = () => {
             }
             window.sessionStorage.setItem('token', response.data.access_token)
             showMessageAlert(alert)
+            setLoading(false)
             history.push('/home')
           }
         })
         .catch((error) => {
+          const message =
+            error.name === 'Error'
+              ? 'Algo ocurrió en el servidor'
+              : error?.response?.data?.message_error
+
           const errorAlert = {
-            message: error?.response?.data?.message,
+            message,
             severity: 'error',
             status: true,
           }
 
           showMessageAlert(errorAlert)
-          console.error(`${error.code} -> ${error.message}`)
+          console.error(error)
+          setLoading(false)
         })
     }
 
@@ -224,16 +235,20 @@ const SignIn = () => {
                 label="Remember me"
               />
             )}
-            <Button
-              type="button"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-              onClick={handleButtonClick}
-            >
-              {!_sendPasswordReset ? 'Log in' : 'Reset'}
-            </Button>
+            {!loading ? (
+              <Button
+                type="button"
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+                onClick={handleButtonClick}
+              >
+                {!_sendPasswordReset ? 'Log in' : 'Reset'}
+              </Button>
+            ) : (
+              <Loading />
+            )}
             <Button
               type="button"
               fullWidth

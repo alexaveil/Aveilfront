@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 /* import external modules */
 import {
@@ -26,7 +27,11 @@ import {
 import useStyles from './styles'
 import RobotImageMobile from '../../assets/robot.png'
 import { getMessagesById } from '../../apis/messages'
-import { setHandleSelectedTheme } from '../../redux/actions/common/common'
+import {
+  setHandleAlert,
+  setHandleSelectedTheme,
+} from '../../redux/actions/common/common'
+import Loading from '../common/Loading'
 
 const messagesBurned = [
   {
@@ -93,6 +98,7 @@ const ChatMobile = () => {
   const history = useHistory()
   const classes = useStyles()
   const [typeMessage, setTypeMessage] = useState('')
+  const [loading, setLoading] = useState(false)
   const [messages, setMessages] = useState([])
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null)
   const enableDarkTheme = useSelector(
@@ -105,15 +111,35 @@ const ChatMobile = () => {
     getMessagesByIdFunction()
   }, [])
 
+  const showMessageAlert = ({ message, severity, status }) => {
+    dispatch(setHandleAlert({ message, severity, status }))
+  }
+
   const getMessagesByIdFunction = () => {
-    getMessagesById(0)
+    setLoading(true)
+
+    getMessagesById(1)
       .then((response) => {
         if (response.status >= 200 && response.status <= 299) {
           setMessages(response.data)
+          setLoading(false)
         }
       })
       .catch((error) => {
+        const message =
+          error.name === 'Error'
+            ? 'Algo ocurrió en el servidor'
+            : error?.response?.data?.message_error
+
+        const errorAlert = {
+          message,
+          severity: 'error',
+          status: true,
+        }
+
+        showMessageAlert(errorAlert)
         console.error(error)
+        setLoading(false)
       })
   }
 
@@ -275,14 +301,20 @@ const ChatMobile = () => {
             : classes.paperMessagesContainer
         }
       >
-        <Paper
-          elevation={0}
-          className={
-            enableDarkTheme ? classes.paperMessagesDark : classes.paperMessages
-          }
-        >
-          {renderMessages}
-        </Paper>
+        {!loading ? (
+          <Paper
+            elevation={0}
+            className={
+              enableDarkTheme
+                ? classes.paperMessagesDark
+                : classes.paperMessages
+            }
+          >
+            {renderMessages}
+          </Paper>
+        ) : (
+          <Loading />
+        )}
         <Grid
           container
           className={

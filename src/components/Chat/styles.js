@@ -92,14 +92,13 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 10,
     marginLeft: '60%',
     marginRight: '5%',
-    maxWidth: 270,
     [theme.breakpoints.down('xs')]: {
       marginLeft: '11%',
       marginRight: '5%',
       textAlign: 'left',
-      maxWidth: 260,
     },
   },
+
   messagesReceiverContainer: {
     display: 'flex',
     flexDirection: 'row',
@@ -146,7 +145,7 @@ const useStyles = makeStyles((theme) => ({
   },
   paperMessages: {
     width: '100%',
-    paddingTop: 40,
+    paddingTop: 30,
     paddingBottom: 15,
     overflowX: 'hidden',
     overflowY: 'auto',
@@ -154,7 +153,9 @@ const useStyles = makeStyles((theme) => ({
       // height: '66.6vh',
     },
   },
-  paperMessagesContainer: {},
+  paperMessagesContainer: {
+    paddingTop: 10,
+  },
   typeSendMessage: {
     alignItems: 'center',
     height: '9vh',
@@ -363,7 +364,7 @@ const useStyles = makeStyles((theme) => ({
   },
   paperMessagesDark: {
     width: '100%',
-    paddingTop: 40,
+    paddingTop: 30,
     paddingBottom: 15,
     overflowX: 'hidden',
     overflowY: 'auto',
@@ -374,6 +375,7 @@ const useStyles = makeStyles((theme) => ({
   },
   paperMessagesContainerDark: {
     backgroundColor: '#000326',
+    paddingTop: 10,
   },
   messagesReceiverContainerDark: {
     display: 'flex',
