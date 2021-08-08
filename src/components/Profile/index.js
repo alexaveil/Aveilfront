@@ -74,13 +74,10 @@ const Profile = () => {
         }
       })
       .catch((error) => {
-        const message =
-          error.name === 'Error'
-            ? 'Algo ocurrió en el servidor'
-            : error?.response?.data?.message_error
+        const message = error?.response?.data?.message
 
         const errorAlert = {
-          message,
+          message: message ? message : 'Algo ocurrió en el servidor',
           severity: 'error',
           status: true,
         }

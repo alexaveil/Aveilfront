@@ -12,6 +12,7 @@ const LazySignUp = lazy(() => import('../../views/signUp'))
 const LazyGetApp = lazy(() => import('../../views/getApp'))
 const LazyProfile = lazy(() => import('../../views/profile'))
 const LazyChatMobile = lazy(() => import('../../views/chatMobile'))
+const LazyPageNotFound = lazy(() => import('../../views/pageNotFound'))
 const LazySubscriptions = lazy(() => import('../../views/subscriptionsPlans'))
 
 const RouterComponent = () => {
@@ -28,6 +29,7 @@ const RouterComponent = () => {
           <Route exact path="/profile" component={LazyProfile} />
           <Route exact path="/chatMobile" component={LazyChatMobile} />
           <Route exact path="/subscription" component={LazySubscriptions} />
+          <Route component={LazyPageNotFound} />
         </Switch>
       </Suspense>
     </Router>

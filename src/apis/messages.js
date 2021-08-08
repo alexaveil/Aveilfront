@@ -5,7 +5,7 @@ import axios from 'axios'
 import { BASE_URL } from '../config'
 
 export const getMessagesById = (id) => {
-  return axios.get(`${BASE_URL}/messages/get_messages/${id}`)
+  return axios.get(`${BASE_URL}/messages/get_messages?page=${id}`)
 }
 
 export const askQuestion = (question) => {

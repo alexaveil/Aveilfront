@@ -100,6 +100,7 @@ const ChatMobile = () => {
   const [typeMessage, setTypeMessage] = useState('')
   const [loading, setLoading] = useState(false)
   const [messages, setMessages] = useState([])
+  const [messagesPage, setmessagesPage] = useState(0)
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null)
   const enableDarkTheme = useSelector(
     (state) => state.common.handleSelectedTheme
@@ -118,7 +119,7 @@ const ChatMobile = () => {
   const getMessagesByIdFunction = () => {
     setLoading(true)
 
-    getMessagesById(1)
+    getMessagesById(messagesPage)
       .then((response) => {
         if (response.status >= 200 && response.status <= 299) {
           setMessages(response.data)
@@ -126,13 +127,10 @@ const ChatMobile = () => {
         }
       })
       .catch((error) => {
-        const message =
-          error.name === 'Error'
-            ? 'Algo ocurrió en el servidor'
-            : error?.response?.data?.message_error
+        const message = error?.response?.data?.message
 
         const errorAlert = {
-          message,
+          message: message ? message : 'Algo ocurrió en el servidor',
           severity: 'error',
           status: true,
         }
@@ -195,7 +193,7 @@ const ChatMobile = () => {
     </Menu>
   )
 
-  const renderMessages = messagesBurned.map((message, key) => {
+  const renderMessages = messages.map((message, key) => {
     return (
       <div key={key}>
         {message?.question && (
@@ -310,7 +308,13 @@ const ChatMobile = () => {
                 : classes.paperMessages
             }
           >
-            {renderMessages}
+            {renderMessages.length > 0 ? (
+              renderMessages
+            ) : (
+              <Typography align="center" color="secondary">
+                Not messages yet
+              </Typography>
+            )}
           </Paper>
         ) : (
           <Loading />

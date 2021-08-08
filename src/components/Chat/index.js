@@ -36,67 +36,11 @@ import {
   setHandleAlert,
   setHandleSelectedTheme,
 } from '../../redux/actions/common/common'
-import { getMessagesById, getQuestionSuggestions } from '../../apis/messages'
-
-const messagesBurned = [
-  {
-    answers: [
-      'I am called Bot.',
-      'My name is Bot.',
-      'My name is Bot.',
-      'My name is bot.',
-    ],
-    date: 'Sat, 24 Jul 2021 02:07:25 GMT',
-    question: 'What is your name?',
-    question_id: '60fb75ddba8dedbef9f0ff16',
-  },
-  {
-    answers: [
-      'I am not a fan of black holes.',
-      "I don't like black holes, they are kind of scary in my opinion.",
-      "I don't know, never thought about it.",
-      'I love black holes.',
-    ],
-    date: 'Fri, 02 Jul 2021 12:40:08 GMT',
-    option_selected: 2,
-    question: 'I hate black holes, what do you think about black holes?',
-    question_id: '60df33580b6c822fda968dee',
-  },
-  {
-    answers: [
-      'I think they are pretty much the greatest thing ever.',
-      'Black holes are quite fascinating.',
-      'I think we need to do more research on black holes.',
-      'They are fascinating.',
-    ],
-    date: 'Fri, 02 Jul 2021 12:39:42 GMT',
-    question: 'What do you think about black holes?',
-    question_id: '60df333e0b6c822fda968ded',
-  },
-  {
-    answers: [
-      'I like them.',
-      'I have gone to a few. Sometimes they are really good, and sometimes they are really bad. It depends on the music and the singer, but also on the venue.',
-      "I don't like them.",
-      'I like concerts.',
-    ],
-    date: 'Fri, 02 Jul 2021 12:39:11 GMT',
-    option_selected: 2,
-    question: 'What do you think about concerts?',
-    question_id: '60df331f0b6c822fda968dec',
-  },
-  {
-    answers: [
-      'I think concerts are fun.',
-      'I think concerts are great.',
-      'I think they are great.',
-      'I think they are great.',
-    ],
-    date: 'Fri, 02 Jul 2021 12:38:42 GMT',
-    question: 'What do you think about concerts?',
-    question_id: '60df3302a5d2f5609e692738',
-  },
-]
+import {
+  askQuestion,
+  getMessagesById,
+  getQuestionSuggestions,
+} from '../../apis/messages'
 
 const Chat = () => {
   const dispatch = useDispatch()
@@ -105,6 +49,8 @@ const Chat = () => {
   const [typeMessage, setTypeMessage] = useState('')
   const [loading, setLoading] = useState(false)
   const [messages, setMessages] = useState([])
+  const [messagesPage, setMessagesPage] = useState(0)
+  const [selectedQuestionSuggest, setSelectedQuestionSuggest] = useState('')
   const [currentHeightGridLeftQuestions, setCurrentHeightGridLeftQuestions] =
     useState(0)
   const [currentHeightGridLeft, setCurrentHeightGridLeft] = useState(0)
@@ -113,18 +59,61 @@ const Chat = () => {
   const enableDarkTheme = useSelector(
     (state) => state.common.handleSelectedTheme
   )
+  const selectedQuestion = useSelector(
+    (state) => state.questions.selectedQuestion
+  )
 
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl)
   const autoScrollRef = useRef()
   const gridLeftContainerQuestionsRef = useRef()
   const gridLeftContainerRef = useRef()
+  const refSendButtonQuestion = useRef()
 
   useEffect(() => {
     getMessagesByIdFunction()
     getQuestionsSuggestionFunction()
 
-    autoScrollRef.current.scrollTo(0, 1000)
+    autoScrollRef.current.scrollTo(0, 3000)
   }, [])
+
+  useEffect(() => {
+    handleSendQuestionLogic()
+  }, [selectedQuestion])
+
+  const askQuestionFunction = (question) => {
+    setLoading(true)
+
+    const questionFormData = new FormData()
+    questionFormData.append('question', question)
+
+    askQuestion(questionFormData)
+      .then((response) => {
+        if (response.status >= 200 && response.status <= 299) {
+          getMessagesByIdFunction()
+          setLoading(false)
+          fixHeightComponent()
+        }
+      })
+      .catch((error) => {
+        const message = error?.response?.data?.message
+
+        const errorAlert = {
+          message: message ? message : 'Algo ocurrió en el servidor',
+          severity: 'error',
+          status: true,
+        }
+
+        showMessageAlert(errorAlert)
+        console.error(error)
+        setLoading(false)
+      })
+  }
+
+  const handleSendQuestionLogic = () => {
+    if (selectedQuestion) {
+      askQuestionFunction(selectedQuestion)
+    }
+  }
 
   const fixHeightComponent = () => {
     const currentGridLeftContainer = gridLeftContainerRef?.current?.clientHeight
@@ -153,13 +142,10 @@ const Chat = () => {
         }
       })
       .catch((error) => {
-        const message =
-          error.name === 'Error'
-            ? 'Algo ocurrió en el servidor'
-            : error?.response?.data?.message_error
+        const message = error?.response?.data?.message
 
         const errorAlert = {
-          message,
+          message: message ? message : 'Algo ocurrió en el servidor',
           severity: 'error',
           status: true,
         }
@@ -173,21 +159,19 @@ const Chat = () => {
   const getMessagesByIdFunction = () => {
     setLoading(true)
 
-    getMessagesById(1)
+    getMessagesById(messagesPage)
       .then((response) => {
         if (response.status >= 200 && response.status <= 299) {
           setMessages(response.data)
           setLoading(false)
+          autoScrollRef.current.scrollTo(0, 3000)
         }
       })
       .catch((error) => {
-        const message =
-          error.name === 'Error'
-            ? 'Algo ocurrió en el servidor'
-            : error?.response?.data?.message_error
+        const message = error?.response?.data?.message
 
         const errorAlert = {
-          message,
+          message: message ? message : 'Algo ocurrió en el servidor',
           severity: 'error',
           status: true,
         }
@@ -216,13 +200,24 @@ const Chat = () => {
           }
           key={key}
         >
-          {question}
+          <div
+            className={
+              selectedQuestionSuggest === question
+                ? classes.selectedQuestionText
+                : classes.selectedHoverQuestionText
+            }
+            onClick={() => {
+              setSelectedQuestionSuggest(question)
+            }}
+          >
+            {question}
+          </div>
         </div>
       )
     }
   )
 
-  const renderMessages = messagesBurned.map((message, key) => {
+  const renderMessages = messages.map((message, key) => {
     return (
       <div key={key}>
         {message?.question && (
@@ -260,7 +255,6 @@ const Chat = () => {
                 </div>
                 <div className={classes.messagesReceiverItem}>
                   <Favorite
-                    color="disabled"
                     fontSize="small"
                     className={
                       enableDarkTheme
@@ -321,6 +315,10 @@ const Chat = () => {
 
   const goToChatMobile = () => {
     history.push('/chatMobile')
+  }
+
+  const handleSendQuestion = () => {
+    askQuestionFunction(selectedQuestionSuggest)
   }
 
   return (
@@ -452,6 +450,7 @@ const Chat = () => {
               variant="contained"
               size="large"
               className={classes.askButton}
+              onClick={handleSendQuestion}
             >
               Ask
             </Button>
@@ -515,6 +514,16 @@ const Chat = () => {
                   : classes.paperMessages
               }
               ref={autoScrollRef}
+              // menuprops={{
+              //   PaperProps: {
+              //     onScroll: (event) => {
+              //       if (event.scrollTop === 0) {
+              //         console.log(event)
+              //         console.log('we scroll')
+              //       }
+              //     },
+              //   },
+              // }}
               style={{
                 height:
                   currentHeightGridLeft > 800
@@ -522,7 +531,13 @@ const Chat = () => {
                     : 593 + currentHeightGridLeftQuestions,
               }}
             >
-              {renderMessages}
+              {renderMessages.length > 0 ? (
+                renderMessages
+              ) : (
+                <Typography align="center" color="secondary">
+                  Not messages yet
+                </Typography>
+              )}
             </Paper>
           </Grid>
           <Grid
@@ -552,6 +567,7 @@ const Chat = () => {
                 className={
                   typeMessage ? classes.sendButton : classes.disabledSendButton
                 }
+                ref={refSendButtonQuestion}
               />
             </Grid>
           </Grid>

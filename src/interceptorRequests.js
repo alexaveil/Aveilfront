@@ -1,9 +1,9 @@
 import axios from 'axios'
 
-const token = window.sessionStorage.getItem('token')
-
 axios.interceptors.request.use(
   (config) => {
+    const token = window.sessionStorage.getItem('token')
+
     config.headers = {
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',

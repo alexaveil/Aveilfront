@@ -74,6 +74,21 @@ const useStyles = makeStyles((theme) => ({
     color: '#9f9e9e',
     backgroundColor: 'white',
   },
+  selectedQuestionText: {
+    padding: 2,
+    backgroundColor: '#3043e9',
+    color: 'white',
+    borderRadius: 5,
+  },
+  selectedHoverQuestionText: {
+    padding: 2,
+
+    '&:hover': {
+      backgroundColor: '#3043e9',
+      color: 'white',
+      borderRadius: 5,
+    },
+  },
   askButton: {
     borderRadius: 20,
     marginTop: 27,
@@ -131,7 +146,7 @@ const useStyles = makeStyles((theme) => ({
     order: 0,
   },
   favorite: {
-    // cursor: 'pointer',
+    color: '#aaaaaa',
   },
   messagesReceiverTitle: {
     fontSize: 13,

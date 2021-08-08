@@ -79,8 +79,10 @@ const SignIn = () => {
           showMessageAlert(successAlert)
         })
         .catch((error) => {
+          const message = error?.response?.data?.message
+
           const errorAlert = {
-            message: error?.response?.data?.message,
+            message: message ? message : 'Algo ocurrió en el servidor',
             severity: 'error',
             status: true,
           }
@@ -131,13 +133,10 @@ const SignIn = () => {
           }
         })
         .catch((error) => {
-          const message =
-            error.name === 'Error'
-              ? 'Algo ocurrió en el servidor'
-              : error?.response?.data?.message_error
+          const message = error?.response?.data?.message
 
           const errorAlert = {
-            message,
+            message: message ? message : 'Algo ocurrió en el servidor',
             severity: 'error',
             status: true,
           }
