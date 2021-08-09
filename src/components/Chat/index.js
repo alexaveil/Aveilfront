@@ -41,6 +41,7 @@ import {
   getMessagesById,
   getQuestionSuggestions,
 } from '../../apis/messages'
+import { setSelectedQuestion } from '../../redux/actions/questions/questions'
 
 const Chat = () => {
   const dispatch = useDispatch()
@@ -64,21 +65,20 @@ const Chat = () => {
   )
 
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl)
+
+  const containerRef = useRef()
   const autoScrollRef = useRef()
-  const gridLeftContainerQuestionsRef = useRef()
   const gridLeftContainerRef = useRef()
   const refSendButtonQuestion = useRef()
+  const gridLeftContainerQuestionsRef = useRef()
 
   useEffect(() => {
     getMessagesByIdFunction()
     getQuestionsSuggestionFunction()
+    handleSendQuestionLogic()
 
     autoScrollRef.current.scrollTo(0, 3000)
   }, [])
-
-  useEffect(() => {
-    handleSendQuestionLogic()
-  }, [selectedQuestion])
 
   const askQuestionFunction = (question) => {
     setLoading(true)
@@ -89,9 +89,13 @@ const Chat = () => {
     askQuestion(questionFormData)
       .then((response) => {
         if (response.status >= 200 && response.status <= 299) {
-          getMessagesByIdFunction()
-          setLoading(false)
-          fixHeightComponent()
+          const currentWidth = containerRef.current?.offsetWidth
+
+          if (currentWidth > 910) {
+            getMessagesByIdFunction()
+            setLoading(false)
+            fixHeightComponent()
+          }
         }
       })
       .catch((error) => {
@@ -159,27 +163,31 @@ const Chat = () => {
   const getMessagesByIdFunction = () => {
     setLoading(true)
 
-    getMessagesById(messagesPage)
-      .then((response) => {
-        if (response.status >= 200 && response.status <= 299) {
-          setMessages(response.data)
+    const currentWidth = containerRef.current?.offsetWidth
+
+    if (currentWidth > 910) {
+      getMessagesById(messagesPage)
+        .then((response) => {
+          if (response.status >= 200 && response.status <= 299) {
+            setMessages(response.data)
+            setLoading(false)
+            autoScrollRef.current.scrollTo(0, 3000)
+          }
+        })
+        .catch((error) => {
+          const message = error?.response?.data?.message
+
+          const errorAlert = {
+            message: message ? message : 'Algo ocurrió en el servidor',
+            severity: 'error',
+            status: true,
+          }
+
+          showMessageAlert(errorAlert)
+          console.error(error)
           setLoading(false)
-          autoScrollRef.current.scrollTo(0, 3000)
-        }
-      })
-      .catch((error) => {
-        const message = error?.response?.data?.message
-
-        const errorAlert = {
-          message: message ? message : 'Algo ocurrió en el servidor',
-          severity: 'error',
-          status: true,
-        }
-
-        showMessageAlert(errorAlert)
-        console.error(error)
-        setLoading(false)
-      })
+        })
+    }
   }
 
   const onChangeData = (event) => {
@@ -319,6 +327,12 @@ const Chat = () => {
 
   const handleSendQuestion = () => {
     askQuestionFunction(selectedQuestionSuggest)
+
+    const currentWidth = containerRef.current?.offsetWidth
+
+    if (currentWidth <= 910) {
+      history.push('/chatMobile')
+    }
   }
 
   return (
@@ -326,6 +340,7 @@ const Chat = () => {
       maxWidth="xl"
       component="section"
       className={enableDarkTheme ? classes.containerDark : classes.container}
+      ref={containerRef}
     >
       <Grid container justify="center" className={classes.containerGrid}>
         <Grid

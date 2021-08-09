@@ -11,9 +11,9 @@ import {
   Typography,
 } from '@material-ui/core'
 import { useDispatch } from 'react-redux'
-import { useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { Autocomplete } from '@material-ui/lab'
+import { useEffect, useRef, useState } from 'react'
 
 /* import internal modules */
 import Loading from '../../common/Loading'
@@ -26,6 +26,7 @@ import { setSelectedQuestion } from '../../../redux/actions/questions/questions'
 const Section1 = () => {
   const classes = useStyles()
   const history = useHistory()
+  const containerRef = useRef()
   const dispatch = useDispatch()
   const [motion, setMotion] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -34,6 +35,7 @@ const Section1 = () => {
   const [questionsSuggestion, setQuestionsSuggestion] = useState([])
 
   useEffect(() => {
+    dispatch(setSelectedQuestion(null))
     getQuestionsSuggestionFunction()
     handleChange()
     setTimeout(() => {
@@ -83,16 +85,28 @@ const Section1 = () => {
   }
 
   const handleQuestionSelected = (selectedValue) => {
-    console.log(selectedValue)
-
     if (selectedValue) {
       dispatch(setSelectedQuestion(selectedValue))
-      history.push('/chat')
+
+      const currentWidth = containerRef.current?.offsetWidth
+
+      if (currentWidth <= 910) {
+        history.push('/chatMobile')
+      }
+
+      if (currentWidth > 910) {
+        history.push('/chat')
+      }
     }
   }
 
   return (
-    <Container maxWidth="lg" component="section" className={classes.section}>
+    <Container
+      ref={containerRef}
+      maxWidth="lg"
+      component="section"
+      className={classes.section}
+    >
       <Grid container spacing={0} justify="flex-end">
         <Grid item xs={6}>
           <Zoom

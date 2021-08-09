@@ -52,6 +52,8 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   chip: {
+    paddingLeft: 10,
+    paddingRight: 10,
     '&:focus': {
       backgroundColor: '#3043e9',
       color: 'white',
