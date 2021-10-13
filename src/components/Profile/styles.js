@@ -1,64 +1,54 @@
 /* import external modules */
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    height: '100vh',
-    background: '#000639',
+    background: "#000639",
     margin: 20,
     borderRadius: 13,
+    padding: 50,
     [theme.breakpoints.up('xl')]: {
-      height: '60vh',
-      margin: 40,
+      padding: 30,
     },
     [theme.breakpoints.only('xs')]: {
-      height: '140vh',
-      margin: 0,
-    },
-    [theme.breakpoints.only('sm')]: {
-      height: '140vh',
-      margin: 0,
+      padding: 20,
     },
   },
-  title: { fontWeight: 700, marginLeft: 60, color: '#f4f4f6', marginTop: 90 },
+  title: { fontWeight: 700, color: "#f4f4f6" },
   subTitle: {
-    marginLeft: 60,
     marginTop: 15,
+    marginBottom: 15,
     fontWeight: 530,
-    color: '#b0aeb1',
+    color: "#b0aeb1",
   },
-  counter: { marginLeft: 60, marginTop: 15, fontWeight: 530, color: '#b0aeb1' },
+  counter: {
+    fontWeight: 500,
+    color: "#b0aeb1",
+  },
   rootChips: {
-    marginLeft: 50,
-    marginTop: 20,
-    marginRight: 20,
-    display: 'flex',
-    justifyContent: 'space-betwen',
-    flexWrap: 'wrap',
-    '& > *': {
-      margin: theme.spacing(2, 4, 1, 1),
-    },
-    [theme.breakpoints.down('sm')]: {
-      marginLeft: 45,
-      margin: theme.spacing(1, 1, 1, 1),
+    display: "flex",
+    justifyContent: "space-between",
+    flexWrap: "wrap",
+    marginTop: 15,
+    marginBottom: 25,
+    marginLeft: -10,
+    marginRight: -10,
+    "& > *": {
+      margin: 10
     },
   },
   doneButton: {
     borderRadius: 20,
-    textTransform: 'capitalize',
-    marginTop: '7%',
-    [theme.breakpoints.down('sm')]: {
-      marginTop: '2%',
-    },
+    textTransform: "capitalize",
   },
   chip: {
     paddingLeft: 10,
     paddingRight: 10,
-    '&:focus': {
-      backgroundColor: '#3043e9',
-      color: 'white',
+    "&:focus": {
+      backgroundColor: "#3043e9",
+      color: "white",
     },
   },
-}))
+}));
 
-export default useStyles
+export default useStyles;

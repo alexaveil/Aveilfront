@@ -13,7 +13,7 @@ import {
   MenuItem,
   Container,
   Switch,
-} from '@material-ui/core'
+} from "@material-ui/core";
 // import { Circle } from 'rc-progress'
 import {
   Send,
@@ -22,181 +22,167 @@ import {
   MoreVert,
   ArrowForwardIos,
   Favorite,
-} from '@material-ui/icons'
-import { useHistory } from 'react-router-dom'
-import { useEffect, useRef, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+} from "@material-ui/icons";
+import { useHistory } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 /* import internal modules */
-import useStyles from './styles'
-import Loading from '../common/Loading'
-import RobotImage from '../../assets/robot-chat.png'
-import RobotImageMobile from '../../assets/robot.png'
+import useStyles from "./styles";
+import Loading from "../common/Loading";
+import RobotImage from "../../assets/robot-chat.png";
+import RobotImageMobile from "../../assets/robot.png";
 import {
   setHandleAlert,
   setHandleSelectedTheme,
-} from '../../redux/actions/common/common'
+} from "../../redux/actions/common/common";
 import {
   askQuestion,
   getMessagesById,
   getQuestionSuggestions,
-} from '../../apis/messages'
-import { setSelectedQuestion } from '../../redux/actions/questions/questions'
+} from "../../apis/messages";
+import { setSelectedQuestion } from "../../redux/actions/questions/questions";
 
 const Chat = () => {
-  const dispatch = useDispatch()
-  const history = useHistory()
-  const classes = useStyles()
-  const [typeMessage, setTypeMessage] = useState('')
-  const [loading, setLoading] = useState(false)
-  const [messages, setMessages] = useState([])
-  const [messagesPage, setMessagesPage] = useState(0)
-  const [selectedQuestionSuggest, setSelectedQuestionSuggest] = useState('')
-  const [currentHeightGridLeftQuestions, setCurrentHeightGridLeftQuestions] =
-    useState(0)
-  const [currentHeightGridLeft, setCurrentHeightGridLeft] = useState(0)
-  const [questionsSuggestion, setQuestionsSuggestion] = useState([])
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null)
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const classes = useStyles();
+  const [typeMessage, setTypeMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [messages, setMessages] = useState([]);
+  const [messagesPage, setMessagesPage] = useState(0);
+  const [selectedQuestionSuggest, setSelectedQuestionSuggest] = useState("");
+  const [chatHeight, setChatHeight] = useState(0);
+  const [questionsSuggestion, setQuestionsSuggestion] = useState([]);
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
   const enableDarkTheme = useSelector(
     (state) => state.common.handleSelectedTheme
-  )
+  );
   const selectedQuestion = useSelector(
     (state) => state.questions.selectedQuestion
-  )
+  );
 
-  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl)
+  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
-  const containerRef = useRef()
-  const autoScrollRef = useRef()
-  const gridLeftContainerRef = useRef()
-  const refSendButtonQuestion = useRef()
-  const gridLeftContainerQuestionsRef = useRef()
+  const containerRef = useRef();
+  const autoScrollRef = useRef();
+  const gridLeftContainerRef = useRef();
+  const refSendButtonQuestion = useRef();
+  const gridLeftContainerQuestionsRef = useRef();
 
   useEffect(() => {
-    getMessagesByIdFunction()
-    getQuestionsSuggestionFunction()
-    handleSendQuestionLogic()
+    getMessagesByIdFunction();
+    getQuestionsSuggestionFunction();
+    handleSendQuestionLogic();
 
-    autoScrollRef.current.scrollTo(0, 3000)
-  }, [])
+    autoScrollRef.current.scrollTo(0, 3000);
+    setChatHeight(window.innerHeight);
+  }, []);
 
   const askQuestionFunction = (question) => {
-    setLoading(true)
+    setLoading(true);
 
-    const questionFormData = new FormData()
-    questionFormData.append('question', question)
+    const questionFormData = new FormData();
+    questionFormData.append("question", question);
 
     askQuestion(questionFormData)
       .then((response) => {
         if (response.status >= 200 && response.status <= 299) {
-          const currentWidth = containerRef.current?.offsetWidth
+          const currentWidth = containerRef.current?.offsetWidth;
 
           if (currentWidth > 910) {
-            getMessagesByIdFunction()
-            setLoading(false)
-            fixHeightComponent()
+            getMessagesByIdFunction();
+            setLoading(false);
           }
         }
       })
       .catch((error) => {
-        const message = error?.response?.data?.message
+        const message = error?.response?.data?.message;
 
         const errorAlert = {
-          message: message ? message : 'Algo ocurrió en el servidor',
-          severity: 'error',
+          message: message ? message : "Algo ocurrió en el servidor",
+          severity: "error",
           status: true,
-        }
+        };
 
-        showMessageAlert(errorAlert)
-        console.error(error)
-        setLoading(false)
-      })
-  }
+        showMessageAlert(errorAlert);
+        console.error(error);
+        setLoading(false);
+      });
+  };
 
   const handleSendQuestionLogic = () => {
     if (selectedQuestion) {
-      askQuestionFunction(selectedQuestion)
+      askQuestionFunction(selectedQuestion);
     }
-  }
-
-  const fixHeightComponent = () => {
-    const currentGridLeftContainer = gridLeftContainerRef?.current?.clientHeight
-    setCurrentHeightGridLeft(currentGridLeftContainer)
-
-    const current = gridLeftContainerQuestionsRef?.current?.clientHeight
-    if (current > 150) {
-      const newCurrentDifference = current - 150
-      setCurrentHeightGridLeftQuestions(newCurrentDifference)
-    }
-  }
+  };
 
   const showMessageAlert = ({ message, severity, status }) => {
-    dispatch(setHandleAlert({ message, severity, status }))
-  }
+    dispatch(setHandleAlert({ message, severity, status }));
+  };
 
   const getQuestionsSuggestionFunction = () => {
-    setLoading(true)
+    setLoading(true);
 
     getQuestionSuggestions()
       .then((response) => {
         if (response.status >= 200 && response.status <= 299) {
-          setQuestionsSuggestion(response.data)
-          setLoading(false)
-          fixHeightComponent()
+          setQuestionsSuggestion(response.data);
+          setLoading(false);
         }
       })
       .catch((error) => {
-        const message = error?.response?.data?.message
+        const message = error?.response?.data?.message;
 
         const errorAlert = {
-          message: message ? message : 'Algo ocurrió en el servidor',
-          severity: 'error',
+          message: message ? message : "Algo ocurrió en el servidor",
+          severity: "error",
           status: true,
-        }
+        };
 
-        showMessageAlert(errorAlert)
-        console.error(error)
-        setLoading(false)
-      })
-  }
+        showMessageAlert(errorAlert);
+        console.error(error);
+        setLoading(false);
+      });
+  };
 
   const getMessagesByIdFunction = () => {
-    setLoading(true)
+    setLoading(true);
 
-    const currentWidth = containerRef.current?.offsetWidth
+    const currentWidth = containerRef.current?.offsetWidth;
 
     if (currentWidth > 910) {
       getMessagesById(messagesPage)
         .then((response) => {
           if (response.status >= 200 && response.status <= 299) {
-            setMessages(response.data)
-            setLoading(false)
-            autoScrollRef.current.scrollTo(0, 3000)
+            setMessages(response.data);
+            setLoading(false);
+            autoScrollRef.current.scrollTo(0, 3000);
           }
         })
         .catch((error) => {
-          const message = error?.response?.data?.message
+          const message = error?.response?.data?.message;
 
           const errorAlert = {
-            message: message ? message : 'Algo ocurrió en el servidor',
-            severity: 'error',
+            message: message ? message : "Algo ocurrió en el servidor",
+            severity: "error",
             status: true,
-          }
+          };
 
-          showMessageAlert(errorAlert)
-          console.error(error)
-          setLoading(false)
-        })
+          showMessageAlert(errorAlert);
+          console.error(error);
+          setLoading(false);
+        });
     }
-  }
+  };
 
   const onChangeData = (event) => {
-    setTypeMessage(event.target.value)
-  }
+    setTypeMessage(event.target.value);
+  };
 
   const selectedAnswer = (answer) => {
-    setTypeMessage(answer)
-  }
+    setTypeMessage(answer);
+  };
 
   const renderQuestionsSuggestions = questionsSuggestion.map(
     (question, key) => {
@@ -215,15 +201,15 @@ const Chat = () => {
                 : classes.selectedHoverQuestionText
             }
             onClick={() => {
-              setSelectedQuestionSuggest(question)
+              setSelectedQuestionSuggest(question);
             }}
           >
             {question}
           </div>
         </div>
-      )
+      );
     }
-  )
+  );
 
   const renderMessages = messages.map((message, key) => {
     return (
@@ -255,13 +241,10 @@ const Chat = () => {
                     ? classes.messagesReceiverContainerDark
                     : classes.messagesReceiverContainer
                 }
+                onClick={() => selectedAnswer(answer)}
               >
-                <div className={classes.messagesReceiverItem}>
-                  <div elevation={3} onClick={() => selectedAnswer(answer)}>
-                    {answer}
-                  </div>
-                </div>
-                <div className={classes.messagesReceiverItem}>
+                <div className={classes.messagesReceiverItemText}>{answer}</div>
+                <div className={classes.messagesReceiverItemFavorite}>
                   <Favorite
                     fontSize="small"
                     className={
@@ -269,41 +252,40 @@ const Chat = () => {
                         ? classes.favoriteDarkDisabled
                         : classes.favorite
                     }
-                    onClick={() => selectedAnswer(answer)}
                   />
                 </div>
               </div>
               {/* )} */}
             </div>
-          )
+          );
         })}
       </div>
-    )
-  })
+    );
+  });
 
   const handleMobileMenuOpen = (event) => {
-    setMobileMoreAnchorEl(event.currentTarget)
-  }
+    setMobileMoreAnchorEl(event.currentTarget);
+  };
 
   const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null)
-  }
+    setMobileMoreAnchorEl(null);
+  };
 
   const handleThemeFunction = () => {
-    dispatch(setHandleSelectedTheme(!enableDarkTheme))
-  }
+    dispatch(setHandleSelectedTheme(!enableDarkTheme));
+  };
 
-  const mobileMenuId = 'primary-search-account-menu-mobile'
+  const mobileMenuId = "primary-search-account-menu-mobile";
   const renderMobileMenu = (
     <Menu
       anchorEl={mobileMoreAnchorEl}
       anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
+        vertical: "top",
+        horizontal: "right",
       }}
       id={mobileMenuId}
       keepMounted
-      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+      transformOrigin={{ vertical: "top", horizontal: "right" }}
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
       className={classes.mobileMenu}
@@ -315,25 +297,25 @@ const Chat = () => {
           onChange={handleThemeFunction}
           color="primary"
           name="checkedB"
-          inputProps={{ 'aria-label': 'primary checkbox' }}
+          inputProps={{ "aria-label": "primary checkbox" }}
         />
       </MenuItem>
     </Menu>
-  )
+  );
 
   const goToChatMobile = () => {
-    history.push('/chatMobile')
-  }
+    history.push("/chatMobile");
+  };
 
   const handleSendQuestion = () => {
-    askQuestionFunction(selectedQuestionSuggest)
+    askQuestionFunction(selectedQuestionSuggest);
 
-    const currentWidth = containerRef.current?.offsetWidth
+    const currentWidth = containerRef.current?.offsetWidth;
 
     if (currentWidth <= 910) {
-      history.push('/chatMobile')
+      history.push("/chatMobile");
     }
-  }
+  };
 
   return (
     <Container
@@ -342,7 +324,14 @@ const Chat = () => {
       className={enableDarkTheme ? classes.containerDark : classes.container}
       ref={containerRef}
     >
-      <Grid container justify="center" className={classes.containerGrid}>
+      <Grid
+        container
+        justify="center"
+        className={classes.containerGrid}
+        style={{
+          height: chatHeight,
+        }}
+      >
         <Grid
           item
           md={4}
@@ -497,7 +486,6 @@ const Chat = () => {
                   }
                 />
               </div>
-              &nbsp;&nbsp;&nbsp;&nbsp;
               <div className={classes.iconsHeaderItem}>
                 <MoreVert
                   aria-haspopup="true"
@@ -520,6 +508,9 @@ const Chat = () => {
                 ? classes.paperMessagesContainerDark
                 : classes.paperMessagesContainer
             }
+            style={{
+              height: chatHeight - 230,
+            }}
           >
             <Paper
               elevation={0}
@@ -539,12 +530,6 @@ const Chat = () => {
               //     },
               //   },
               // }}
-              style={{
-                height:
-                  currentHeightGridLeft > 800
-                    ? 730 + currentHeightGridLeftQuestions
-                    : 593 + currentHeightGridLeftQuestions,
-              }}
             >
               {renderMessages.length > 0 ? (
                 renderMessages
@@ -573,7 +558,7 @@ const Chat = () => {
                     ? classes.typeMessagesDark
                     : classes.typeMessages
                 }
-                inputProps={{ 'aria-label': 'naked' }}
+                inputProps={{ "aria-label": "naked" }}
               />
             </Grid>
             <Grid item xs={2} md={1} lg={1} xl={1}>
@@ -590,7 +575,7 @@ const Chat = () => {
       </Grid>
       {renderMobileMenu}
     </Container>
-  )
-}
+  );
+};
 
-export default Chat
+export default Chat;

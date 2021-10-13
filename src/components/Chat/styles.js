@@ -10,9 +10,6 @@ const useStyles = makeStyles((theme) => ({
   containerGrid: {
     backgroundColor: 'white',
     padding: 40,
-    [theme.breakpoints.up('xl')]: {
-      padding: '5%',
-    },
     [theme.breakpoints.down('xs')]: {
       padding: 0,
     },
@@ -20,10 +17,6 @@ const useStyles = makeStyles((theme) => ({
   containerUserName: {
     paddingTop: 20,
     paddingLeft: 20,
-    [theme.breakpoints.up('xl')]: {
-      paddingTop: '10%',
-      paddingLeft: '10%',
-    },
   },
   gridLeftContainer: {
     borderTopWidth: '2px',
@@ -94,9 +87,6 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 27,
     marginBottom: 50,
     textTransform: 'capitalize',
-    [theme.breakpoints.up('xl')]: {
-      marginTop: '10%',
-    },
   },
   messagesSendText: {
     padding: 10,
@@ -137,13 +127,11 @@ const useStyles = makeStyles((theme) => ({
       maxWidth: 260,
     },
   },
-  messagesReceiverItem: {
-    display: 'block',
-    flexGrow: 0,
-    flexShrink: 1,
-    flexBasis: 'auto',
-    alignSelf: 'auto',
-    order: 0,
+  messagesReceiverItemText: {
+    width: '95%'
+  },
+  messagesReceiverItemFavorite: {
+    width: '5%'
   },
   favorite: {
     color: '#aaaaaa',
@@ -160,16 +148,11 @@ const useStyles = makeStyles((theme) => ({
   },
   paperMessages: {
     width: '100%',
-    paddingTop: 30,
-    paddingBottom: 15,
-    overflowX: 'hidden',
-    overflowY: 'auto',
-    [theme.breakpoints.up('xl')]: {
-      // height: '66.6vh',
-    },
   },
   paperMessagesContainer: {
-    paddingTop: 10,
+    overflowY: 'auto',
+    paddingTop: 30,
+    paddingBottom: 30,
   },
   typeSendMessage: {
     alignItems: 'center',
@@ -262,6 +245,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   headerIntoLarge: {
+    height: '57px',
     [theme.breakpoints.down('sm')]: {
       display: 'none',
     },
@@ -270,6 +254,9 @@ const useStyles = makeStyles((theme) => ({
     borderRightWidth: '2px',
     borderRightStyle: 'solid',
     borderRightColor: '#E5E5E5',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
     [theme.breakpoints.down('sm')]: {
       display: 'none',
     },
@@ -379,8 +366,6 @@ const useStyles = makeStyles((theme) => ({
   },
   paperMessagesDark: {
     width: '100%',
-    paddingTop: 30,
-    paddingBottom: 15,
     overflowX: 'hidden',
     overflowY: 'auto',
     backgroundColor: '#000326',
@@ -390,7 +375,9 @@ const useStyles = makeStyles((theme) => ({
   },
   paperMessagesContainerDark: {
     backgroundColor: '#000326',
-    paddingTop: 10,
+    overflowY: 'auto',
+    paddingTop: 30,
+    paddingBottom: 30,
   },
   messagesReceiverContainerDark: {
     display: 'flex',
@@ -419,7 +406,7 @@ const useStyles = makeStyles((theme) => ({
   typeSendMessageDark: {
     background: '#000326',
     alignItems: 'center',
-    height: '9.3vh',
+    height: '88px',
     borderTopWidth: '1px',
     borderTopStyle: 'solid',
     borderTopColor: '#b4b4b5',
