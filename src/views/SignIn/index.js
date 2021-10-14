@@ -10,15 +10,18 @@ import {
 } from "@material-ui/core";
 import { useHistory } from "react-router";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 
 /* import internal modules */
 import LogoImage from "../../assets/logo.png";
 import { useStyles, CssTextField } from "./styles";
 import { Loading } from "../../components";
 import { login } from "../../store/actions/user";
+import { isRequestUserSelector } from "../../store/selectors/user";
 
-const SignIn = () => {
+const SignIn = (props) => {
+  const { isRequest, login } = props;
   const classes = useStyles();
   const history = useHistory();
   const [dataForm, setDataForm] = useState({
@@ -103,7 +106,7 @@ const SignIn = () => {
               label="Remember me"
             />
 
-            {/* {!isRequest ? ( */}
+            {!isRequest ? (
               <Button
                 type="button"
                 fullWidth
@@ -114,9 +117,9 @@ const SignIn = () => {
               >
                 Log in
               </Button>
-            {/* ) : (
+            ) : (
               <Loading />
-            )} */}
+            )}
             <Button
               type="button"
               fullWidth
@@ -133,4 +136,16 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+const mapStateToProps = (state) => ({
+  isRequest: isRequestUserSelector(state),
+});
+
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      login,
+    },
+    dispatch
+  );
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignIn);
