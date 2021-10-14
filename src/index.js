@@ -3,7 +3,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 /* import internal modules */
-import App from './components/App'
+import App from './App'
 import reportWebVitals from './reportWebVitals'
 
 import './styles/index.scss';

@@ -19,9 +19,9 @@ import { useEffect, useRef, useState } from 'react'
 import Loading from '../../common/Loading'
 import { useStyles, CssTextField } from './styles'
 import RobotImage from '../../../assets/robot.png'
-import { getQuestionSuggestions } from '../../../apis/messages'
-import { setHandleAlert } from '../../../redux/actions/common/common'
-import { setSelectedQuestion } from '../../../redux/actions/questions/questions'
+// import { getQuestionSuggestions } from '../../../apis/messages'
+// import { setHandleAlert } from '../../../redux/actions/common/common'
+// import { setSelectedQuestion } from '../../../redux/actions/questions/questions'
 
 const Section1 = () => {
   const classes = useStyles()
@@ -35,8 +35,8 @@ const Section1 = () => {
   const [questionsSuggestion, setQuestionsSuggestion] = useState([])
 
   useEffect(() => {
-    dispatch(setSelectedQuestion(null))
-    getQuestionsSuggestionFunction()
+    // dispatch(setSelectedQuestion(null))
+    // getQuestionsSuggestionFunction()
     handleChange()
     setTimeout(() => {
       setLoadingImage(false)
@@ -56,47 +56,47 @@ const Section1 = () => {
   }
 
   const showMessageAlert = ({ message, severity, status }) => {
-    dispatch(setHandleAlert({ message, severity, status }))
+    // dispatch(setHandleAlert({ message, severity, status }))
   }
 
   const getQuestionsSuggestionFunction = () => {
     setLoading(true)
 
-    getQuestionSuggestions()
-      .then((response) => {
-        if (response.status >= 200 && response.status <= 299) {
-          setQuestionsSuggestion(response.data)
-          setLoading(false)
-        }
-      })
-      .catch((error) => {
-        const message = error?.response?.data?.message
+    // getQuestionSuggestions()
+    //   .then((response) => {
+    //     if (response.status >= 200 && response.status <= 299) {
+    //       setQuestionsSuggestion(response.data)
+    //       setLoading(false)
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     const message = error?.response?.data?.message
 
-        const errorAlert = {
-          message: message ? message : 'Algo ocurrió en el servidor',
-          severity: 'error',
-          status: true,
-        }
+    //     const errorAlert = {
+    //       message: message ? message : 'Algo ocurrió en el servidor',
+    //       severity: 'error',
+    //       status: true,
+    //     }
 
-        showMessageAlert(errorAlert)
-        console.error(error)
-        setLoading(false)
-      })
+    //     showMessageAlert(errorAlert)
+    //     console.error(error)
+    //     setLoading(false)
+    //   })
   }
 
   const handleQuestionSelected = (selectedValue) => {
     if (selectedValue) {
-      dispatch(setSelectedQuestion(selectedValue))
+      // dispatch(setSelectedQuestion(selectedValue))
 
-      const currentWidth = containerRef.current?.offsetWidth
+      // const currentWidth = containerRef.current?.offsetWidth
 
-      if (currentWidth <= 910) {
-        history.push('/chatMobile')
-      }
+      // if (currentWidth <= 910) {
+      //   history.push('/chatMobile')
+      // }
 
-      if (currentWidth > 910) {
-        history.push('/chat')
-      }
+      // if (currentWidth > 910) {
+      //   history.push('/chat')
+      // }
     }
   }
 
