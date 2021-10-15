@@ -11,157 +11,151 @@ import {
   Typography,
   Paper,
   InputBase,
-} from '@material-ui/core'
-import { useEffect, useRef, useState } from 'react'
-import { useHistory } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
+} from "@material-ui/core";
+import { useEffect, useRef, useState } from "react";
+import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import {
   ArrowBackIos,
   Favorite,
   MoreVert,
   Search,
   Send,
-} from '@material-ui/icons'
+} from "@material-ui/icons";
 
 /* import internal modules */
-import useStyles from './styles'
-import RobotImageMobile from '../../assets/robot.png'
-import { askQuestion, getMessagesById } from '../../apis/messages'
-import {
-  setHandleAlert,
-  setHandleSelectedTheme,
-} from '../../redux/actions/common/common'
-import Loading from '../common/Loading'
-import { setSelectedQuestion } from '../../redux/actions/questions/questions'
+import useStyles from "./styles";
+import RobotImageMobile from "../../../assets/robot.png";
+import Loading from "../../../components/common/Loading";
 
 const ChatMobile = () => {
-  const dispatch = useDispatch()
-  const history = useHistory()
-  const classes = useStyles()
-  const [typeMessage, setTypeMessage] = useState('')
-  const [loading, setLoading] = useState(false)
-  const [messages, setMessages] = useState([])
-  const [messagesPage, setmessagesPage] = useState(0)
-  const autoScrollRef = useRef()
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null)
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const classes = useStyles();
+  const [typeMessage, setTypeMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [messages, setMessages] = useState([]);
+  const [messagesPage, setmessagesPage] = useState(0);
+  const autoScrollRef = useRef();
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
   const enableDarkTheme = useSelector(
     (state) => state.common.handleSelectedTheme
-  )
+  );
   const selectedQuestion = useSelector(
     (state) => state.questions.selectedQuestion
-  )
+  );
 
-  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl)
+  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   useEffect(() => {
-    handleSendQuestionLogic()
-    autoScrollRef.current.scrollTo(0, 5000)
-  }, [])
+    handleSendQuestionLogic();
+    autoScrollRef.current.scrollTo(0, 5000);
+  }, []);
 
   const handleSendQuestionLogic = () => {
     if (selectedQuestion) {
-      askQuestionFunction(selectedQuestion)
+      askQuestionFunction(selectedQuestion);
     }
 
     if (!selectedQuestion) {
-      getMessagesByIdFunction()
+      getMessagesByIdFunction();
     }
-  }
+  };
 
   const askQuestionFunction = (question) => {
-    setLoading(true)
+    setLoading(true);
 
-    const questionFormData = new FormData()
-    questionFormData.append('question', question)
+    const questionFormData = new FormData();
+    questionFormData.append("question", question);
 
     askQuestion(questionFormData)
       .then((response) => {
         if (response.status >= 200 && response.status <= 299) {
-          getMessagesByIdFunction()
-          setLoading(false)
+          getMessagesByIdFunction();
+          setLoading(false);
         }
       })
       .catch((error) => {
-        const message = error?.response?.data?.message
+        const message = error?.response?.data?.message;
 
         const errorAlert = {
-          message: message ? message : 'Algo ocurrió en el servidor',
-          severity: 'error',
+          message: message ? message : "Algo ocurrió en el servidor",
+          severity: "error",
           status: true,
-        }
+        };
 
-        showMessageAlert(errorAlert)
-        console.error(error)
-        setLoading(false)
-      })
-  }
+        showMessageAlert(errorAlert);
+        console.error(error);
+        setLoading(false);
+      });
+  };
 
   const showMessageAlert = ({ message, severity, status }) => {
-    dispatch(setHandleAlert({ message, severity, status }))
-  }
+    dispatch(setHandleAlert({ message, severity, status }));
+  };
 
   const getMessagesByIdFunction = () => {
-    setLoading(true)
+    setLoading(true);
 
     getMessagesById(messagesPage)
       .then((response) => {
         if (response.status >= 200 && response.status <= 299) {
-          setMessages(response.data)
-          setLoading(false)
-          autoScrollRef.current.scrollTo(0, 5000)
+          setMessages(response.data);
+          setLoading(false);
+          autoScrollRef.current.scrollTo(0, 5000);
         }
       })
       .catch((error) => {
-        const message = error?.response?.data?.message
+        const message = error?.response?.data?.message;
 
         const errorAlert = {
-          message: message ? message : 'Algo ocurrió en el servidor',
-          severity: 'error',
+          message: message ? message : "Algo ocurrió en el servidor",
+          severity: "error",
           status: true,
-        }
+        };
 
-        showMessageAlert(errorAlert)
-        console.error(error)
-        setLoading(false)
-      })
-  }
+        showMessageAlert(errorAlert);
+        console.error(error);
+        setLoading(false);
+      });
+  };
 
   const handleThemeFunction = () => {
-    dispatch(setHandleSelectedTheme(!enableDarkTheme))
-  }
+    dispatch(setHandleSelectedTheme(!enableDarkTheme));
+  };
 
   const onChangeData = (event) => {
-    setTypeMessage(event.target.value)
-  }
+    setTypeMessage(event.target.value);
+  };
 
   const handleMobileMenuOpen = (event) => {
-    setMobileMoreAnchorEl(event.currentTarget)
-  }
+    setMobileMoreAnchorEl(event.currentTarget);
+  };
 
   const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null)
-  }
+    setMobileMoreAnchorEl(null);
+  };
 
   const selectedAnswer = (answer) => {
-    setTypeMessage(answer)
-  }
+    setTypeMessage(answer);
+  };
 
   const goToBack = () => {
-    dispatch(setSelectedQuestion(null))
-    history.push('/chat')
-  }
+    dispatch(setSelectedQuestion(null));
+    history.push("/chat");
+  };
 
-  const mobileMenuId = 'primary-search-account-menu-mobile'
+  const mobileMenuId = "primary-search-account-menu-mobile";
   const renderMobileMenu = (
     <Menu
       anchorEl={mobileMoreAnchorEl}
       anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
+        vertical: "top",
+        horizontal: "right",
       }}
       id={mobileMenuId}
       keepMounted
-      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+      transformOrigin={{ vertical: "top", horizontal: "right" }}
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
       className={classes.mobileMenu}
@@ -173,11 +167,11 @@ const ChatMobile = () => {
           onChange={handleThemeFunction}
           color="primary"
           name="checkedB"
-          inputProps={{ 'aria-label': 'primary checkbox' }}
+          inputProps={{ "aria-label": "primary checkbox" }}
         />
       </MenuItem>
     </Menu>
-  )
+  );
 
   const renderMessages = messages.map((message, key) => {
     return (
@@ -214,11 +208,11 @@ const ChatMobile = () => {
                 />
               </div>
             </div>
-          )
+          );
         })}
       </div>
-    )
-  })
+    );
+  });
 
   return (
     <>
@@ -324,7 +318,7 @@ const ChatMobile = () => {
                   ? classes.typeMessagesDark
                   : classes.typeMessages
               }
-              inputProps={{ 'aria-label': 'naked' }}
+              inputProps={{ "aria-label": "naked" }}
             />
           </Grid>
           <Grid item xs={1} md={1} lg={1} xl={1}>
@@ -339,7 +333,7 @@ const ChatMobile = () => {
       </Grid>
       {renderMobileMenu}
     </>
-  )
-}
+  );
+};
 
-export default ChatMobile
+export default ChatMobile;

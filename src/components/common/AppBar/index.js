@@ -8,7 +8,7 @@ import {
   MenuItem,
   Typography,
   IconButton,
-} from '@material-ui/core'
+} from "@material-ui/core";
 import {
   Lock,
   GetApp,
@@ -17,61 +17,62 @@ import {
   MonetizationOn,
   Person,
   ExitToApp,
-} from '@material-ui/icons'
-import { useState } from 'react'
-import { useHistory } from 'react-router'
+} from "@material-ui/icons";
+import { useState } from "react";
+import { useHistory } from "react-router";
 
 /* import internal modules */
-import useStyles from './styles'
-import LogoImage from '../../../assets/logo.png'
+import useStyles from "./styles";
+import LogoImage from "../../../assets/logo.png";
+import * as keys from "../../../utils/keys";
 
 const AppBarComponent = () => {
-  const history = useHistory()
-  const classes = useStyles()
-  const [anchorEl, setAnchorEl] = useState(null)
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null)
+  const history = useHistory();
+  const classes = useStyles();
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
 
-  const isMenuOpen = Boolean(anchorEl)
-  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl)
+  const isMenuOpen = Boolean(anchorEl);
+  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   const handleProfileMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget)
-  }
+    setAnchorEl(event.currentTarget);
+  };
 
   const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null)
-  }
+    setMobileMoreAnchorEl(null);
+  };
 
   const handleMenuClose = () => {
-    setAnchorEl(null)
-    handleMobileMenuClose()
-  }
+    setAnchorEl(null);
+    handleMobileMenuClose();
+  };
 
   const handleMobileMenuOpen = (event) => {
-    setMobileMoreAnchorEl(event.currentTarget)
-  }
+    setMobileMoreAnchorEl(event.currentTarget);
+  };
 
   const goToPage = (path) => {
-    history.push(path)
-  }
+    history.push(path);
+  };
 
   const logoutFunction = () => {
-    window.sessionStorage.setItem('token', null)
-    history.push('/')
-  }
+    window.sessionStorage.setItem("token", null);
+    history.push("/");
+  };
 
-  const menuId = 'primary-search-account-menu'
+  const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
-      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      anchorOrigin={{ vertical: "top", horizontal: "right" }}
       id={menuId}
       keepMounted
-      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+      transformOrigin={{ vertical: "top", horizontal: "right" }}
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={() => goToPage('/profile')}>
+      <MenuItem onClick={() => goToPage(keys.ADD_INTERESTS)}>
         <IconButton
           aria-label="profile"
           aria-controls="primary-search-profile-menu"
@@ -98,16 +99,16 @@ const AppBarComponent = () => {
         </Button>
       </MenuItem>
     </Menu>
-  )
+  );
 
-  const mobileMenuId = 'primary-search-account-menu-mobile'
+  const mobileMenuId = "primary-search-account-menu-mobile";
   const renderMobileMenu = (
     <Menu
       anchorEl={mobileMoreAnchorEl}
-      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      anchorOrigin={{ vertical: "top", horizontal: "right" }}
       id={mobileMenuId}
       keepMounted
-      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+      transformOrigin={{ vertical: "top", horizontal: "right" }}
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
@@ -121,7 +122,7 @@ const AppBarComponent = () => {
           <MonetizationOn />
         </IconButton>
         <Button
-          onClick={() => goToPage('/subscription')}
+          onClick={() => goToPage(keys.SUBSCRIBTIONS)}
           className={classes.item}
           color="inherit"
         >
@@ -138,7 +139,7 @@ const AppBarComponent = () => {
           <GetApp />
         </IconButton>
         <Button
-          onClick={() => goToPage('/getapp')}
+          onClick={() => goToPage(keys.GETAPP)}
           className={classes.item}
           color="inherit"
         >
@@ -172,7 +173,7 @@ const AppBarComponent = () => {
           <AccountCircle />
         </IconButton>
         <Button
-          onClick={() => goToPage('/')}
+          onClick={() => goToPage(keys.ADD_INTERESTS)}
           className={classes.item}
           color="inherit"
         >
@@ -180,7 +181,7 @@ const AppBarComponent = () => {
         </Button>
       </MenuItem>
     </Menu>
-  )
+  );
 
   return (
     <div className={classes.grow}>
@@ -190,10 +191,10 @@ const AppBarComponent = () => {
             alt="Logo"
             src={LogoImage}
             className={classes.avatar}
-            onClick={() => goToPage('/home')}
+            onClick={() => goToPage(keys.HOME)}
           />
           <Typography
-            onClick={() => goToPage('/home')}
+            onClick={() => goToPage(keys.HOME)}
             className={classes.title}
             variant="h6"
             noWrap
@@ -204,21 +205,21 @@ const AppBarComponent = () => {
           <div className={classes.sectionDesktop}>
             <div className={classes.grow} />
             <Button
-              onClick={() => goToPage('/subscription')}
+              onClick={() => goToPage(keys.SUBSCRIBTIONS)}
               className={classes.item}
               color="inherit"
             >
               Plans
             </Button>
             <Button
-              onClick={() => goToPage('/getapp')}
+              onClick={() => goToPage(keys.GETAPP)}
               className={classes.item}
               color="inherit"
             >
               Download
             </Button>
             <Button
-              onClick={() => goToPage('/')}
+              onClick={() => goToPage(keys.LOGIN)}
               className={classes.itemLogin}
               color="inherit"
             >
@@ -252,7 +253,7 @@ const AppBarComponent = () => {
       {renderMobileMenu}
       {renderMenu}
     </div>
-  )
-}
+  );
+};
 
-export default AppBarComponent
+export default AppBarComponent;

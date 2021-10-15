@@ -1,6 +1,6 @@
 const initialState = {
   userReducer: {
-    access_token: null,
+    accessToken: null,
     theme: 'light',
     isRequest: false,
   },

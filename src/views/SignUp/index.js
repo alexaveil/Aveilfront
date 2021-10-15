@@ -1,146 +1,103 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* import external modules */
-import { useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { useHistory } from 'react-router'
-import DateFnsUtils from '@date-io/date-fns'
-import { Grid, Avatar, Button, Typography } from '@material-ui/core'
-import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers'
+import { useState, useEffect } from "react";
+import { useHistory } from "react-router";
+import DateFnsUtils from "@date-io/date-fns";
+import { Grid, Avatar, Button, Typography } from "@material-ui/core";
+import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 
 /* import internal modules */
-import LogoImage from '../../assets/logo.png'
-import { useStyles, CssTextField } from './styles'
-import { signUpWithEmailPassword } from '../../apis/users'
-import { setHandleAlert } from '../../redux/actions/common/common'
-import Loading from '../common/Loading'
+import LogoImage from "../../assets/logo.png";
+import { useStyles, CssTextField } from "./styles";
+import { Loading } from "../../components";
+import * as keys from "../../utils/keys";
+import { register } from "../../store/actions/user";
+import { isRequestUserSelector, accessTokenSelector } from "../../store/selectors/user";
 
-const SignUp = () => {
-  const classes = useStyles()
-  const history = useHistory()
-  const dispatch = useDispatch()
+const SignUp = (props) => {
+  const {isRequest, accessToken, register} = props;
+  const classes = useStyles();
+  const history = useHistory();
   const [dataForm, setDataForm] = useState({
-    email: '',
-    password: '',
-    firstName: '',
-    lastName: '',
-  })
-  const [loading, setLoading] = useState(false)
-  const [selectedDate, handleDateChange] = useState(new Date())
+    email: "",
+    password: "",
+    first_name: "",
+    last_name: "",
+  });
+  const [selectedDate, handleDateChange] = useState(new Date());
 
-  const showMessageAlert = ({ message, severity, status }) => {
-    dispatch(setHandleAlert({ message, severity, status }))
-  }
+  useEffect(() => {
+    if (!isRequest && accessToken) {
+      history.push(keys.ADD_INTERESTS);
+    }
+  }, [isRequest, accessToken]);
 
   const onChangeDataForm = (event) => {
     setDataForm({
       ...dataForm,
       [event.target.name]: event.target.value,
-    })
-  }
+    });
+  };
 
   const validateRequiredFields = ({
     email,
     password,
-    firstName,
-    lastName,
+    first_name,
+    last_name,
     selectedDate,
   }) => {
-    if (!email || !password || !firstName || !lastName || !selectedDate) {
+    if (!email || !password || !first_name || !last_name || !selectedDate) {
       const warningAlert = {
-        message: 'All fields are required',
-        severity: 'warning',
+        message: "All fields are required",
+        severity: "warning",
         status: true,
-      }
+      };
 
-      showMessageAlert(warningAlert)
+      console.log(warningAlert);
     }
-  }
+  };
 
   const getBirthdayFormat = () => {
-    let dd = selectedDate.getDate()
-    let mm = selectedDate.getMonth() + 1
-    let yyyy = selectedDate.getFullYear()
+    let dd = selectedDate.getDate();
+    let mm = selectedDate.getMonth() + 1;
+    let yyyy = selectedDate.getFullYear();
 
     if (dd < 10) {
-      dd = '0' + dd
+      dd = "0" + dd;
     }
     if (mm < 10) {
-      mm = '0' + mm
+      mm = "0" + mm;
     }
 
-    let birthDate = dd + '/' + mm + '/' + yyyy
+    let birthDate = dd + "/" + mm + "/" + yyyy;
 
-    return birthDate
-  }
+    return birthDate;
+  };
 
-  const registerUser = ({
-    email,
-    password,
-    firstName,
-    lastName,
-    selectedDate,
-  }) => {
-    setLoading(true)
+  const signUpUser = () => {
+    const { email, password, first_name, last_name } = dataForm;
+    let birth_date = getBirthdayFormat()
 
-    let birthDate = getBirthdayFormat()
-
-    let userFormData = new FormData()
-    userFormData.append('email', email)
-    userFormData.append('password', password)
-    userFormData.append('last_name', lastName)
-    userFormData.append('first_name', firstName)
-    userFormData.append('birth_date', birthDate)
-
-    signUpWithEmailPassword(userFormData)
-      .then((response) => {
-        if (response.status >= 200 && response.status <= 299) {
-          const alert = {
-            message: `The user ${email} was create`,
-            severity: 'success',
-            status: true,
-          }
-          window.sessionStorage.setItem('token', response.data.access_token)
-          showMessageAlert(alert)
-          setLoading(false)
-          history.push('/profile')
-        }
-      })
-      .catch((error) => {
-        const message = error?.response?.data?.message
-
-        const errorAlert = {
-          message: message ? message : 'Algo ocurrió en el servidor',
-          severity: 'error',
-          status: true,
-        }
-
-        showMessageAlert(errorAlert)
-        console.error(error)
-        setLoading(false)
-      })
-  }
-
-  const signUpWithEmailPasswordFunction = () => {
-    const { email, password, firstName, lastName } = dataForm
-
-    if (email && password && firstName && lastName && selectedDate) {
-      registerUser({
+    if (email && password && first_name && last_name && birth_date) {
+      register({
         email,
         password,
-        firstName,
-        lastName,
-        selectedDate,
-      })
+        first_name,
+        last_name,
+        birth_date,
+      });
     }
 
     validateRequiredFields({
       email,
       password,
-      firstName,
-      lastName,
-      selectedDate,
-    })
-  }
+      first_name,
+      last_name,
+      birth_date,
+    });
+  };
 
   return (
     <>
@@ -160,14 +117,14 @@ const SignUp = () => {
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
                   <CssTextField
-                    name="firstName"
+                    name="first_name"
                     variant="outlined"
                     fullWidth
                     label={
                       <span className={classes.textWhite}>First Name</span>
                     }
                     autoFocus
-                    value={dataForm?.firstName}
+                    value={dataForm?.first_name}
                     onChange={onChangeDataForm}
                     InputProps={{
                       className: classes.inputTextColor,
@@ -179,8 +136,8 @@ const SignUp = () => {
                     variant="outlined"
                     fullWidth
                     label={<span className={classes.textWhite}>Last Name</span>}
-                    name="lastName"
-                    value={dataForm?.lastName}
+                    name="last_name"
+                    value={dataForm?.last_name}
                     onChange={onChangeDataForm}
                     InputProps={{
                       className: classes.inputTextColor,
@@ -225,7 +182,7 @@ const SignUp = () => {
                       label={
                         <span className={classes.textWhite}>Date of birth</span>
                       }
-                      views={['year', 'month', 'date']}
+                      views={["year", "month", "date"]}
                       value={selectedDate}
                       onChange={handleDateChange}
                       className={classes.datePicker}
@@ -236,14 +193,14 @@ const SignUp = () => {
                   </MuiPickersUtilsProvider>
                 </Grid>
               </Grid>
-              {!loading ? (
+              {!isRequest ? (
                 <Button
                   type="button"
                   fullWidth
                   variant="contained"
                   color="primary"
                   className={classes.submit}
-                  onClick={signUpWithEmailPasswordFunction}
+                  onClick={signUpUser}
                 >
                   Sign Up
                 </Button>
@@ -255,7 +212,20 @@ const SignUp = () => {
         </Grid>
       </Grid>
     </>
-  )
-}
+  );
+};
 
-export default SignUp
+const mapStateToProps = (state) => ({
+  isRequest: isRequestUserSelector(state),
+  accessToken: accessTokenSelector(state),
+});
+
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      register,
+    },
+    dispatch
+  );
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp);

@@ -13,8 +13,8 @@ axios.interceptors.request.use(
     const { userReducer } = store.getState();
     const headerParams = {};
 
-    if (userReducer?.access_token) {
-      headerParams.Authorization = `Bearer ${userReducer?.access_token}`;
+    if (userReducer?.accessToken) {
+      headerParams.Authorization = `Bearer ${userReducer?.accessToken}`;
     }
 
     config.headers = {
@@ -28,24 +28,30 @@ axios.interceptors.request.use(
     return Promise.reject(error);
   }
 );
-
 export function request(url, options = {}) {
   const config = {
     method: "GET",
     ...options,
   };
   const errors = [];
+  let payloadData = config.payload;
 
   if (!url) {
     errors.push("url");
   }
 
-  if (
-    !config.payload &&
-    config.method !== "GET" &&
-    config.method !== "DELETE"
-  ) {
+  if (!config.payload && config.method !== "GET" && config.method !== "DELETE") {
     errors.push("payload");
+  }
+
+  if (config.method === "POST") {
+    let form_data = new FormData();
+
+    for (let key in payloadData) {
+      form_data.append(key, payloadData[key]);
+    }
+
+    payloadData = form_data;
   }
 
   if (errors.length) {
@@ -56,8 +62,7 @@ export function request(url, options = {}) {
     ...config.headers,
     method: config.method,
     params: config.params,
-    data: config.payload,
-    withCredentials: true,
+    data: payloadData,
     timeout: 3000,
   };
 
@@ -65,13 +70,13 @@ export function request(url, options = {}) {
     url: /^(https?:\/\/)/.test(url) ? url : `${BASE_URL}${url}`,
     ...params,
   })
-    .then(async (response) => {
+    .then((response) => {
       if (response.status >= 400) {
         throw response.data;
       }
       return response.data;
     })
-    .catch(async (err) => {
+    .catch((err) => {
       console.log(`Error while ${url}`, err);
       throw err;
     });

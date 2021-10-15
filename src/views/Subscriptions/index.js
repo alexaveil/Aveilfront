@@ -1,5 +1,5 @@
 /* import external modules */
-import { Fragment } from 'react'
+import React from "react";
 import {
   Card,
   Grid,
@@ -9,56 +9,57 @@ import {
   CardHeader,
   CardActions,
   CardContent,
-} from '@material-ui/core'
-import { Star } from '@material-ui/icons'
+} from "@material-ui/core";
+import { Star } from "@material-ui/icons";
 
 /* import internal modules */
-import useStyles from './styles'
-import SubscriptionImage from '../../assets/subscription-desktop.png'
+import useStyles from "./styles";
+import SubscriptionImage from "../../assets/subscription-desktop.png";
+import AppBarSecondaryComponent from '../../components/common/AppBarSecondary'
 
 const tiers = [
   {
-    title: 'Pro',
-    subheader: 'Most popular',
-    price: '10',
+    title: "Pro",
+    subheader: "Most popular",
+    price: "10",
     description: [
-      'Get unlimited answers and as much time as you want ',
-      'Unlock deeper and longer',
-      'Unlock all avatars',
-      'More optimized, personalized answers and conversations',
-      'Level up faster, no daily level up limit',
-      'Unlock all characters',
-      'Early access to new features',
-      'No ads',
+      "Get unlimited answers and as much time as you want ",
+      "Unlock deeper and longer",
+      "Unlock all avatars",
+      "More optimized, personalized answers and conversations",
+      "Level up faster, no daily level up limit",
+      "Unlock all characters",
+      "Early access to new features",
+      "No ads",
     ],
-    buttonText: 'Subscribe',
-    buttonVariant: 'contained',
+    buttonText: "Subscribe",
+    buttonVariant: "contained",
   },
   {
-    title: 'Pro Annual',
-    subheader: '- $48 (40% discount)',
-    price: '72',
+    title: "Pro Annual",
+    subheader: "- $48 (40% discount)",
+    price: "72",
     description: [
-      'Get unlimited answers and as much time as you want ',
-      'Unlock deeper and longer',
-      'Unlock all avatars',
-      'More optimized, personalized answers and conversations',
-      'Level up faster, no daily level up limit',
-      'Unlock all characters',
-      'Early access to new features',
-      'No ads',
-      '40% discount',
+      "Get unlimited answers and as much time as you want ",
+      "Unlock deeper and longer",
+      "Unlock all avatars",
+      "More optimized, personalized answers and conversations",
+      "Level up faster, no daily level up limit",
+      "Unlock all characters",
+      "Early access to new features",
+      "No ads",
+      "40% discount",
     ],
-    buttonText: 'Subscribe',
-    buttonVariant: 'outlined',
+    buttonText: "Subscribe",
+    buttonVariant: "outlined",
   },
-]
+];
 
 const SubscriptionsPlans = () => {
-  const classes = useStyles()
+  const classes = useStyles();
   return (
-    <Fragment>
-      {/* Hero unit */}
+    <>
+      <AppBarSecondaryComponent />
       <Container maxWidth="sm" component="main" className={classes.heroContent}>
         <Typography
           gutterBottom
@@ -92,12 +93,12 @@ const SubscriptionsPlans = () => {
                 <CardHeader
                   title={tier.title}
                   subheader={tier.subheader}
-                  titleTypographyProps={{ align: 'center' }}
+                  titleTypographyProps={{ align: "center" }}
                   subheaderTypographyProps={{
-                    align: 'center',
-                    color: 'initial',
+                    align: "center",
+                    color: "initial",
                   }}
-                  action={tier.title === 'Pro' ? <Star /> : null}
+                  action={tier.title === "Pro" ? <Star /> : null}
                   className={classes.cardHeader}
                 />
                 <CardContent>
@@ -106,7 +107,7 @@ const SubscriptionsPlans = () => {
                       ${tier.price}
                     </Typography>
                     <Typography variant="h6" color="textSecondary">
-                      {tier.title !== 'Pro Annual' ? '/mo' : '/year'}
+                      {tier.title !== "Pro Annual" ? "/mo" : "/year"}
                     </Typography>
                   </div>
                   <ul className={classes.listItems}>
@@ -136,8 +137,8 @@ const SubscriptionsPlans = () => {
           ))}
         </Grid>
       </Container>
-    </Fragment>
-  )
-}
+    </>
+  );
+};
 
-export default SubscriptionsPlans
+export default SubscriptionsPlans;

@@ -17,11 +17,12 @@ import { bindActionCreators } from "redux";
 import LogoImage from "../../assets/logo.png";
 import { useStyles, CssTextField } from "./styles";
 import { Loading } from "../../components";
+import * as keys from "../../utils/keys";
 import { login } from "../../store/actions/user";
-import { isRequestUserSelector } from "../../store/selectors/user";
+import { isRequestUserSelector, accessTokenSelector } from "../../store/selectors/user";
 
 const SignIn = (props) => {
-  const { isRequest, login } = props;
+  const { isRequest, accessToken, login } = props;
   const classes = useStyles();
   const history = useHistory();
   const [dataForm, setDataForm] = useState({
@@ -29,6 +30,12 @@ const SignIn = (props) => {
     password: "",
     remember: false,
   });
+
+  useEffect(() => {
+    if (!isRequest && accessToken) {
+      history.push(keys.HOME);
+    }
+  }, [isRequest, accessToken]);
 
   const onChangeDataForm = (event) => {
     const type = event.target.type;
@@ -53,7 +60,7 @@ const SignIn = (props) => {
   };
 
   const handleSignupClick = () => {
-    history.push("/signup");
+    history.push(keys.SIGNUP);
   };
 
   return (
@@ -138,6 +145,7 @@ const SignIn = (props) => {
 
 const mapStateToProps = (state) => ({
   isRequest: isRequestUserSelector(state),
+  accessToken: accessTokenSelector(state),
 });
 
 const mapDispatchToProps = (dispatch) =>

@@ -1,5 +1,5 @@
 /* import internal modules */
-import AppBarSecondaryComponent from '../components/common/AppBarSecondary'
+import AppBarSecondaryComponent from '../../components/common/AppBarSecondary'
 
 const NotFound = () => {
   return (

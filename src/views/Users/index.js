@@ -1,11 +1,11 @@
 /* import internal modules */
-import MiniDrawer from '../components/Drawer'
-import Layout from '../components/user/Layout'
+import MiniDrawer from '../../components/Drawer'
+import DataTable from './DataTable'
 
 const Users = () => {
   return (
     <MiniDrawer>
-      <Layout />
+      <DataTable />
     </MiniDrawer>
   )
 }

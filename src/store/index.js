@@ -10,6 +10,7 @@ const persistedReducer = persistReducer(
   {
     key: 'aveil-root',
     storage,
+    whitelist: ['userReducer'],
   },
   rootReducer,
 );

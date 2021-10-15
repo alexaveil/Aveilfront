@@ -1,5 +1,5 @@
 /* import external modules */
-import clsx from 'clsx'
+import clsx from "clsx";
 import {
   List,
   Drawer,
@@ -14,7 +14,7 @@ import {
   ListItemText,
   Avatar,
   Button,
-} from '@material-ui/core'
+} from "@material-ui/core";
 import {
   Mail,
   Menu,
@@ -23,38 +23,36 @@ import {
   ChevronLeft,
   ChevronRight,
   AccountCircle,
-} from '@material-ui/icons'
-import { useState } from 'react'
-import { useHistory } from 'react-router-dom'
+} from "@material-ui/icons";
+import { useState } from "react";
+import { useHistory } from "react-router-dom";
 
 /* import internal modules */
-import useStyles from './styles'
-import LogoImage from '../../assets/logo.png'
-import AlertDialog from '../common/AlertDialog'
-// import { useRedirectToLogin } from '../customHooks/useRedirectToLogin'
+import useStyles from "./styles";
+import LogoImage from "../../assets/logo.png";
+import AlertDialog from "../common/AlertDialog";
 
 const MiniDrawer = ({ children }) => {
-  const theme = useTheme()
-  const classes = useStyles()
-  const history = useHistory()
-  const [open, setOpen] = useState(false)
-  // const isAuthenticated = useRedirectToLogin()
+  const theme = useTheme();
+  const classes = useStyles();
+  const history = useHistory();
+  const [open, setOpen] = useState(false);
 
   const goToPage = (path) => {
-    history.push(path)
-  }
+    history.push(path);
+  };
 
   const handleDrawerOpen = () => {
-    setOpen(true)
-  }
+    setOpen(true);
+  };
 
   const handleDrawerClose = () => {
-    setOpen(false)
-  }
+    setOpen(false);
+  };
 
   const goToRoute = (route) => {
-    history.push(route)
-  }
+    history.push(route);
+  };
 
   return (
     <div className={classes.root}>
@@ -80,19 +78,19 @@ const MiniDrawer = ({ children }) => {
             alt="Logo"
             src={LogoImage}
             className={classes.avatar}
-            onClick={() => goToPage('/')}
+            onClick={() => goToPage("/")}
           />
-          <Typography onClick={() => goToPage('/')} variant="h6" noWrap>
+          <Typography onClick={() => goToPage("/")} variant="h6" noWrap>
             Aveil
           </Typography>
           <div className={classes.grow} />
-          <Button onClick={() => goToPage('/')} color="inherit">
+          <Button onClick={() => goToPage("/")} color="inherit">
             Login
           </Button>
-          <Button onClick={() => goToPage('/subscription')} color="inherit">
+          <Button onClick={() => goToPage("/subscription")} color="inherit">
             Plans
           </Button>
-          <Button onClick={() => goToPage('/getapp')} color="inherit">
+          <Button onClick={() => goToPage("/getapp")} color="inherit">
             Download
           </Button>
           <AlertDialog title="Handle user" iconOpenButton={<AccountCircle />}>
@@ -116,21 +114,21 @@ const MiniDrawer = ({ children }) => {
         <div className={classes.toolbar}>
           <h2>Aveil Chatbot</h2>
           <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'rtl' ? <ChevronRight /> : <ChevronLeft />}
+            {theme.direction === "rtl" ? <ChevronRight /> : <ChevronLeft />}
           </IconButton>
         </div>
         <Divider />
         <List>
-          <ListItem button onClick={() => goToRoute('/users')}>
+          <ListItem button onClick={() => goToRoute("/users")}>
             <ListItemIcon>
               <People />
             </ListItemIcon>
-            <ListItemText primary={'Usuarios'} />
+            <ListItemText primary={"Usuarios"} />
           </ListItem>
         </List>
         <Divider />
         <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
+          {["All mail", "Trash", "Spam"].map((text, index) => (
             <ListItem button key={text}>
               <ListItemIcon>
                 {index % 2 === 0 ? <Inbox /> : <Mail />}
@@ -145,7 +143,7 @@ const MiniDrawer = ({ children }) => {
         {children}
       </main>
     </div>
-  )
-}
+  );
+};
 
-export default MiniDrawer
+export default MiniDrawer;

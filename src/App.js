@@ -1,25 +1,26 @@
 /* import external modules */
 import React, { useEffect, lazy, Suspense } from "react";
 import { Provider } from "react-redux";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import { PersistGate } from "redux-persist/es/integration/react";
 import { CssBaseline, ThemeProvider } from "@material-ui/core";
 import { createMuiTheme } from "@material-ui/core/styles";
 
 import { store, persistor } from "./store";
 import { ScrollToTop, Loading, SnackBar } from "./components";
+import { accessTokenSelector } from "./store/selectors/user";
+import * as keys from "./utils/keys"
 
 /* import internal modules */
-// const LazyHome = lazy(() => import("./views/home"));
-// const LazyChat = lazy(() => import("./views/chat"));
-// const LazyUsers = lazy(() => import("./views/users"));
+const LazyHome = lazy(() => import("./views/Home"));
+// const LazyChat = lazy(() => import("./views/Chat"));
+const LazyUsers = lazy(() => import("./views/Users"));
 const LazySignIn = lazy(() => import("./views/SignIn"));
-// const LazySignUp = lazy(() => import("./views/signUp"));
-// const LazyGetApp = lazy(() => import("./views/getApp"));
-// const LazyProfile = lazy(() => import("./views/profile"));
-// const LazyChatMobile = lazy(() => import("./views/chatMobile"));
-const LazyPageNotFound = lazy(() => import("./views/pageNotFound"));
-const LazySubscriptions = lazy(() => import("./views/subscriptionsPlans"));
+const LazySignUp = lazy(() => import("./views/SignUp"));
+const LazyGetApp = lazy(() => import("./views/GetApp"));
+const LazyAddInterests = lazy(() => import("./views/AddInterests"));
+const LazyPageNotFound = lazy(() => import("./views/PageNotFound"));
+const LazySubscriptions = lazy(() => import("./views/Subscriptions"));
 
 const theme = createMuiTheme({
   palette: {
@@ -36,6 +37,32 @@ const theme = createMuiTheme({
   },
 });
 
+const PublicRoute = ({ component, ...rest }) => {
+  return <Route {...rest} component={component} />;
+};
+
+const AuthRoute = ({ component, ...rest }) => {
+  const state = store.getState();
+  const accessToken = accessTokenSelector(state);
+
+  if (accessToken) {
+    return <Redirect to={keys.HOME} />;
+  }
+
+  return <Route {...rest} component={component} />;
+};
+
+const PrivateRoute = ({ path, component, ...rest }) => {
+  const state = store.getState();
+  const accessToken = accessTokenSelector(state);
+
+  if (!accessToken) {
+    return <Redirect to={keys.LOGIN} />;
+  }
+  
+  return <Route exact {...rest} component={component} />;
+};
+
 const App = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -50,21 +77,18 @@ const App = () => {
             <ScrollToTop />
             <Suspense fallback={<Loading />}>
               <Switch>
-                <Route exact path="/" component={LazySignIn} />
-                   {/* 
-                <Route exact path="/home" component={LazyHome} />
-                <Route exact path="/chat" component={LazyChat} />
-                <Route exact path="/users" component={LazyUsers} />
-                <Route exact path="/getapp" component={LazyGetApp} />
-                <Route exact path="/signup" component={LazySignUp} />
-                <Route exact path="/profile" component={LazyProfile} />
-                <Route exact path="/chatMobile" component={LazyChatMobile} /> */}
-                <Route
-                  exact
-                  path="/subscription"
-                  component={LazySubscriptions}
-                />
-                <Route component={LazyPageNotFound} />
+                <PublicRoute exact path={keys.HOME} component={LazyHome} />
+                <PublicRoute path={keys.SUBSCRIBTIONS} component={LazySubscriptions} />
+                <PublicRoute path={keys.GETAPP} component={LazyGetApp} />
+
+                <AuthRoute path={keys.LOGIN} component={LazySignIn} />
+                <AuthRoute path={keys.SIGNUP} component={LazySignUp} />
+       
+                <PrivateRoute path={keys.ADD_INTERESTS} component={LazyAddInterests} />
+                {/* <PrivateRoute path={keys.CHAT} component={LazyChat} /> */}
+                <PrivateRoute path={keys.USERS} component={LazyUsers} />
+
+                <PublicRoute component={LazyPageNotFound} />
               </Switch>
             </Suspense>
           </Router>

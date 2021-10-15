@@ -4,12 +4,19 @@ import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles((theme) => ({
   root: {
     background: "#000639",
+    height: "100%",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  wrapper: {
     margin: 20,
     borderRadius: 13,
-    padding: 50,
-    [theme.breakpoints.up('xl')]: {
-      padding: 30,
-    },
+    border: "1px solid #FFFFFF",
+    padding: 80,
+    // [theme.breakpoints.up('sm')]: {
+    //   padding: 40,
+    // },
     [theme.breakpoints.only('xs')]: {
       padding: 20,
     },

@@ -29,19 +29,9 @@ import { useDispatch, useSelector } from "react-redux";
 
 /* import internal modules */
 import useStyles from "./styles";
-import Loading from "../common/Loading";
-import RobotImage from "../../assets/robot-chat.png";
-import RobotImageMobile from "../../assets/robot.png";
-import {
-  setHandleAlert,
-  setHandleSelectedTheme,
-} from "../../redux/actions/common/common";
-import {
-  askQuestion,
-  getMessagesById,
-  getQuestionSuggestions,
-} from "../../apis/messages";
-import { setSelectedQuestion } from "../../redux/actions/questions/questions";
+import Loading from "../../../components/common/Loading";
+import RobotImage from "../../../assets/robot-chat.png";
+import RobotImageMobile from "../../../assets/robot.png";
 
 const Chat = () => {
   const dispatch = useDispatch();

@@ -19,22 +19,31 @@ import {
   Stars,
   WbIncandescent,
 } from "@material-ui/icons";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { addInterests } from "../../apis/users";
-import { setHandleAlert } from "../../redux/actions/common/common";
-import Loading from "../common/Loading";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+
+import { Loading } from "../../components";
+import * as keys from "../../utils/keys";
+import { addInterests } from "../../store/actions/user";
+import { isRequestUserSelector } from "../../store/selectors/user";
 
 /* import internal modules */
 import useStyles from "./styles";
 
-const Profile = () => {
+const AddInterests = (props) => {
+  const { isRequest, addInterests } = props;
   const classes = useStyles();
   const history = useHistory();
-  const dispatch = useDispatch();
-  const [loading, setLoading] = useState(false);
   const [selectedChips, setSelectedChips] = useState([]);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  useEffect(() => {
+    if (!isRequest && isSubmitted) {
+      history.push(keys.HOME);
+    }
+  }, [isRequest]);
 
   const handleDelete = (chipName) => {
     let newList = selectedChips.filter((chip) => chip !== chipName);
@@ -50,48 +59,17 @@ const Profile = () => {
     }
   };
 
-  const showMessageAlert = ({ message, severity, status }) => {
-    dispatch(setHandleAlert({ message, severity, status }));
-  };
-
-  const addInterestsFunction = () => {
-    setLoading(true);
-    let interestsFormData = new FormData();
-    interestsFormData.append("interests", JSON.stringify(selectedChips));
-
-    addInterests(interestsFormData)
-      .then((response) => {
-        if (response.status >= 200 && response.status <= 299) {
-          const alert = {
-            message: response.data.message,
-            severity: "success",
-            status: true,
-          };
-
-          showMessageAlert(alert);
-          setLoading(false);
-          history.push("/home");
-        }
-      })
-      .catch((error) => {
-        const message = error?.response?.data?.message;
-
-        const errorAlert = {
-          message: message ? message : "Algo ocurrió en el servidor",
-          severity: "error",
-          status: true,
-        };
-
-        showMessageAlert(errorAlert);
-        console.error(error);
-        setLoading(false);
-      });
-  };
+  const onSubmit = () => {
+    setIsSubmitted(true);
+    addInterests({
+      interests: JSON.stringify(selectedChips)
+    });
+  }
 
   return (
-    <>
-      <Grid container component="main" justify="center">
-        <Grid item xs={12} sm={8} md={8} xl={5} className={classes.root}>
+    <div className={classes.root}>
+      <Grid container component="main" justify="center" >
+        <Grid item xs={12} sm={8} md={8} xl={5} className={classes.wrapper}>
           <Typography variant="h4" component="h4" className={classes.title}>
             Choose your interests
           </Typography>
@@ -393,14 +371,14 @@ const Profile = () => {
             />
           </Grid>
           <Grid container justify="flex-end">
-            {!loading ? (
+            {!isRequest ? (
               <Button
                 size="large"
                 color="primary"
                 disabled={selectedChips.length === 5 ? false : true}
                 variant="contained"
                 className={classes.doneButton}
-                onClick={addInterestsFunction}
+                onClick={onSubmit}
               >
                 Done
               </Button>
@@ -410,8 +388,20 @@ const Profile = () => {
           </Grid>
         </Grid>
       </Grid>
-    </>
+    </div>
   );
 };
 
-export default Profile;
+const mapStateToProps = (state) => ({
+  isRequest: isRequestUserSelector(state),
+});
+
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      addInterests,
+    },
+    dispatch
+  );
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddInterests);
