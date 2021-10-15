@@ -22,10 +22,10 @@ const AppBarSecondaryComponent = () => {
             alt="Logo"
             src={LogoImage}
             className={classes.avatar}
-            onClick={() => goToPage('/home')}
+            onClick={() => goToPage('/')}
           />
           <Typography
-            onClick={() => goToPage('/home')}
+            onClick={() => goToPage('/')}
             className={classes.title}
             variant="h6"
             noWrap
