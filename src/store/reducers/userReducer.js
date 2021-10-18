@@ -6,54 +6,64 @@ import { USER } from "../types";
 export default injectReducer(initialState.userReducer, {
   [USER.LOGIN]: (state) => ({ 
     ...state,
-    isRequest: true,
+    isRequestUser: true,
   }),
   [USER.LOGIN_SUCCESS]: (state, { payload: { response } }) => ({
     ...state,
     accessToken: response.access_token,
-    isRequest: false,
+    isRequestUser: false,
   }),
   [USER.LOGIN_FAILURE]: (state) => ({
     ...state,
     accessToken: null,
-    isRequest: false,
+    isRequestUser: false,
   }),
 
   [USER.REGISTER]: (state) => ({ 
     ...state,
-    isRequest: true,
+    isRequestUser: true,
   }),
   [USER.REGISTER_SUCCESS]: (state, { payload: { response } }) => ({
     ...state,
     accessToken: response.access_token,
-    isRequest: false,
+    isRequestUser: false,
   }),
   [USER.REGISTER_FAILURE]: (state) => ({
     ...state,
     accessToken: null,
-    isRequest: false,
+    isRequestUser: false,
   }),
   
   [USER.ADD_INTERESTS]: (state) => ({
     ...state,
-    isRequest: true,
+    isRequestUser: true,
   }),
   [USER.ADD_INTERESTS_SUCCESS]: (state) => ({
     ...state,
-    isRequest: false,
+    isRequestUser: false,
   }),
   [USER.ADD_INTERESTS_FAILURE]: (state) => ({
     ...state,
-    isRequest: false,
+    isRequestUser: false,
   }),
 
-  [USER.GET_USER_INFO]: (state, { payload: { response } }) => {
-    console.log(response);
-    return { ...state };
-  },
+  [USER.GET_USER_INFO]: (state) => ({ 
+    ...state,
+    isRequestUser: true,
+  }),
+  [USER.GET_USER_INFO_SUCCESS]: (state, { payload: { response } }) => ({
+    ...state,
+    userInfo: response,
+    isRequestUser: false,
+  }),
+  [USER.GET_USER_INFO_FAILURE]: (state) => ({
+    ...state,
+    userInfo: null,
+    isRequestUser: false,
+  }),
 
-  [USER.CHANGE_THEME]: (state, { payload: { response } }) => {
-    console.log(response);
-    return { ...state };
-  },
+  [USER.CHANGE_THEME]: (state, { payload: { value } }) => ({
+    ...state,
+    enableDarkTheme: value,
+  }),
 });

@@ -33,17 +33,17 @@ import { isRequestUserSelector } from "../../store/selectors/user";
 import useStyles from "./styles";
 
 const AddInterests = (props) => {
-  const { isRequest, addInterests } = props;
+  const { isRequestUser, addInterests } = props;
   const classes = useStyles();
   const history = useHistory();
   const [selectedChips, setSelectedChips] = useState([]);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   useEffect(() => {
-    if (!isRequest && isSubmitted) {
+    if (!isRequestUser && isSubmitted) {
       history.push(keys.HOME);
     }
-  }, [isRequest]);
+  }, [isRequestUser]);
 
   const handleDelete = (chipName) => {
     let newList = selectedChips.filter((chip) => chip !== chipName);
@@ -371,7 +371,7 @@ const AddInterests = (props) => {
             />
           </Grid>
           <Grid container justify="flex-end">
-            {!isRequest ? (
+            {!isRequestUser ? (
               <Button
                 size="large"
                 color="primary"
@@ -393,7 +393,7 @@ const AddInterests = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  isRequest: isRequestUserSelector(state),
+  isRequestUser: isRequestUserSelector(state),
 });
 
 const mapDispatchToProps = (dispatch) =>

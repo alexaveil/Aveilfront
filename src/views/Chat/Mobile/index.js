@@ -26,99 +26,21 @@ import {
 /* import internal modules */
 import useStyles from "./styles";
 import RobotImageMobile from "../../../assets/robot.png";
-import Loading from "../../../components/common/Loading";
+import { Loading } from "../../../components";
 
 const ChatMobile = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const classes = useStyles();
   const [typeMessage, setTypeMessage] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [messages, setMessages] = useState([]);
-  const [messagesPage, setmessagesPage] = useState(0);
   const autoScrollRef = useRef();
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
-  const enableDarkTheme = useSelector(
-    (state) => state.common.handleSelectedTheme
-  );
-  const selectedQuestion = useSelector(
-    (state) => state.questions.selectedQuestion
-  );
-
+  const enableDarkTheme = false;
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   useEffect(() => {
-    handleSendQuestionLogic();
     autoScrollRef.current.scrollTo(0, 5000);
   }, []);
-
-  const handleSendQuestionLogic = () => {
-    if (selectedQuestion) {
-      askQuestionFunction(selectedQuestion);
-    }
-
-    if (!selectedQuestion) {
-      getMessagesByIdFunction();
-    }
-  };
-
-  const askQuestionFunction = (question) => {
-    setLoading(true);
-
-    const questionFormData = new FormData();
-    questionFormData.append("question", question);
-
-    askQuestion(questionFormData)
-      .then((response) => {
-        if (response.status >= 200 && response.status <= 299) {
-          getMessagesByIdFunction();
-          setLoading(false);
-        }
-      })
-      .catch((error) => {
-        const message = error?.response?.data?.message;
-
-        const errorAlert = {
-          message: message ? message : "Algo ocurrió en el servidor",
-          severity: "error",
-          status: true,
-        };
-
-        showMessageAlert(errorAlert);
-        console.error(error);
-        setLoading(false);
-      });
-  };
-
-  const showMessageAlert = ({ message, severity, status }) => {
-    dispatch(setHandleAlert({ message, severity, status }));
-  };
-
-  const getMessagesByIdFunction = () => {
-    setLoading(true);
-
-    getMessagesById(messagesPage)
-      .then((response) => {
-        if (response.status >= 200 && response.status <= 299) {
-          setMessages(response.data);
-          setLoading(false);
-          autoScrollRef.current.scrollTo(0, 5000);
-        }
-      })
-      .catch((error) => {
-        const message = error?.response?.data?.message;
-
-        const errorAlert = {
-          message: message ? message : "Algo ocurrió en el servidor",
-          severity: "error",
-          status: true,
-        };
-
-        showMessageAlert(errorAlert);
-        console.error(error);
-        setLoading(false);
-      });
-  };
 
   const handleThemeFunction = () => {
     dispatch(setHandleSelectedTheme(!enableDarkTheme));

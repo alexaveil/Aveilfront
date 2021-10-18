@@ -13,34 +13,48 @@ import {
 import { useHistory } from "react-router-dom";
 import { Autocomplete } from "@material-ui/lab";
 import { useEffect, useRef, useState } from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 
 /* import internal modules */
 import { Loading } from "../../../components";
 import { useStyles, CssTextField } from "./styles";
 import RobotImage from "../../../assets/robot.png";
+import * as keys from "../../../utils/keys";
+import { getQuestionSuggestions } from "../../../store/actions/messages";
+import {
+  isRequestMessagesSelector,
+  questionSuggestionSelector,
+} from "../../../store/selectors/messages";
 
-const Section1 = () => {
+const Section1 = (props) => {
+  const { isRequestMessages, questionSuggestion, getQuestionSuggestions } = props;
   const classes = useStyles();
   const history = useHistory();
   const containerRef = useRef();
   const [motion, setMotion] = useState(false);
   const [loadingImage, setLoadingImage] = useState(true);
-  const [loadingTextfield, setLoadingTextfield] = useState(true);
 
   useEffect(() => {
+    getQuestionSuggestions();
     handleChange();
     setTimeout(() => {
       setLoadingImage(false);
     }, 500);
-
-    setTimeout(() => {
-      setLoadingTextfield(false);
-    }, 700);
   }, []);
 
   const handleChange = () => {
     setMotion((prev) => !prev);
   };
+
+  const handleQuestionSelected = (value) => {
+    history.push({
+      pathname: keys.CHAT,
+      state: {
+        selectedQuestion: value,
+      }
+    });
+  }
 
   const CustomPaper = (props) => {
     return <Paper elevation={8} {...props} />;
@@ -88,13 +102,13 @@ const Section1 = () => {
       ) : (
         <Loading />
       )}
-      {!loadingTextfield ? (
+      {!isRequestMessages ? (
         <Grid container spacing={4} justify="center">
           <Grid item xs={12}>
             <center>
               <Autocomplete
-                // options={questionsSuggestion}
-                // onChange={(event, value) => handleQuestionSelected(value)}
+                options={questionSuggestion}
+                onChange={(event, value) => handleQuestionSelected(value)}
                 id="combo-box-autocomplete"
                 PaperComponent={CustomPaper}
                 getOptionLabel={(option) => option}
@@ -122,4 +136,17 @@ const Section1 = () => {
   );
 };
 
-export default Section1;
+const mapStateToProps = (state) => ({
+  isRequestMessages: isRequestMessagesSelector(state),
+  questionSuggestion: questionSuggestionSelector(state),
+});
+
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      getQuestionSuggestions,
+    },
+    dispatch
+  );
+
+export default connect(mapStateToProps, mapDispatchToProps)(Section1);

@@ -63,7 +63,7 @@ export function request(url, options = {}) {
     method: config.method,
     params: config.params,
     data: payloadData,
-    timeout: 3000,
+    timeout: 30000,
   };
 
   return axios({

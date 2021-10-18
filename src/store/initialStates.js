@@ -1,10 +1,15 @@
 const initialState = {
   userReducer: {
     accessToken: null,
-    theme: 'light',
-    isRequest: false,
+    userInfo: null,
+    enableDarkTheme: false,
+    isRequestUser: false,
   },
-  messagesReducer: {}
+  messagesReducer: {
+    isRequestMessages: false,
+    questionSuggestion: [],
+    messages: [],
+  }
 };
 
 export default initialState;

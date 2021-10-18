@@ -25,16 +25,13 @@ import { bindActionCreators } from "redux";
 
 /* import internal modules */
 import { logout } from "../../store/actions/user";
-import {
-  isRequestUserSelector,
-  accessTokenSelector,
-} from "../../store/selectors/user";
+import { accessTokenSelector } from "../../store/selectors/user";
 import useStyles from "./styles";
 import LogoImage from "../../assets/logo.png";
 import * as keys from "../../utils/keys";
 
 const AppBarComponent = (props) => {
-  const { isRequest, accessToken, logout } = props;
+  const { accessToken, logout } = props;
   const history = useHistory();
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);

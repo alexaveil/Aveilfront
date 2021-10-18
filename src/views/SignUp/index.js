@@ -20,7 +20,7 @@ import {
 } from "../../store/selectors/user";
 
 const SignUp = (props) => {
-  const { isRequest, accessToken, register } = props;
+  const { isRequestUser, accessToken, register } = props;
   const classes = useStyles();
   const history = useHistory();
   const [dataForm, setDataForm] = useState({
@@ -32,10 +32,10 @@ const SignUp = (props) => {
   const [selectedDate, handleDateChange] = useState(new Date());
 
   useEffect(() => {
-    if (!isRequest && accessToken) {
+    if (!isRequestUser && accessToken) {
       history.push(keys.ADD_INTERESTS);
     }
-  }, [isRequest, accessToken]);
+  }, [isRequestUser, accessToken]);
 
   const onChangeDataForm = (event) => {
     setDataForm({
@@ -200,7 +200,7 @@ const SignUp = (props) => {
                   </MuiPickersUtilsProvider>
                 </Grid>
               </Grid>
-              {!isRequest ? (
+              {!isRequestUser ? (
                 <Button
                   type="button"
                   fullWidth
@@ -232,7 +232,7 @@ const SignUp = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  isRequest: isRequestUserSelector(state),
+  isRequestUser: isRequestUserSelector(state),
   accessToken: accessTokenSelector(state),
 });
 

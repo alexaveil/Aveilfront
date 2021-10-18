@@ -13,7 +13,7 @@ import * as keys from "./utils/keys"
 
 /* import internal modules */
 const LazyHome = lazy(() => import("./views/Home"));
-// const LazyChat = lazy(() => import("./views/Chat"));
+const LazyChat = lazy(() => import("./views/Chat"));
 const LazyUsers = lazy(() => import("./views/Users"));
 const LazySignIn = lazy(() => import("./views/SignIn"));
 const LazySignUp = lazy(() => import("./views/SignUp"));
@@ -85,7 +85,7 @@ const App = () => {
                 <AuthRoute path={keys.SIGNUP} component={LazySignUp} />
        
                 <PrivateRoute path={keys.ADD_INTERESTS} component={LazyAddInterests} />
-                {/* <PrivateRoute path={keys.CHAT} component={LazyChat} /> */}
+                <PrivateRoute path={keys.CHAT} component={LazyChat} />
                 <PrivateRoute path={keys.USERS} component={LazyUsers} />
 
                 <PublicRoute component={LazyPageNotFound} />

@@ -22,7 +22,7 @@ import { login } from "../../store/actions/user";
 import { isRequestUserSelector, accessTokenSelector } from "../../store/selectors/user";
 
 const SignIn = (props) => {
-  const { isRequest, accessToken, login } = props;
+  const { isRequestUser, accessToken, login } = props;
   const classes = useStyles();
   const history = useHistory();
   const [dataForm, setDataForm] = useState({
@@ -32,10 +32,10 @@ const SignIn = (props) => {
   });
 
   useEffect(() => {
-    if (!isRequest && accessToken) {
+    if (!isRequestUser && accessToken) {
       history.push(keys.HOME);
     }
-  }, [isRequest, accessToken]);
+  }, [isRequestUser, accessToken]);
 
   const onChangeDataForm = (event) => {
     const type = event.target.type;
@@ -113,7 +113,7 @@ const SignIn = (props) => {
               label="Remember me"
             />
 
-            {!isRequest ? (
+            {!isRequestUser ? (
               <Button
                 type="button"
                 fullWidth
@@ -144,7 +144,7 @@ const SignIn = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  isRequest: isRequestUserSelector(state),
+  isRequestUser: isRequestUserSelector(state),
   accessToken: accessTokenSelector(state),
 });
 

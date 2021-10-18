@@ -25,32 +25,31 @@ import {
 } from "@material-ui/icons";
 import { useHistory } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 
 /* import internal modules */
 import useStyles from "./styles";
-import Loading from "../../../components/common/Loading";
+import { Loading } from "../../../components";
 import RobotImage from "../../../assets/robot-chat.png";
 import RobotImageMobile from "../../../assets/robot.png";
 
-const Chat = () => {
-  const dispatch = useDispatch();
+const Desktop = (props) => {
+  const {
+    isRequestMessages,
+    questionSuggestion,
+    messages,
+    userInfo,
+    enableDarkTheme,
+    changeTheme,
+    askQuestion,
+  } = props;
   const history = useHistory();
   const classes = useStyles();
-  const [typeMessage, setTypeMessage] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [messages, setMessages] = useState([]);
-  const [messagesPage, setMessagesPage] = useState(0);
-  const [selectedQuestionSuggest, setSelectedQuestionSuggest] = useState("");
   const [chatHeight, setChatHeight] = useState(0);
-  const [questionsSuggestion, setQuestionsSuggestion] = useState([]);
+  const [selectedQuestionSuggest, setSelectedQuestionSuggest] = useState("");
+
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
-  const enableDarkTheme = useSelector(
-    (state) => state.common.handleSelectedTheme
-  );
-  const selectedQuestion = useSelector(
-    (state) => state.questions.selectedQuestion
-  );
+  // temp
+  const typeMessage = "";
 
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
@@ -61,121 +60,20 @@ const Chat = () => {
   const gridLeftContainerQuestionsRef = useRef();
 
   useEffect(() => {
-    getMessagesByIdFunction();
-    getQuestionsSuggestionFunction();
-    handleSendQuestionLogic();
-
     autoScrollRef.current.scrollTo(0, 3000);
     setChatHeight(window.innerHeight);
   }, []);
 
-  const askQuestionFunction = (question) => {
-    setLoading(true);
-
-    const questionFormData = new FormData();
-    questionFormData.append("question", question);
-
-    askQuestion(questionFormData)
-      .then((response) => {
-        if (response.status >= 200 && response.status <= 299) {
-          const currentWidth = containerRef.current?.offsetWidth;
-
-          if (currentWidth > 910) {
-            getMessagesByIdFunction();
-            setLoading(false);
-          }
-        }
-      })
-      .catch((error) => {
-        const message = error?.response?.data?.message;
-
-        const errorAlert = {
-          message: message ? message : "Algo ocurrió en el servidor",
-          severity: "error",
-          status: true,
-        };
-
-        showMessageAlert(errorAlert);
-        console.error(error);
-        setLoading(false);
-      });
-  };
-
-  const handleSendQuestionLogic = () => {
-    if (selectedQuestion) {
-      askQuestionFunction(selectedQuestion);
-    }
-  };
-
-  const showMessageAlert = ({ message, severity, status }) => {
-    dispatch(setHandleAlert({ message, severity, status }));
-  };
-
-  const getQuestionsSuggestionFunction = () => {
-    setLoading(true);
-
-    getQuestionSuggestions()
-      .then((response) => {
-        if (response.status >= 200 && response.status <= 299) {
-          setQuestionsSuggestion(response.data);
-          setLoading(false);
-        }
-      })
-      .catch((error) => {
-        const message = error?.response?.data?.message;
-
-        const errorAlert = {
-          message: message ? message : "Algo ocurrió en el servidor",
-          severity: "error",
-          status: true,
-        };
-
-        showMessageAlert(errorAlert);
-        console.error(error);
-        setLoading(false);
-      });
-  };
-
-  const getMessagesByIdFunction = () => {
-    setLoading(true);
-
-    const currentWidth = containerRef.current?.offsetWidth;
-
-    if (currentWidth > 910) {
-      getMessagesById(messagesPage)
-        .then((response) => {
-          if (response.status >= 200 && response.status <= 299) {
-            setMessages(response.data);
-            setLoading(false);
-            autoScrollRef.current.scrollTo(0, 3000);
-          }
-        })
-        .catch((error) => {
-          const message = error?.response?.data?.message;
-
-          const errorAlert = {
-            message: message ? message : "Algo ocurrió en el servidor",
-            severity: "error",
-            status: true,
-          };
-
-          showMessageAlert(errorAlert);
-          console.error(error);
-          setLoading(false);
-        });
-    }
-  };
-
   const onChangeData = (event) => {
-    setTypeMessage(event.target.value);
+    console.log(event.target.value);
   };
 
   const selectedAnswer = (answer) => {
-    setTypeMessage(answer);
+    console.log(answer);
   };
 
-  const renderQuestionsSuggestions = questionsSuggestion.map(
-    (question, key) => {
+  const renderQuestionsSuggestions = () =>
+    questionSuggestion.map((question, key) => {
       return (
         <div
           elevation={3}
@@ -198,34 +96,33 @@ const Chat = () => {
           </div>
         </div>
       );
-    }
-  );
+    });
 
-  const renderMessages = messages.map((message, key) => {
-    return (
-      <div key={key}>
-        {message?.question && (
-          <div
-            elevation={3}
-            className={classes.messagesSendText}
-            style={{
-              maxWidth:
-                message.question.length < 20
-                  ? message.question.length + 130
-                  : 260,
-            }}
-          >
-            {message.question}
-          </div>
-        )}
-        <Typography className={classes.messagesReceiverTitle}>
-          Select your favorite answer
-        </Typography>
-        {message?.answers?.map((answer, key) => {
-          return (
-            <div key={key}>
-              {/* {message?.option_selected === key + 1 && ( */}
+  const renderMessages = () =>
+    messages.map((message, key) => {
+      return (
+        <div key={key}>
+          {message?.question && (
+            <div
+              elevation={3}
+              className={classes.messagesSendText}
+              style={{
+                maxWidth:
+                  message.question.length < 20
+                    ? message.question.length + 130
+                    : 260,
+              }}
+            >
+              {message.question}
+            </div>
+          )}
+          <Typography className={classes.messagesReceiverTitle}>
+            Select your favorite answer
+          </Typography>
+          {message?.answers?.map((answer, key) => {
+            return (
               <div
+                key={key}
                 className={
                   enableDarkTheme
                     ? classes.messagesReceiverContainerDark
@@ -245,13 +142,11 @@ const Chat = () => {
                   />
                 </div>
               </div>
-              {/* )} */}
-            </div>
-          );
-        })}
-      </div>
-    );
-  });
+            );
+          })}
+        </div>
+      );
+    });
 
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
@@ -262,7 +157,13 @@ const Chat = () => {
   };
 
   const handleThemeFunction = () => {
-    dispatch(setHandleSelectedTheme(!enableDarkTheme));
+    changeTheme(!enableDarkTheme);
+  };
+
+  const handleSendQuestion = () => {
+    if (selectedQuestionSuggest && selectedQuestionSuggest.length > 0) {
+      askQuestion({ question: selectedQuestionSuggest });
+    }
   };
 
   const mobileMenuId = "primary-search-account-menu-mobile";
@@ -292,20 +193,6 @@ const Chat = () => {
       </MenuItem>
     </Menu>
   );
-
-  const goToChatMobile = () => {
-    history.push("/chatMobile");
-  };
-
-  const handleSendQuestion = () => {
-    askQuestionFunction(selectedQuestionSuggest);
-
-    const currentWidth = containerRef.current?.offsetWidth;
-
-    if (currentWidth <= 910) {
-      history.push("/chatMobile");
-    }
-  };
 
   return (
     <Container
@@ -349,7 +236,9 @@ const Chat = () => {
                   : classes.userNameText
               }
             >
-              User Name
+              {userInfo?.first_name || userInfo?.last_name
+                ? `${userInfo?.first_name} ${userInfo?.last_name}`
+                : "No name"}
             </Typography>
             <ArrowForwardIos
               className={
@@ -357,7 +246,7 @@ const Chat = () => {
                   ? classes.arrowForwardDark
                   : classes.arrowForward
               }
-              onClick={goToChatMobile}
+              // onClick={goToChatMobile}
             />
           </Grid>
           <Typography
@@ -394,12 +283,6 @@ const Chat = () => {
                 }
               />
             </Card>
-            {/* <Circle
-              percent="25"
-              strokeWidth="3"
-              strokeColor="#3043E9"
-              className={classes.circle}
-            /> */}
           </Grid>
           <Typography
             className={
@@ -412,7 +295,7 @@ const Chat = () => {
             Other relevant questions:
           </Typography>
           <center>
-            {!loading ? (
+            {!isRequestMessages ? (
               <Grid
                 container
                 justify="center"
@@ -431,7 +314,7 @@ const Chat = () => {
                       : classes.questionsText
                   }
                 >
-                  {renderQuestionsSuggestions}
+                  {renderQuestionsSuggestions()}
                 </Paper>
               </Grid>
             ) : (
@@ -510,19 +393,9 @@ const Chat = () => {
                   : classes.paperMessages
               }
               ref={autoScrollRef}
-              // menuprops={{
-              //   PaperProps: {
-              //     onScroll: (event) => {
-              //       if (event.scrollTop === 0) {
-              //         console.log(event)
-              //         console.log('we scroll')
-              //       }
-              //     },
-              //   },
-              // }}
             >
-              {renderMessages.length > 0 ? (
-                renderMessages
+              {messages.length > 0 ? (
+                renderMessages()
               ) : (
                 <Typography align="center" color="secondary">
                   Not messages yet
@@ -568,4 +441,4 @@ const Chat = () => {
   );
 };
 
-export default Chat;
+export default Desktop;
