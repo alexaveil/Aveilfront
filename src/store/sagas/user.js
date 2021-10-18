@@ -45,27 +45,6 @@ export function* registerSaga({ payload: { data } }) {
   }
 }
 
-export function* logoutSaga() {
-  try {
-    const response = yield call(request, `/user/logout`, {
-      method: "POST",
-      payload: {},
-    });
-
-    yield put({
-      type: USER.LOGOUT_SUCCESS,
-      payload: {
-        response,
-      },
-    });
-  } catch (err) {
-    yield put({
-      type: USER.LOGOUT_FAILURE,
-      payload: err,
-    });
-  }
-}
-
 export function* addInterestsSaga({ payload: { data } }) {
   try {
     const response = yield call(request, `/user/add_interests`, {
@@ -112,7 +91,6 @@ export default function* root() {
   yield all([
     takeLatest(USER.LOGIN, loginSaga),
     takeLatest(USER.REGISTER, registerSaga),
-    takeLatest(USER.LOGOUT, logoutSaga),
     takeLatest(USER.ADD_INTERESTS, addInterestsSaga),
     takeLatest(USER.GET_USER_INFO, getUserInfoSaga),
   ]);

@@ -33,7 +33,7 @@ export default injectReducer(initialState.userReducer, {
     accessToken: null,
     isRequest: false,
   }),
-
+  
   [USER.ADD_INTERESTS]: (state) => ({
     ...state,
     isRequest: true,

@@ -20,13 +20,21 @@ import {
 } from "@material-ui/icons";
 import { useState } from "react";
 import { useHistory } from "react-router";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 
 /* import internal modules */
+import { logout } from "../../../store/actions/user";
+import {
+  isRequestUserSelector,
+  accessTokenSelector,
+} from "../../../store/selectors/user";
 import useStyles from "./styles";
 import LogoImage from "../../../assets/logo.png";
 import * as keys from "../../../utils/keys";
 
-const AppBarComponent = () => {
+const AppBarComponent = (props) => {
+  const { isRequest, accessToken, logout } = props;
   const history = useHistory();
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
@@ -57,8 +65,8 @@ const AppBarComponent = () => {
   };
 
   const logoutFunction = () => {
-    window.sessionStorage.setItem("token", null);
-    history.push("/");
+    logout();
+    handleMenuClose();
   };
 
   const menuId = "primary-search-account-menu";
@@ -146,40 +154,43 @@ const AppBarComponent = () => {
           Download
         </Button>
       </MenuItem>
-      <MenuItem>
-        <IconButton
-          aria-label="login of current user"
-          aria-controls="primary-search-login-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <Lock />
-        </IconButton>
-        <Button
-          onClick={logoutFunction}
-          className={classes.item}
-          color="inherit"
-        >
-          Login
-        </Button>
-      </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <Button
-          onClick={() => goToPage(keys.ADD_INTERESTS)}
-          className={classes.item}
-          color="inherit"
-        >
-          Profile
-        </Button>
-      </MenuItem>
+      {!accessToken ? (
+        <MenuItem>
+          <IconButton
+            aria-label="login of current user"
+            aria-controls="primary-search-login-menu"
+            aria-haspopup="true"
+            color="inherit"
+          >
+            <Lock />
+          </IconButton>
+          <Button
+            onClick={logoutFunction}
+            className={classes.item}
+            color="inherit"
+          >
+            Login
+          </Button>
+        </MenuItem>
+      ) : (
+        <MenuItem onClick={handleProfileMenuOpen}>
+          <IconButton
+            aria-label="account of current user"
+            aria-controls="primary-search-account-menu"
+            aria-haspopup="true"
+            color="inherit"
+          >
+            <AccountCircle />
+          </IconButton>
+          <Button
+            onClick={() => goToPage(keys.ADD_INTERESTS)}
+            className={classes.item}
+            color="inherit"
+          >
+            Profile
+          </Button>
+        </MenuItem>
+      )}
     </Menu>
   );
 
@@ -218,24 +229,27 @@ const AppBarComponent = () => {
             >
               Download
             </Button>
-            <Button
-              onClick={() => goToPage(keys.LOGIN)}
-              className={classes.itemLogin}
-              color="inherit"
-            >
-              Sign in
-            </Button>
-            <IconButton
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-              className={classes.handleUserButton}
-            >
-              <AccountCircle />
-            </IconButton>
+            {!accessToken ? (
+              <Button
+                onClick={() => goToPage(keys.LOGIN)}
+                className={classes.itemLogin}
+                color="inherit"
+              >
+                Sign in
+              </Button>
+            ) : (
+              <IconButton
+                edge="end"
+                aria-label="account of current user"
+                aria-controls={menuId}
+                aria-haspopup="true"
+                onClick={handleProfileMenuOpen}
+                color="inherit"
+                className={classes.handleUserButton}
+              >
+                <AccountCircle />
+              </IconButton>
+            )}
           </div>
           <div className={classes.sectionMobile}>
             <IconButton
@@ -256,4 +270,16 @@ const AppBarComponent = () => {
   );
 };
 
-export default AppBarComponent;
+const mapStateToProps = (state) => ({
+  accessToken: accessTokenSelector(state),
+});
+
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      logout,
+    },
+    dispatch
+  );
+
+export default connect(mapStateToProps, mapDispatchToProps)(AppBarComponent);
