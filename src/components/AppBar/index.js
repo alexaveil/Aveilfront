@@ -24,14 +24,14 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
 /* import internal modules */
-import { logout } from "../../../store/actions/user";
+import { logout } from "../../store/actions/user";
 import {
   isRequestUserSelector,
   accessTokenSelector,
-} from "../../../store/selectors/user";
+} from "../../store/selectors/user";
 import useStyles from "./styles";
-import LogoImage from "../../../assets/logo.png";
-import * as keys from "../../../utils/keys";
+import LogoImage from "../../assets/logo.png";
+import * as keys from "../../utils/keys";
 
 const AppBarComponent = (props) => {
   const { isRequest, accessToken, logout } = props;

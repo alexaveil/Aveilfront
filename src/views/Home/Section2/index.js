@@ -16,7 +16,7 @@ import { Timeline, Fingerprint, QuestionAnswer } from '@material-ui/icons'
 
 /* import internal modules */
 import useStyles from './styles'
-import Loading from '../../../components/common/Loading'
+import { Loading } from "../../../components";
 import SmartphoneAveilImage from '../../../assets/smartphone-aveil.png'
 
 const Section2 = () => {

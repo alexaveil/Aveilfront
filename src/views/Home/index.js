@@ -2,8 +2,7 @@
 import { Grid, Container, Box } from "@material-ui/core";
 
 /* import internal modules */
-import AppBar from "../../components/common/AppBar";
-import Copyright from "../../components/common/Copyright";
+import { AppBar, Copyright } from "../../components";
 import Section1 from "./Section1";
 import Section4 from "./Section4";
 import Section3 from "./Section3";

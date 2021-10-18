@@ -15,7 +15,7 @@ import { Autocomplete } from "@material-ui/lab";
 import { useEffect, useRef, useState } from "react";
 
 /* import internal modules */
-import Loading from "../../../components/common/Loading";
+import { Loading } from "../../../components";
 import { useStyles, CssTextField } from "./styles";
 import RobotImage from "../../../assets/robot.png";
 

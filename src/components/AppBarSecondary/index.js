@@ -4,7 +4,8 @@ import { Avatar, AppBar, Toolbar, Typography } from '@material-ui/core'
 
 /* import internal modules */
 import useStyles from './styles'
-import LogoImage from '../../../assets/logo.png'
+import LogoImage from '../../assets/logo.png'
+import * as keys from "../../utils/keys";
 
 const AppBarSecondaryComponent = () => {
   const history = useHistory()
@@ -22,10 +23,10 @@ const AppBarSecondaryComponent = () => {
             alt="Logo"
             src={LogoImage}
             className={classes.avatar}
-            onClick={() => goToPage('/')}
+            onClick={() => goToPage(keys.HOME)}
           />
           <Typography
-            onClick={() => goToPage('/')}
+            onClick={() => goToPage(keys.HOME)}
             className={classes.title}
             variant="h6"
             noWrap

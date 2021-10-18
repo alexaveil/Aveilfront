@@ -1,4 +1,4 @@
-/* Auth Action Types */
+/* User Action Types */
 export const USER = {
   LOGIN: "LOGIN",
   LOGIN_SUCCESS: "LOGIN_SUCCESS",
@@ -21,16 +21,6 @@ export const USER = {
   CHANGE_THEME: "CHANGE_THEME",
 }
 
-export const CHAT = {
+/* Messages Action Types */
+export const MESSAGES = {
 }
-
-/* User Action Types */
-export const HANDLE_USER = 'HANDLE_USER'
-export const HANDLE_LOGIN_DATA = 'HANDLE_LOGIN_DATA'
-
-/* Common Action Types */
-export const HANDLE_UTIL_ALERT = 'HANDLE_UTIL_ALERT'
-export const HANLE_SELECTED_THEME = 'HANLE_SELECTED_THEME'
-
-/* Questions User Action Types */
-export const HANDLE_SELECTED_QUESTIONS_HOME = 'HANDLE_SELECTED_QUESTION_HOME'

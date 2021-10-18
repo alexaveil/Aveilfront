@@ -7,14 +7,15 @@ import useStyles from "./styles";
 import AppStoreImage from "../../assets/app-store.png";
 import GooglePlayImage from "../../assets/google-play.png";
 import GetAppImage from "../../assets/download-aveil-app.png";
-import AppBarSecondaryComponent from "../../components/common/AppBarSecondary";
+
+import { AppBarSecondary } from "../../components";
 
 const GetApp = () => {
   const classes = useStyles();
 
   return (
     <>
-      <AppBarSecondaryComponent />
+      <AppBarSecondary />
       <Container maxWidth="lg" component="section" className={classes.section}>
         <Grid container justify="flex-end" direction="row">
           {/* <Grid item xs={9}>

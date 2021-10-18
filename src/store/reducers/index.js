@@ -3,11 +3,11 @@ import { combineReducers } from "redux";
 
 /* import internal modules */
 import userReducer from "./userReducer";
-import chatReducer from "./chatReducer";
+import messagesReducer from "./messagesReducer";
 
 const appReducer = combineReducers({
   userReducer,
-  chatReducer,
+  messagesReducer,
 });
 
 const rootReducer = (state, action) => {

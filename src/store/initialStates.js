@@ -4,7 +4,7 @@ const initialState = {
     theme: 'light',
     isRequest: false,
   },
-  chatReducer: {}
+  messagesReducer: {}
 };
 
 export default initialState;

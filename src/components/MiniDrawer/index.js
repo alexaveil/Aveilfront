@@ -30,7 +30,7 @@ import { useHistory } from "react-router-dom";
 /* import internal modules */
 import useStyles from "./styles";
 import LogoImage from "../../assets/logo.png";
-import AlertDialog from "../common/AlertDialog";
+import { AlertDialog } from "..";
 
 const MiniDrawer = ({ children }) => {
   const theme = useTheme();

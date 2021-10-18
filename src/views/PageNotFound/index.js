@@ -1,11 +1,11 @@
 /* import internal modules */
-import AppBarSecondaryComponent from '../../components/common/AppBarSecondary'
+import { AppBarSecondary } from "../../components";
 
 const NotFound = () => {
   return (
     <>
-      <AppBarSecondaryComponent />
-      Not found 404
+      <AppBarSecondary />
+      <h2>Not found 404</h2>
     </>
   )
 }

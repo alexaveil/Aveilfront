@@ -14,10 +14,13 @@ import { useStyles, CssTextField } from "./styles";
 import { Loading } from "../../components";
 import * as keys from "../../utils/keys";
 import { register } from "../../store/actions/user";
-import { isRequestUserSelector, accessTokenSelector } from "../../store/selectors/user";
+import {
+  isRequestUserSelector,
+  accessTokenSelector,
+} from "../../store/selectors/user";
 
 const SignUp = (props) => {
-  const {isRequest, accessToken, register} = props;
+  const { isRequest, accessToken, register } = props;
   const classes = useStyles();
   const history = useHistory();
   const [dataForm, setDataForm] = useState({
@@ -78,7 +81,7 @@ const SignUp = (props) => {
 
   const signUpUser = () => {
     const { email, password, first_name, last_name } = dataForm;
-    let birth_date = getBirthdayFormat()
+    let birth_date = getBirthdayFormat();
 
     if (email && password && first_name && last_name && birth_date) {
       register({
@@ -97,6 +100,10 @@ const SignUp = (props) => {
       last_name,
       birth_date,
     });
+  };
+
+  const handleSigninClick = () => {
+    history.push(keys.LOGIN);
   };
 
   return (
@@ -207,6 +214,15 @@ const SignUp = (props) => {
               ) : (
                 <Loading />
               )}
+              <Button
+                type="button"
+                fullWidth
+                variant="contained"
+                className={classes.signin}
+                onClick={handleSigninClick}
+              >
+                Sign In
+              </Button>
             </form>
           </div>
         </Grid>

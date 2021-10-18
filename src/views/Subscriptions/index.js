@@ -15,7 +15,7 @@ import { Star } from "@material-ui/icons";
 /* import internal modules */
 import useStyles from "./styles";
 import SubscriptionImage from "../../assets/subscription-desktop.png";
-import AppBarSecondaryComponent from '../../components/common/AppBarSecondary'
+import { AppBarSecondary } from "../../components";
 
 const tiers = [
   {
@@ -59,7 +59,7 @@ const SubscriptionsPlans = () => {
   const classes = useStyles();
   return (
     <>
-      <AppBarSecondaryComponent />
+      <AppBarSecondary />
       <Container maxWidth="sm" component="main" className={classes.heroContent}>
         <Typography
           gutterBottom
