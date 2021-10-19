@@ -69,7 +69,7 @@ const AddInterests = (props) => {
   return (
     <div className={classes.root}>
       <Grid container component="main" justify="center" >
-        <Grid item xs={12} sm={8} md={8} xl={5} className={classes.wrapper}>
+        <Grid item className={classes.wrapper}>
           <Typography variant="h4" component="h4" className={classes.title}>
             Choose your interests
           </Typography>

@@ -1,13 +1,15 @@
+import { Container, Grid } from "@material-ui/core";
 /* import internal modules */
-import { AppBarSecondary } from "../../components";
+import { MainLayout } from "../../components";
 
 const NotFound = () => {
   return (
-    <>
-      <AppBarSecondary />
-      <h2>Not found 404</h2>
-    </>
-  )
-}
+    <MainLayout>
+      <Container component="section">
+        <h2>Not found 404</h2>
+      </Container>
+    </MainLayout>
+  );
+};
 
-export default NotFound
+export default NotFound;

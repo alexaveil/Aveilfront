@@ -22,7 +22,7 @@ const ChatPage = (props) => {
   useEffect(() => {
     // getUserInfo();
     // getQuestionSuggestions();
-    getMessages(1);
+    // getMessages(1);
   }, []);
 
   useEffect(() => {

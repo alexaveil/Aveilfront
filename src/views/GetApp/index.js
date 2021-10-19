@@ -3,19 +3,16 @@ import { Card, Grid, Container, CardMedia } from "@material-ui/core";
 
 /* import internal modules */
 import useStyles from "./styles";
-// import LogoImage from '../../assets/logo.png'
+import { MainLayout } from "../../components";
 import AppStoreImage from "../../assets/app-store.png";
 import GooglePlayImage from "../../assets/google-play.png";
 import GetAppImage from "../../assets/download-aveil-app.png";
-
-import { AppBarSecondary } from "../../components";
 
 const GetApp = () => {
   const classes = useStyles();
 
   return (
-    <>
-      <AppBarSecondary />
+    <MainLayout>
       <Container maxWidth="lg" component="section" className={classes.section}>
         <Grid container justify="flex-end" direction="row">
           {/* <Grid item xs={9}>
@@ -71,7 +68,7 @@ const GetApp = () => {
           </Grid>
         </Grid>
       </Container>
-    </>
+    </MainLayout>
   );
 };
 

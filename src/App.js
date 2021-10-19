@@ -92,7 +92,7 @@ const App = () => {
               </Switch>
             </Suspense>
           </Router>
-          <SnackBar />
+          {/* <SnackBar /> */}
         </ThemeProvider>
       </PersistGate>
     </Provider>

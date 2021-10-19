@@ -15,7 +15,7 @@ import { Star } from "@material-ui/icons";
 /* import internal modules */
 import useStyles from "./styles";
 import SubscriptionImage from "../../assets/subscription-desktop.png";
-import { AppBarSecondary } from "../../components";
+import { MainLayout } from "../../components";
 
 const tiers = [
   {
@@ -55,11 +55,10 @@ const tiers = [
   },
 ];
 
-const SubscriptionsPlans = () => {
+const Subscriptions = () => {
   const classes = useStyles();
   return (
-    <>
-      <AppBarSecondary />
+    <MainLayout>
       <Container maxWidth="sm" component="main" className={classes.heroContent}>
         <Typography
           gutterBottom
@@ -137,8 +136,8 @@ const SubscriptionsPlans = () => {
           ))}
         </Grid>
       </Container>
-    </>
+    </MainLayout>
   );
 };
 
-export default SubscriptionsPlans;
+export default Subscriptions;
