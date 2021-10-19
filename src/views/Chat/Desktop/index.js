@@ -11,26 +11,15 @@ import {
   Typography,
   Menu,
   MenuItem,
-  Container,
   Switch,
 } from "@material-ui/core";
-// import { Circle } from 'rc-progress'
-import {
-  Send,
-  Person,
-  Search,
-  MoreVert,
-  ArrowForwardIos,
-  Favorite,
-} from "@material-ui/icons";
-import { useHistory } from "react-router-dom";
+import { Send, Person, Search, MoreVert, Favorite } from "@material-ui/icons";
 import { useEffect, useRef, useState } from "react";
 
 /* import internal modules */
 import useStyles from "./styles";
 import { Loading } from "../../../components";
-import RobotImage from "../../../assets/robot-chat.png";
-import RobotImageMobile from "../../../assets/robot.png";
+import RobotImage from "../../../assets/robot.png";
 
 const Desktop = (props) => {
   const {
@@ -42,22 +31,15 @@ const Desktop = (props) => {
     changeTheme,
     askQuestion,
   } = props;
-  const history = useHistory();
   const classes = useStyles();
   const [chatHeight, setChatHeight] = useState(0);
+  const [typeMessage, setTypeMessage] = useState("");
   const [selectedQuestionSuggest, setSelectedQuestionSuggest] = useState("");
 
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
-  // temp
-  const typeMessage = "";
 
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
-  const containerRef = useRef();
   const autoScrollRef = useRef();
-  const gridLeftContainerRef = useRef();
-  const refSendButtonQuestion = useRef();
-  const gridLeftContainerQuestionsRef = useRef();
 
   useEffect(() => {
     autoScrollRef.current.scrollTo(0, 3000);
@@ -65,11 +47,29 @@ const Desktop = (props) => {
   }, []);
 
   const onChangeData = (event) => {
-    console.log(event.target.value);
+    setTypeMessage(event.target.value);
   };
 
   const selectedAnswer = (answer) => {
-    console.log(answer);
+    setTypeMessage(answer);
+  };
+
+  const handleMobileMenuOpen = (event) => {
+    setMobileMoreAnchorEl(event.currentTarget);
+  };
+
+  const handleMobileMenuClose = () => {
+    setMobileMoreAnchorEl(null);
+  };
+
+  const handleThemeFunction = () => {
+    changeTheme(!enableDarkTheme);
+  };
+
+  const handleSendQuestion = () => {
+    if (selectedQuestionSuggest && selectedQuestionSuggest.length > 0) {
+      askQuestion({ question: selectedQuestionSuggest });
+    }
   };
 
   const renderQuestionsSuggestions = () =>
@@ -99,72 +99,50 @@ const Desktop = (props) => {
     });
 
   const renderMessages = () =>
-    messages.map((message, key) => {
-      return (
-        <div key={key}>
-          {message?.question && (
-            <div
-              elevation={3}
-              className={classes.messagesSendText}
-              style={{
-                maxWidth:
-                  message.question.length < 20
-                    ? message.question.length + 130
-                    : 260,
-              }}
-            >
-              {message.question}
-            </div>
-          )}
-          <Typography className={classes.messagesReceiverTitle}>
-            Select your favorite answer
-          </Typography>
-          {message?.answers?.map((answer, key) => {
-            return (
-              <div
-                key={key}
+    messages.map((message, key) => (
+      <div key={key}>
+        {message?.question && (
+          <div
+            elevation={3}
+            className={classes.messagesSendText}
+            style={{
+              maxWidth:
+                message.question.length < 20
+                  ? message.question.length + 130
+                  : 260,
+            }}
+          >
+            {message.question}
+          </div>
+        )}
+        <Typography className={classes.messagesReceiverTitle}>
+          Select your favorite answer
+        </Typography>
+        {message?.answers?.map((answer, key) => (
+          <div
+            key={key}
+            className={
+              enableDarkTheme
+                ? classes.messagesReceiverContainerDark
+                : classes.messagesReceiverContainer
+            }
+            onClick={() => selectedAnswer(answer)}
+          >
+            <div className={classes.messagesReceiverItemText}>{answer}</div>
+            <div className={classes.messagesReceiverItemFavorite}>
+              <Favorite
+                fontSize="small"
                 className={
                   enableDarkTheme
-                    ? classes.messagesReceiverContainerDark
-                    : classes.messagesReceiverContainer
+                    ? classes.favoriteDarkDisabled
+                    : classes.favorite
                 }
-                onClick={() => selectedAnswer(answer)}
-              >
-                <div className={classes.messagesReceiverItemText}>{answer}</div>
-                <div className={classes.messagesReceiverItemFavorite}>
-                  <Favorite
-                    fontSize="small"
-                    className={
-                      enableDarkTheme
-                        ? classes.favoriteDarkDisabled
-                        : classes.favorite
-                    }
-                  />
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      );
-    });
-
-  const handleMobileMenuOpen = (event) => {
-    setMobileMoreAnchorEl(event.currentTarget);
-  };
-
-  const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null);
-  };
-
-  const handleThemeFunction = () => {
-    changeTheme(!enableDarkTheme);
-  };
-
-  const handleSendQuestion = () => {
-    if (selectedQuestionSuggest && selectedQuestionSuggest.length > 0) {
-      askQuestion({ question: selectedQuestionSuggest });
-    }
-  };
+              />
+            </div>
+          </div>
+        ))}
+      </div>
+    ));
 
   const mobileMenuId = "primary-search-account-menu-mobile";
   const renderMobileMenu = (
@@ -195,11 +173,8 @@ const Desktop = (props) => {
   );
 
   return (
-    <Container
-      maxWidth="xl"
-      component="section"
+    <div
       className={enableDarkTheme ? classes.containerDark : classes.container}
-      ref={containerRef}
     >
       <Grid
         container
@@ -220,7 +195,6 @@ const Desktop = (props) => {
               ? classes.gridLeftContainerDark
               : classes.gridLeftContainer
           }
-          ref={gridLeftContainerRef}
         >
           <Grid container direction="row" className={classes.containerUserName}>
             <Person
@@ -240,14 +214,6 @@ const Desktop = (props) => {
                 ? `${userInfo?.first_name} ${userInfo?.last_name}`
                 : "No name"}
             </Typography>
-            <ArrowForwardIos
-              className={
-                enableDarkTheme
-                  ? classes.arrowForwardDark
-                  : classes.arrowForward
-              }
-              // onClick={goToChatMobile}
-            />
           </Grid>
           <Typography
             className={enableDarkTheme ? classes.titleDark : classes.title}
@@ -261,20 +227,6 @@ const Desktop = (props) => {
                 alt="Aveil"
                 component="img"
                 image={RobotImage}
-                title="Aveil"
-                className={
-                  enableDarkTheme
-                    ? classes.imageCircleDark
-                    : classes.imageCircle
-                }
-              />
-            </Card>
-
-            <Card elevation={0} className={classes.imageCircleMobile}>
-              <CardMedia
-                alt="Aveil"
-                component="img"
-                image={RobotImageMobile}
                 title="Aveil"
                 className={
                   enableDarkTheme
@@ -304,7 +256,6 @@ const Desktop = (props) => {
                     ? classes.containerQuestionsDark
                     : classes.containerQuestions
                 }
-                ref={gridLeftContainerQuestionsRef}
               >
                 <Paper
                   elevation={0}
@@ -340,9 +291,13 @@ const Desktop = (props) => {
           md={8}
           lg={8}
           xl={8}
-          className={classes.secondPageChat}
+          className={
+            enableDarkTheme
+              ? classes.secondPageChatDark
+              : classes.secondPageChat
+          }
         >
-          <Grid container className={classes.headerIntoLarge}>
+          <Grid container>
             <div
               className={
                 enableDarkTheme
@@ -430,14 +385,13 @@ const Desktop = (props) => {
                 className={
                   typeMessage ? classes.sendButton : classes.disabledSendButton
                 }
-                ref={refSendButtonQuestion}
               />
             </Grid>
           </Grid>
         </Grid>
       </Grid>
       {renderMobileMenu}
-    </Container>
+    </div>
   );
 };
 

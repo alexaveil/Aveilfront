@@ -1,5 +1,5 @@
 /* import external modules */
-import { Grid, Container, Box } from "@material-ui/core";
+import { Grid, Container } from "@material-ui/core";
 
 /* import internal modules */
 import { MainLayout } from "../../components";

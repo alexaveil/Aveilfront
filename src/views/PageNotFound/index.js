@@ -1,4 +1,4 @@
-import { Container, Grid } from "@material-ui/core";
+import { Container } from "@material-ui/core";
 /* import internal modules */
 import { MainLayout } from "../../components";
 

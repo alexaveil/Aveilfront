@@ -4,19 +4,28 @@ import { bindActionCreators } from "redux";
 import { useParams } from "react-router-dom";
 
 /* import internal modules */
-import {userInfoSelector, enableDarkThemeSelector} from "../../store/selectors/user";
+import {
+  userInfoSelector,
+  enableDarkThemeSelector,
+} from "../../store/selectors/user";
 import {
   isRequestMessagesSelector,
   questionSuggestionSelector,
   messagesSelector,
 } from "../../store/selectors/messages";
 import { getUserInfo, changeTheme } from "../../store/actions/user";
-import { getQuestionSuggestions, getMessages, askQuestion } from "../../store/actions/messages";
+import { useWindowSize } from "../../utils/hooks";
+import {
+  getQuestionSuggestions,
+  getMessages,
+  askQuestion,
+} from "../../store/actions/messages";
 import Desktop from "./Desktop";
-// import Mobile from "./Mobile";
+import Mobile from "./Mobile";
 
 const ChatPage = (props) => {
   const { getUserInfo, getQuestionSuggestions, getMessages } = props;
+  const size = useWindowSize();
   const [isDesktop, setIsDesktop] = useState(true);
 
   useEffect(() => {
@@ -26,11 +35,10 @@ const ChatPage = (props) => {
   }, []);
 
   useEffect(() => {
-    setIsDesktop(window.innerWidth >= 910);
-  }, [window.innerWidth]);
+    setIsDesktop(size.width >= 910);
+  }, [size.width]);
 
-  // return isDesktop ? <Desktop /> : <Mobile />;
-  return <Desktop {...props} />;
+  return isDesktop ? <Desktop {...props} /> : <Mobile {...props} />;
 };
 
 const mapStateToProps = (state) => ({
@@ -48,7 +56,7 @@ const mapDispatchToProps = (dispatch) =>
       changeTheme,
       getQuestionSuggestions,
       getMessages,
-      askQuestion
+      askQuestion,
     },
     dispatch
   );

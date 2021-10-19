@@ -5,10 +5,9 @@ const useStyles = makeStyles((theme) => ({
   container: {
     backgroundColor: '#ececec',
     width: '100%',
-    height: '12vh',
   },
   containerHearderGrid: {
-    paddingTop: 15,
+    padding: '10px 0',
   },
   avatarMobile: {
     backgroundColor: '#d8d8d8',
@@ -23,28 +22,29 @@ const useStyles = makeStyles((theme) => ({
     cursor: 'pointer',
     marginTop: 9,
   },
-  iconsHeader: {
-    color: '#c8c8c8',
-    cursor: 'pointer',
-    marginTop: 9,
+  containerHearderAvatar: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  iconsHeaderContainer: {
+    display: "flex",
+    alignItems: "center"
+  },
+  iconsHeaderItem: {
+    display: "flex",
+    margin: 10,
+    cursor: "pointer",
   },
   mobileMenu: {
     marginTop: 50,
   },
   paperMessagesContainer: {
-    paddingTop: 10,
     backgroundColor: 'white',
   },
   paperMessages: {
-    height: '71vh',
+    height: '80vh',
     width: '100%',
-    paddingTop: 15,
-    paddingBottom: 15,
     overflowX: 'hidden',
-    overflowY: 'auto',
-    [theme.breakpoints.up('sm')]: {
-      height: '71vh',
-    },
   },
   messagesSendText: {
     padding: 10,
@@ -52,19 +52,16 @@ const useStyles = makeStyles((theme) => ({
     background: '#3043E9',
     marginTop: 10,
     borderRadius: 10,
-    marginLeft: '45%',
+    marginLeft: '55%',
     marginRight: '6%',
     textAlign: 'left',
-    maxWidth: 200,
-    [theme.breakpoints.up('sm')]: {
-      marginLeft: '75%',
-    },
+    maxWidth: '45%',
   },
   messagesReceiverTitle: {
     fontSize: 13,
     color: '#3043E9',
     fontWeight: 600,
-    marginLeft: '7%',
+    marginLeft: '6%',
     marginTop: 15,
   },
   messagesReceiverContainer: {
@@ -76,8 +73,8 @@ const useStyles = makeStyles((theme) => ({
     alignContent: 'normal',
     background: '#E5E5E5',
     borderRadius: 10,
-    maxWidth: 200,
-    marginLeft: '7%',
+    maxWidth: '45%',
+    marginLeft: '6%',
     cursor: 'pointer',
     marginTop: 10,
     paddingLeft: 15,
@@ -111,7 +108,8 @@ const useStyles = makeStyles((theme) => ({
   },
   typeSendMessage: {
     alignItems: 'center',
-    height: '9vh',
+    height: 'auto',
+    padding: '25px 0',
     backgroundColor: '#e9e9e9',
   },
 
@@ -119,19 +117,12 @@ const useStyles = makeStyles((theme) => ({
 
   paperMessagesContainerDark: {
     backgroundColor: '#000326',
-    paddingTop: 10,
   },
   paperMessagesDark: {
     width: '100%',
-    paddingTop: 15,
-    paddingBottom: 15,
     overflowX: 'hidden',
-    overflowY: 'auto',
     backgroundColor: '#000326',
-    height: '71vh',
-    [theme.breakpoints.up('sm')]: {
-      height: '71vh',
-    },
+    height: '80vh',
   },
   typeMessagesDark: {
     color: 'white',
@@ -147,7 +138,8 @@ const useStyles = makeStyles((theme) => ({
     borderTopStyle: 'solid',
     borderTopColor: '#b4b4b5',
     alignItems: 'center',
-    height: '9vh',
+    height: 'auto',
+    padding: '25px 0',
     backgroundColor: '#0a0f45',
   },
   iconsHeaderDark: { color: 'white', cursor: 'pointer', marginTop: 9 },
@@ -160,8 +152,8 @@ const useStyles = makeStyles((theme) => ({
     alignContent: 'normal',
     background: '#000638',
     borderRadius: 10,
-    maxWidth: 200,
-    marginLeft: '7%',
+    maxWidth: '45%',
+    marginLeft: '6%',
     cursor: 'pointer',
     marginTop: 10,
     paddingLeft: 15,
@@ -173,7 +165,6 @@ const useStyles = makeStyles((theme) => ({
   containerDark: {
     backgroundColor: '#0a0f45',
     width: '100%',
-    height: '12vh',
   },
   titleAvatarMobileDark: {
     textAlign: 'center',

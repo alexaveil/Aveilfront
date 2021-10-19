@@ -13,29 +13,26 @@ import {
   InputBase,
 } from "@material-ui/core";
 import { useEffect, useRef, useState } from "react";
-import { useHistory } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  ArrowBackIos,
-  Favorite,
-  MoreVert,
-  Search,
-  Send,
-} from "@material-ui/icons";
+import { Favorite, MoreVert, Search, Send } from "@material-ui/icons";
 
 /* import internal modules */
 import useStyles from "./styles";
-import RobotImageMobile from "../../../assets/robot.png";
+import RobotImage from "../../../assets/robot.png";
 import { Loading } from "../../../components";
 
-const ChatMobile = () => {
-  const dispatch = useDispatch();
-  const history = useHistory();
+const ChatMobile = (props) => {
+  const {
+    isRequestMessages,
+    questionSuggestion,
+    messages,
+    enableDarkTheme,
+    changeTheme,
+    askQuestion,
+  } = props;
   const classes = useStyles();
   const [typeMessage, setTypeMessage] = useState("");
   const autoScrollRef = useRef();
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
-  const enableDarkTheme = false;
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   useEffect(() => {
@@ -43,7 +40,7 @@ const ChatMobile = () => {
   }, []);
 
   const handleThemeFunction = () => {
-    dispatch(setHandleSelectedTheme(!enableDarkTheme));
+    changeTheme(!enableDarkTheme);
   };
 
   const onChangeData = (event) => {
@@ -60,11 +57,6 @@ const ChatMobile = () => {
 
   const selectedAnswer = (answer) => {
     setTypeMessage(answer);
-  };
-
-  const goToBack = () => {
-    dispatch(setSelectedQuestion(null));
-    history.push("/chat");
   };
 
   const mobileMenuId = "primary-search-account-menu-mobile";
@@ -106,32 +98,30 @@ const ChatMobile = () => {
         <Typography className={classes.messagesReceiverTitle}>
           Select your favorite answer
         </Typography>
-        {message?.answers?.map((answer, key) => {
-          return (
-            <div
-              key={key}
-              className={
-                enableDarkTheme
-                  ? classes.messagesReceiverContainerDark
-                  : classes.messagesReceiverContainer
-              }
-            >
-              <div className={classes.messagesReceiverItem}>
-                <div elevation={3} onClick={() => selectedAnswer(answer)}>
-                  {answer}
-                </div>
-              </div>
-              <div className={classes.messagesReceiverItem}>
-                <Favorite
-                  color="disabled"
-                  fontSize="small"
-                  className={classes.favorite}
-                  onClick={() => selectedAnswer(answer)}
-                />
+        {message?.answers?.map((answer, key) => (
+          <div
+            key={key}
+            className={
+              enableDarkTheme
+                ? classes.messagesReceiverContainerDark
+                : classes.messagesReceiverContainer
+            }
+          >
+            <div className={classes.messagesReceiverItem}>
+              <div elevation={3} onClick={() => selectedAnswer(answer)}>
+                {answer}
               </div>
             </div>
-          );
-        })}
+            <div className={classes.messagesReceiverItem}>
+              <Favorite
+                color="disabled"
+                fontSize="small"
+                className={classes.favorite}
+                onClick={() => selectedAnswer(answer)}
+              />
+            </div>
+          </div>
+        ))}
       </div>
     );
   });
@@ -139,8 +129,6 @@ const ChatMobile = () => {
   return (
     <>
       <Container
-        maxWidth="lg"
-        component="section"
         className={enableDarkTheme ? classes.containerDark : classes.container}
       >
         <Grid
@@ -148,16 +136,10 @@ const ChatMobile = () => {
           justify="space-between"
           className={classes.containerHearderGrid}
         >
-          <ArrowBackIos
-            className={
-              enableDarkTheme ? classes.arrowBackIosDark : classes.arrowBackIos
-            }
-            onClick={goToBack}
-          />
-          <Grid>
+          <div className={classes.containerHearderAvatar}>
             <Avatar
               alt="Aveil"
-              src={RobotImageMobile}
+              src={RobotImage}
               className={
                 enableDarkTheme
                   ? classes.avatarMobileDark
@@ -173,24 +155,31 @@ const ChatMobile = () => {
             >
               Avi
             </Typography>
-          </Grid>
-          <Grid>
-            <Search
-              className={
-                enableDarkTheme ? classes.iconsHeaderDark : classes.iconsHeader
-              }
-            />
-            &nbsp;&nbsp;&nbsp;&nbsp;
-            <MoreVert
-              aria-haspopup="true"
-              aria-label="show more"
-              aria-controls={mobileMenuId}
-              onClick={handleMobileMenuOpen}
-              className={
-                enableDarkTheme ? classes.iconsHeaderDark : classes.iconsHeader
-              }
-            />
-          </Grid>
+          </div>
+          <div className={classes.iconsHeaderContainer}>
+            <div className={classes.iconsHeaderItem}>
+              <Search
+                className={
+                  enableDarkTheme
+                    ? classes.iconsHeaderDark
+                    : classes.iconsHeader
+                }
+              />
+            </div>
+            <div className={classes.iconsHeaderItem}>
+              <MoreVert
+                aria-haspopup="true"
+                aria-label="show more"
+                aria-controls={mobileMenuId}
+                onClick={handleMobileMenuOpen}
+                className={
+                  enableDarkTheme
+                    ? classes.iconsHeaderDark
+                    : classes.iconsHeader
+                }
+              />
+            </div>
+          </div>
         </Grid>
       </Container>
       <Grid
@@ -201,7 +190,7 @@ const ChatMobile = () => {
             : classes.paperMessagesContainer
         }
       >
-        {!loading ? (
+        {!isRequestMessages ? (
           <Paper
             elevation={0}
             className={
