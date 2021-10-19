@@ -43,6 +43,7 @@ const useStyles = makeStyles((theme) => ({
   },
   paperMessages: {
     height: '80vh',
+    padding: '15px 0',
     width: '100%',
     overflowX: 'hidden',
   },
@@ -82,13 +83,14 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: 8,
     paddingBottom: 4,
   },
-  messagesReceiverItem: {
-    display: 'block',
-    flexGrow: 0,
-    flexShrink: 1,
-    flexBasis: 'auto',
-    alignSelf: 'auto',
-    order: 0,
+  messagesReceiverItemText: {
+    width: "95%",
+  },
+  messagesReceiverItemFavorite: {
+    width: "5%",
+  },
+  favorite: {
+    color: "#aaaaaa",
   },
   sendButton: {
     cursor: 'pointer',
@@ -123,6 +125,7 @@ const useStyles = makeStyles((theme) => ({
     overflowX: 'hidden',
     backgroundColor: '#000326',
     height: '80vh',
+    padding: '15px 0',
   },
   typeMessagesDark: {
     color: 'white',

@@ -82,6 +82,28 @@ export function* askCustomQuestionSaga({payload: { data }}) {
 }
 
 
+export function* selectQuestionSaga({payload: { data }}) {
+  try {
+    const response = yield call(request, `/messages/select_question`, {
+      method: "POST",
+      payload: data,
+    });
+
+    yield put({
+      type: MESSAGES.SELECT_QUESTION_SUCCESS,
+      payload: {
+        response,
+      },
+    });
+  } catch (err) {
+    yield put({
+      type: MESSAGES.SELECT_QUESTION_FAILURE,
+      payload: err,
+    });
+  }
+}
+
+
 /**
  * Messages Sagas
  */
@@ -91,5 +113,6 @@ export function* askCustomQuestionSaga({payload: { data }}) {
     takeLatest(MESSAGES.GET_MESSAGES, getMessagesSaga),
     takeLatest(MESSAGES.ASK_QUESTION, askQuestionSaga),
     takeLatest(MESSAGES.ASK_CUSTOM_QUESTION, askCustomQuestionSaga),
+    takeLatest(MESSAGES.SELECT_QUESTION, selectQuestionSaga)
   ]);
 }

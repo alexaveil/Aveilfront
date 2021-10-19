@@ -30,28 +30,24 @@ const Desktop = (props) => {
     enableDarkTheme,
     changeTheme,
     askQuestion,
+    askCustomQuestion,
+    selectQuestion,
   } = props;
   const classes = useStyles();
   const [chatHeight, setChatHeight] = useState(0);
   const [typeMessage, setTypeMessage] = useState("");
   const [selectedQuestionSuggest, setSelectedQuestionSuggest] = useState("");
-
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
-
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   const autoScrollRef = useRef();
 
   useEffect(() => {
-    autoScrollRef.current.scrollTo(0, 3000);
+    autoScrollRef?.current?.scrollTo(0, 3000);
     setChatHeight(window.innerHeight);
   }, []);
 
   const onChangeData = (event) => {
     setTypeMessage(event.target.value);
-  };
-
-  const selectedAnswer = (answer) => {
-    setTypeMessage(answer);
   };
 
   const handleMobileMenuOpen = (event) => {
@@ -69,6 +65,18 @@ const Desktop = (props) => {
   const handleSendQuestion = () => {
     if (selectedQuestionSuggest && selectedQuestionSuggest.length > 0) {
       askQuestion({ question: selectedQuestionSuggest });
+    }
+  };
+
+  const handleSendCustomQuestion = () => {
+    if (typeMessage && typeMessage.length > 0) {
+      askCustomQuestion({ question: typeMessage });
+    }
+  };
+
+  const handleSelect = (data) => {
+    if (data?.question_id && data?.option_selected) {
+      selectQuestion(data);
     }
   };
 
@@ -102,16 +110,7 @@ const Desktop = (props) => {
     messages.map((message, key) => (
       <div key={key}>
         {message?.question && (
-          <div
-            elevation={3}
-            className={classes.messagesSendText}
-            style={{
-              maxWidth:
-                message.question.length < 20
-                  ? message.question.length + 130
-                  : 260,
-            }}
-          >
+          <div elevation={3} className={classes.messagesSendText}>
             {message.question}
           </div>
         )}
@@ -126,7 +125,12 @@ const Desktop = (props) => {
                 ? classes.messagesReceiverContainerDark
                 : classes.messagesReceiverContainer
             }
-            onClick={() => selectedAnswer(answer)}
+            onClick={() =>
+              handleSelect({
+                question_id: message?.question_id,
+                option_selected: key,
+              })
+            }
           >
             <div className={classes.messagesReceiverItemText}>{answer}</div>
             <div className={classes.messagesReceiverItemFavorite}>
@@ -382,6 +386,7 @@ const Desktop = (props) => {
             <Grid item xs={2} md={1} lg={1} xl={1}>
               <Send
                 color="primary"
+                onClick={handleSendCustomQuestion}
                 className={
                   typeMessage ? classes.sendButton : classes.disabledSendButton
                 }

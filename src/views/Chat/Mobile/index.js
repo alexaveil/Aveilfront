@@ -23,25 +23,21 @@ import { Loading } from "../../../components";
 const ChatMobile = (props) => {
   const {
     isRequestMessages,
-    questionSuggestion,
     messages,
     enableDarkTheme,
     changeTheme,
-    askQuestion,
+    askCustomQuestion,
+    selectQuestion,
   } = props;
+  const autoScrollRef = useRef();
   const classes = useStyles();
   const [typeMessage, setTypeMessage] = useState("");
-  const autoScrollRef = useRef();
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   useEffect(() => {
-    autoScrollRef.current.scrollTo(0, 5000);
+    autoScrollRef?.current?.scrollTo(0, 5000);
   }, []);
-
-  const handleThemeFunction = () => {
-    changeTheme(!enableDarkTheme);
-  };
 
   const onChangeData = (event) => {
     setTypeMessage(event.target.value);
@@ -55,8 +51,20 @@ const ChatMobile = (props) => {
     setMobileMoreAnchorEl(null);
   };
 
-  const selectedAnswer = (answer) => {
-    setTypeMessage(answer);
+  const handleThemeFunction = () => {
+    changeTheme(!enableDarkTheme);
+  };
+
+  const handleSendCustomQuestion = () => {
+    if (typeMessage && typeMessage.length > 0) {
+      askCustomQuestion({ question: typeMessage });
+    }
+  };
+
+  const handleSelect = (data) => {
+    if (data?.question_id && data?.option_selected) {
+      selectQuestion(data);
+    }
   };
 
   const mobileMenuId = "primary-search-account-menu-mobile";
@@ -87,8 +95,8 @@ const ChatMobile = (props) => {
     </Menu>
   );
 
-  const renderMessages = messages.map((message, key) => {
-    return (
+  const renderMessages = () =>
+    messages.map((message, key) => (
       <div key={key}>
         {message?.question && (
           <div elevation={3} className={classes.messagesSendText}>
@@ -106,25 +114,28 @@ const ChatMobile = (props) => {
                 ? classes.messagesReceiverContainerDark
                 : classes.messagesReceiverContainer
             }
+            onClick={() =>
+              handleSelect({
+                question_id: message?.question_id,
+                option_selected: key,
+              })
+            }
           >
-            <div className={classes.messagesReceiverItem}>
-              <div elevation={3} onClick={() => selectedAnswer(answer)}>
-                {answer}
-              </div>
-            </div>
-            <div className={classes.messagesReceiverItem}>
+            <div className={classes.messagesReceiverItemText}>{answer}</div>
+            <div className={classes.messagesReceiverItemFavorite}>
               <Favorite
-                color="disabled"
                 fontSize="small"
-                className={classes.favorite}
-                onClick={() => selectedAnswer(answer)}
+                className={
+                  enableDarkTheme
+                    ? classes.favoriteDarkDisabled
+                    : classes.favorite
+                }
               />
             </div>
           </div>
         ))}
       </div>
-    );
-  });
+    ));
 
   return (
     <>
@@ -200,8 +211,8 @@ const ChatMobile = (props) => {
             }
             ref={autoScrollRef}
           >
-            {renderMessages.length > 0 ? (
-              renderMessages
+            {messages.length > 0 ? (
+              renderMessages()
             ) : (
               <Typography align="center" color="secondary">
                 Not messages yet
@@ -238,6 +249,7 @@ const ChatMobile = (props) => {
               className={
                 typeMessage ? classes.sendButton : classes.disabledSendButton
               }
+              onClick={handleSendCustomQuestion}
             />
           </Grid>
         </Grid>

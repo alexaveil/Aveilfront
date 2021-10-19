@@ -51,7 +51,7 @@ const Section1 = (props) => {
     history.push({
       pathname: keys.CHAT,
       state: {
-        selectedQuestion: value,
+        question: value,
       }
     });
   }

@@ -9,6 +9,7 @@ const initialState = {
     isRequestMessages: false,
     questionSuggestion: [],
     messages: [],
+    needUpdate: false,
   }
 };
 

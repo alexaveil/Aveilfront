@@ -6,6 +6,7 @@
 import axios from "axios";
 
 import { store } from "../store";
+import { USER } from "../store/types";
 import { BASE_URL } from "../constants/config";
 
 axios.interceptors.request.use(
@@ -40,7 +41,11 @@ export function request(url, options = {}) {
     errors.push("url");
   }
 
-  if (!config.payload && config.method !== "GET" && config.method !== "DELETE") {
+  if (
+    !config.payload &&
+    config.method !== "GET" &&
+    config.method !== "DELETE"
+  ) {
     errors.push("payload");
   }
 
@@ -71,13 +76,18 @@ export function request(url, options = {}) {
     ...params,
   })
     .then((response) => {
-      if (response.status >= 400) {
+       if (response.status > 401) {
         throw response.data;
       }
       return response.data;
     })
-    .catch((err) => {
-      console.log(`Error while ${url}`, err);
-      throw err;
+    .catch((error) => {
+      if (error?.response?.status === 401) {
+        store?.dispatch({
+          type: USER.LOGOUT,
+        });
+      }
+      console.log(`erroror while ${url}`, error);
+      throw error;
     });
 }
