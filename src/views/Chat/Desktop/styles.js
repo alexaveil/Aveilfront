@@ -3,13 +3,13 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    backgroundColor: '#FFFFFF'
+    backgroundColor: "#FFFFFF",
   },
   containerGrid: {
     padding: 40,
   },
   containerUserName: {
-    padding: '20px 30px',
+    padding: "20px 30px",
   },
   gridLeftContainer: {
     border: "2px solid #E5E5E5",
@@ -77,7 +77,7 @@ const useStyles = makeStyles((theme) => ({
     alignContent: "normal",
     background: "#E5E5E5",
     borderRadius: 10,
-    maxWidth: '45%',
+    maxWidth: "45%",
     marginLeft: "6%",
     cursor: "pointer",
     marginTop: 10,
@@ -91,6 +91,9 @@ const useStyles = makeStyles((theme) => ({
   },
   messagesReceiverItemFavorite: {
     width: "5%",
+  },
+  favoriteSelected: {
+    color: "#ffa500",
   },
   favorite: {
     color: "#aaaaaa",
@@ -209,7 +212,7 @@ const useStyles = makeStyles((theme) => ({
     padding: "10px 20px",
     width: "100%",
     backgroundColor: "#000326",
-    borderBottom: '2px solid #000637'
+    borderBottom: "2px solid #000637",
   },
   paperMessagesDark: {
     width: "100%",
@@ -240,8 +243,8 @@ const useStyles = makeStyles((theme) => ({
     alignContent: "normal",
     background: "#000638",
     borderRadius: 10,
-    maxWidth: '45%',
-    marginLeft: '6%',
+    maxWidth: "45%",
+    marginLeft: "6%",
     cursor: "pointer",
     marginTop: 10,
     paddingLeft: 15,
@@ -254,7 +257,7 @@ const useStyles = makeStyles((theme) => ({
     background: "#000326",
     alignItems: "center",
     height: "88px",
-    borderTop: '2px solid #000637'
+    borderTop: "2px solid #000637",
   },
   typeMessagesDark: {
     color: "white",
@@ -265,9 +268,6 @@ const useStyles = makeStyles((theme) => ({
   },
   favoriteDark: {
     color: "#3044e9",
-  },
-  favoriteDarkDisabled: {
-    color: "#2d3581",
   },
 }));
 

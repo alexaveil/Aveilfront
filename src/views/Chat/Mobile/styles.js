@@ -89,6 +89,9 @@ const useStyles = makeStyles((theme) => ({
   messagesReceiverItemFavorite: {
     width: "5%",
   },
+  favoriteSelected: {
+    color: "#ffa500",
+  },
   favorite: {
     color: "#aaaaaa",
   },
@@ -182,6 +185,9 @@ const useStyles = makeStyles((theme) => ({
   },
   avatarMobileDark: {
     backgroundColor: '#0d1557',
+  },
+  favoriteDark: {
+    color: "#3044e9",
   },
 }))
 

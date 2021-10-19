@@ -41,9 +41,9 @@ const ChatPage = (props) => {
   const [isDesktop, setIsDesktop] = useState(true);
 
   useEffect(() => {
-    // if (location?.state?.question) {
-    //   askQuestion({ question: location?.state?.question });
-    // }
+    if (location?.state?.question) {
+      askQuestion({ question: location?.state?.question });
+    }
 
     getMessages(1);
     if (!userInfo) {

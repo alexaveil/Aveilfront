@@ -134,14 +134,21 @@ const Desktop = (props) => {
           >
             <div className={classes.messagesReceiverItemText}>{answer}</div>
             <div className={classes.messagesReceiverItemFavorite}>
-              <Favorite
-                fontSize="small"
-                className={
-                  enableDarkTheme
-                    ? classes.favoriteDarkDisabled
-                    : classes.favorite
-                }
-              />
+              {message?.option_selected && message.option_selected === key ? (
+                <Favorite
+                  fontSize="small"
+                  className={classes.favoriteSelected}
+                />
+              ) : (
+                <Favorite
+                  fontSize="small"
+                  className={
+                    enableDarkTheme
+                      ? classes.favoriteDark
+                      : classes.favorite
+                  }
+                />
+              )}
             </div>
           </div>
         ))}
