@@ -1,0 +1,1 @@
+export const alertSelector = (state) => state.commonReducer.alert;

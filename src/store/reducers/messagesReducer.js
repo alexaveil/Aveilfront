@@ -56,11 +56,13 @@ export default injectReducer(initialState.messagesReducer, {
       ...state,
       isRequestMessages: false,
       messages: messagesArr,
+      selectedQuestion: null
     };
   },
   [MESSAGES.ASK_QUESTION_FAILURE]: (state) => ({
     ...state,
     isRequestMessages: false,
+    selectedQuestion: null
   }),
 
   [MESSAGES.ASK_CUSTOM_QUESTION]: (state) => ({
@@ -102,5 +104,10 @@ export default injectReducer(initialState.messagesReducer, {
   [MESSAGES.SELECT_QUESTION_FAILURE]: (state) => ({
     ...state,
     isRequestMessages: false,
+  }),
+
+  [MESSAGES.SET_SELECTED_QUESTION]: (state, { payload: { value } }) => ({
+    ...state,
+    selectedQuestion: value,
   }),
 });

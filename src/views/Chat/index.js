@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { useLocation } from "react-router-dom";
 
 /* import internal modules */
 import {
@@ -13,6 +12,7 @@ import {
   questionSuggestionSelector,
   messagesSelector,
   needUpdateMessagesSelector,
+  selectedQuestionSelector,
 } from "../../store/selectors/messages";
 import { getUserInfo, changeTheme } from "../../store/actions/user";
 import { useWindowSize } from "../../utils/hooks";
@@ -34,15 +34,15 @@ const ChatPage = (props) => {
     getMessages,
     userInfo,
     questionSuggestion,
-    needUpdateMessages
+    needUpdateMessages,
+    selectedQuestion
   } = props;
   const size = useWindowSize();
-  const location = useLocation();
   const [isDesktop, setIsDesktop] = useState(true);
 
   useEffect(() => {
-    if (location?.state?.question) {
-      askQuestion({ question: location?.state?.question });
+    if (!!selectedQuestion) {
+      askQuestion({ question: selectedQuestion });
     }
 
     getMessages(1);
@@ -71,6 +71,7 @@ const ChatPage = (props) => {
 const mapStateToProps = (state) => ({
   isRequestMessages: isRequestMessagesSelector(state),
   questionSuggestion: questionSuggestionSelector(state),
+  selectedQuestion: selectedQuestionSelector(state),
   messages: messagesSelector(state),
   needUpdateMessages: needUpdateMessagesSelector(state),
   userInfo: userInfoSelector(state),

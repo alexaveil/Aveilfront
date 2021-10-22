@@ -70,7 +70,10 @@ const Desktop = (props) => {
 
   const handleSendCustomQuestion = () => {
     if (typeMessage && typeMessage.length > 0) {
-      askCustomQuestion({ question: typeMessage });
+      askCustomQuestion({
+        question: typeMessage,
+        interests: userInfo?.interests,
+      });
     }
   };
 
@@ -143,9 +146,7 @@ const Desktop = (props) => {
                 <Favorite
                   fontSize="small"
                   className={
-                    enableDarkTheme
-                      ? classes.favoriteDark
-                      : classes.favorite
+                    enableDarkTheme ? classes.favoriteDark : classes.favorite
                   }
                 />
               )}
@@ -258,30 +259,26 @@ const Desktop = (props) => {
             Other relevant questions:
           </Typography>
           <center>
-            {!isRequestMessages ? (
-              <Grid
-                container
-                justify="center"
+            <Grid
+              container
+              justify="center"
+              className={
+                enableDarkTheme
+                  ? classes.containerQuestionsDark
+                  : classes.containerQuestions
+              }
+            >
+              <Paper
+                elevation={0}
                 className={
                   enableDarkTheme
-                    ? classes.containerQuestionsDark
-                    : classes.containerQuestions
+                    ? classes.questionsTextDark
+                    : classes.questionsText
                 }
               >
-                <Paper
-                  elevation={0}
-                  className={
-                    enableDarkTheme
-                      ? classes.questionsTextDark
-                      : classes.questionsText
-                  }
-                >
-                  {renderQuestionsSuggestions()}
-                </Paper>
-              </Grid>
-            ) : (
-              <Loading />
-            )}
+                {renderQuestionsSuggestions()}
+              </Paper>
+            </Grid>
           </center>
           <Grid container justify="center">
             <Button

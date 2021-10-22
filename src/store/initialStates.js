@@ -10,6 +10,14 @@ const initialState = {
     questionSuggestion: [],
     messages: [],
     needUpdate: false,
+    selectedQuestion: null
+  },
+  commonReducer: {
+    alert: { 
+      message: '', 
+      status: false, 
+      severity: null
+    },
   }
 };
 

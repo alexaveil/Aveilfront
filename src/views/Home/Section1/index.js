@@ -21,14 +21,22 @@ import { Loading } from "../../../components";
 import { useStyles, CssTextField } from "./styles";
 import RobotImage from "../../../assets/robot.png";
 import * as keys from "../../../utils/keys";
-import { getQuestionSuggestions } from "../../../store/actions/messages";
+import {
+  getQuestionSuggestions,
+  setSelectedQuestion,
+} from "../../../store/actions/messages";
 import {
   isRequestMessagesSelector,
   questionSuggestionSelector,
 } from "../../../store/selectors/messages";
 
 const Section1 = (props) => {
-  const { isRequestMessages, questionSuggestion, getQuestionSuggestions } = props;
+  const {
+    isRequestMessages,
+    questionSuggestion,
+    getQuestionSuggestions,
+    setSelectedQuestion,
+  } = props;
   const classes = useStyles();
   const history = useHistory();
   const containerRef = useRef();
@@ -48,13 +56,9 @@ const Section1 = (props) => {
   };
 
   const handleQuestionSelected = (value) => {
-    history.push({
-      pathname: keys.CHAT,
-      state: {
-        question: value,
-      }
-    });
-  }
+    setSelectedQuestion(value);
+    history.push(keys.CHAT);
+  };
 
   const CustomPaper = (props) => {
     return <Paper elevation={8} {...props} />;
@@ -145,6 +149,7 @@ const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
       getQuestionSuggestions,
+      setSelectedQuestion,
     },
     dispatch
   );

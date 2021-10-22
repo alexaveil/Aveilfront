@@ -2,3 +2,4 @@ export const isRequestMessagesSelector = (state) => state.messagesReducer.isRequ
 export const questionSuggestionSelector = (state) => state.messagesReducer.questionSuggestion;
 export const messagesSelector = (state) => state.messagesReducer.messages;
 export const needUpdateMessagesSelector = (state) => state.messagesReducer.needUpdateMessages;
+export const selectedQuestionSelector = (state) => state.messagesReducer.selectedQuestion;

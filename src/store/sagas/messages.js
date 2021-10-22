@@ -65,6 +65,7 @@ export function* askCustomQuestionSaga({payload: { data }}) {
     const response = yield call(request, `/messages/ask_custom_question`, {
       method: "POST",
       payload: data,
+      useJson: true,
     });
 
     yield put({

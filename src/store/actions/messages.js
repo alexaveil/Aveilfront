@@ -8,6 +8,7 @@ export const {
   askQuestion,
   askCustomQuestion,
   selectQuestion,
+  setSelectedQuestion,
 } = createActions({
   [MESSAGES.GET_QUESTION_SUGGESTIONS]: () => ({}),
   [MESSAGES.GET_MESSAGES]: (page) => ({
@@ -22,4 +23,5 @@ export const {
   [MESSAGES.SELECT_QUESTION]: (data) => ({
     data,
   }),
+  [MESSAGES.SET_SELECTED_QUESTION]: (value) => ({value}),
 });

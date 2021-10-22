@@ -24,6 +24,7 @@ const ChatMobile = (props) => {
   const {
     isRequestMessages,
     messages,
+    userInfo,
     enableDarkTheme,
     changeTheme,
     askCustomQuestion,
@@ -57,7 +58,10 @@ const ChatMobile = (props) => {
 
   const handleSendCustomQuestion = () => {
     if (typeMessage && typeMessage.length > 0) {
-      askCustomQuestion({ question: typeMessage });
+      askCustomQuestion({ 
+        question: typeMessage,
+        interests: userInfo?.interests
+      });
     }
   };
 

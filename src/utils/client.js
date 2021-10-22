@@ -6,7 +6,7 @@
 import axios from "axios";
 
 import { store } from "../store";
-import { USER } from "../store/types";
+import { USER, COMMON } from "../store/types";
 import { BASE_URL } from "../constants/config";
 
 axios.interceptors.request.use(
@@ -49,7 +49,7 @@ export function request(url, options = {}) {
     errors.push("payload");
   }
 
-  if (config.method === "POST") {
+  if (config.method === "POST" && !config.useJson) {
     let form_data = new FormData();
 
     for (let key in payloadData) {
@@ -86,8 +86,24 @@ export function request(url, options = {}) {
         store?.dispatch({
           type: USER.LOGOUT,
         });
+        store?.dispatch({
+          type: COMMON.SET_HANDLE_ALERT,
+          payload: {
+            message: 'You need to log in', 
+            status: true, 
+            severity: 'error' 
+          }
+        });
+      } else {
+        store?.dispatch({
+          type: COMMON.SET_HANDLE_ALERT,
+          payload: {
+            message: error?.response?.data?.message, 
+            status: true, 
+            severity: 'error' 
+          }
+        });
       }
-      console.log(`erroror while ${url}`, error);
       throw error;
     });
 }
