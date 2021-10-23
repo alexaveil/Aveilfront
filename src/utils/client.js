@@ -49,7 +49,7 @@ export function request(url, options = {}) {
     errors.push("payload");
   }
 
-  if (config.method === "POST" && !config.useJson) {
+  if (config.method === "POST") {
     let form_data = new FormData();
 
     for (let key in payloadData) {

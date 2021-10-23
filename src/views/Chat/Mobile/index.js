@@ -4,8 +4,11 @@
 import {
   Grid,
   Menu,
+  Card,
+  CardMedia,
   Avatar,
   Switch,
+  Button,
   MenuItem,
   Container,
   Typography,
@@ -13,7 +16,15 @@ import {
   InputBase,
 } from "@material-ui/core";
 import { useEffect, useRef, useState } from "react";
-import { Favorite, MoreVert, Search, Send } from "@material-ui/icons";
+import {
+  ArrowBackIos,
+  ArrowForwardIos,
+  Favorite,
+  MoreVert,
+  Search,
+  Person,
+  Send,
+} from "@material-ui/icons";
 
 /* import internal modules */
 import useStyles from "./styles";
@@ -26,19 +37,29 @@ const ChatMobile = (props) => {
     messages,
     userInfo,
     enableDarkTheme,
+    questionSuggestion,
     changeTheme,
-    askCustomQuestion,
+    askQuestion,
     selectQuestion,
   } = props;
   const autoScrollRef = useRef();
   const classes = useStyles();
   const [typeMessage, setTypeMessage] = useState("");
+  const [showModal, setShowModal] = useState(false);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
+  const [selectedQuestionSuggest, setSelectedQuestionSuggest] = useState("");
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   useEffect(() => {
-    autoScrollRef?.current?.scrollTo(0, 5000);
-  }, []);
+    if (messages && messages.length > 0) {
+      autoScrollRef?.current?.scrollTo(0, 5000);
+    }
+    setTypeMessage("");
+  }, [messages]);
+
+  const showSelectQuestionModal = () => {
+    setShowModal(!showModal);
+  };
 
   const onChangeData = (event) => {
     setTypeMessage(event.target.value);
@@ -56,17 +77,24 @@ const ChatMobile = (props) => {
     changeTheme(!enableDarkTheme);
   };
 
-  const handleSendCustomQuestion = () => {
-    if (typeMessage && typeMessage.length > 0) {
-      askCustomQuestion({ 
+  const handleSendSuggestQuestion = () => {
+    if (!isRequestMessages && selectedQuestionSuggest && selectedQuestionSuggest.length > 0) {
+      askQuestion({ question: selectedQuestionSuggest });
+      setSelectedQuestionSuggest("");
+      showSelectQuestionModal();
+    }
+  };
+
+  const handleSendQuestion = () => {
+    if (!isRequestMessages && typeMessage && typeMessage.length > 0) {
+      askQuestion({
         question: typeMessage,
-        interests: userInfo?.interests
       });
     }
   };
 
   const handleSelect = (data) => {
-    if (data?.question_id && data?.option_selected) {
+    if (!isRequestMessages && data?.question_id && data?.option_selected) {
       selectQuestion(data);
     }
   };
@@ -99,6 +127,117 @@ const ChatMobile = (props) => {
     </Menu>
   );
 
+  const renderQuestionsSuggestions = () =>
+    questionSuggestion.map((question, key) => {
+      return (
+        <div
+          elevation={3}
+          className={`${classes.questionsText} ${
+            selectedQuestionSuggest === question
+              ? classes.selectedQuestionText
+              : ""
+          }`}
+          key={key}
+          onClick={() => {
+            setSelectedQuestionSuggest(question);
+          }}
+        >
+          {question}
+        </div>
+      );
+    });
+
+  const renderModalQuestionSuggestion = () => (
+    <Grid item>
+      <Grid
+        container
+        direction="row"
+        justify="space-between"
+        alignItems="center"
+        className={classes.containerUserName}
+      >
+        <Grid item>
+          <div className={classes.containerUserWrapper}>
+            <Person
+              fontSize="large"
+              className={
+                enableDarkTheme ? classes.iconPersonDark : classes.iconPerson
+              }
+            />
+            <Typography
+              className={
+                enableDarkTheme
+                  ? classes.userNameTextDark
+                  : classes.userNameText
+              }
+            >
+              {userInfo?.first_name || userInfo?.last_name
+                ? `${userInfo?.first_name} ${userInfo?.last_name}`
+                : "No name"}
+            </Typography>
+          </div>
+        </Grid>
+        <Grid item>
+          <ArrowForwardIos
+            className={
+              enableDarkTheme ? classes.headerIconsDark : classes.headerIcons
+            }
+            onClick={showSelectQuestionModal}
+          />
+        </Grid>
+      </Grid>
+      <Typography
+        className={enableDarkTheme ? classes.titleDark : classes.title}
+        align="center"
+      >
+        Avi
+      </Typography>
+      <Grid container justify="center">
+        <Card elevation={0}>
+          <CardMedia
+            alt="Aveil"
+            component="img"
+            image={RobotImage}
+            title="Aveil"
+            className={
+              enableDarkTheme ? classes.imageCircleDark : classes.imageCircle
+            }
+          />
+        </Card>
+      </Grid>
+      <Typography
+        className={
+          enableDarkTheme ? classes.titleQuestionsDark : classes.titleQuestions
+        }
+        align="center"
+      >
+        Other relevant questions:
+      </Typography>
+      <center>
+        <Grid container justify="center" className={classes.containerQuestions}>
+          <Paper
+            elevation={0}
+            justify="flex-start"
+            className={classes.containerQuestionWrapper}
+          >
+            {renderQuestionsSuggestions()}
+          </Paper>
+        </Grid>
+      </center>
+      <Grid container justify="center">
+        <Button
+          color="primary"
+          variant="contained"
+          size="large"
+          className={classes.askButton}
+          onClick={handleSendSuggestQuestion}
+        >
+          Ask
+        </Button>
+      </Grid>
+    </Grid>
+  );
+
   const renderMessages = () =>
     messages.map((message, key) => (
       <div key={key}>
@@ -118,23 +257,39 @@ const ChatMobile = (props) => {
                 ? classes.messagesReceiverContainerDark
                 : classes.messagesReceiverContainer
             }
-            onClick={() =>
-              handleSelect({
-                question_id: message?.question_id,
-                option_selected: key,
-              })
-            }
           >
-            <div className={classes.messagesReceiverItemText}>{answer}</div>
+            <div
+              className={classes.messagesReceiverItemText}
+              onClick={() => setTypeMessage(answer)}
+            >
+              {answer}
+            </div>
             <div className={classes.messagesReceiverItemFavorite}>
-              <Favorite
-                fontSize="small"
-                className={
-                  enableDarkTheme
-                    ? classes.favoriteDarkDisabled
-                    : classes.favorite
-                }
-              />
+              {message?.option_selected &&
+              message.option_selected === key + 1 ? (
+                <Favorite
+                  fontSize="small"
+                  className={`${classes.favoriteSelected} ${classes.favoriteMain}`}
+                />
+              ) : (
+                <Favorite
+                  onClick={() =>
+                    handleSelect({
+                      question_id: message?.question_id,
+                      option_selected: key + 1,
+                    })
+                  }
+                  fontSize="small"
+                  className={`
+                      ${
+                        enableDarkTheme
+                          ? classes.favoriteDark
+                          : classes.favorite
+                      } 
+                      ${classes.favoriteMain}
+                    `}
+                />
+              )}
             </div>
           </div>
         ))}
@@ -151,6 +306,14 @@ const ChatMobile = (props) => {
           justify="space-between"
           className={classes.containerHearderGrid}
         >
+          <div className={classes.containerHearderIcons}>
+            <ArrowBackIos
+              className={
+                enableDarkTheme ? classes.headerIconsDark : classes.headerIcons
+              }
+              onClick={showSelectQuestionModal}
+            />
+          </div>
           <div className={classes.containerHearderAvatar}>
             <Avatar
               alt="Aveil"
@@ -171,13 +334,13 @@ const ChatMobile = (props) => {
               Avi
             </Typography>
           </div>
-          <div className={classes.iconsHeaderContainer}>
+          <div className={classes.containerHearderIcons}>
             <div className={classes.iconsHeaderItem}>
               <Search
                 className={
                   enableDarkTheme
-                    ? classes.iconsHeaderDark
-                    : classes.iconsHeader
+                    ? classes.headerIconsDark
+                    : classes.headerIcons
                 }
               />
             </div>
@@ -189,8 +352,8 @@ const ChatMobile = (props) => {
                 onClick={handleMobileMenuOpen}
                 className={
                   enableDarkTheme
-                    ? classes.iconsHeaderDark
-                    : classes.iconsHeader
+                    ? classes.headerIconsDark
+                    : classes.headerIcons
                 }
               />
             </div>
@@ -205,27 +368,23 @@ const ChatMobile = (props) => {
             : classes.paperMessagesContainer
         }
       >
-        {!isRequestMessages ? (
-          <Paper
-            elevation={0}
-            className={
-              enableDarkTheme
-                ? classes.paperMessagesDark
-                : classes.paperMessages
-            }
-            ref={autoScrollRef}
-          >
-            {messages.length > 0 ? (
-              renderMessages()
-            ) : (
-              <Typography align="center" color="secondary">
-                Not messages yet
-              </Typography>
-            )}
-          </Paper>
-        ) : (
-          <Loading />
-        )}
+        <Paper
+          elevation={0}
+          className={
+            enableDarkTheme ? classes.paperMessagesDark : classes.paperMessages
+          }
+          ref={autoScrollRef}
+        >
+          {messages.length > 0 ? (
+            renderMessages()
+          ) : (
+            <Typography align="center" color="secondary">
+              Not messages yet
+            </Typography>
+          )}
+          {isRequestMessages && <div className={classes.loadingWrapper}><Loading /></div>}
+        </Paper>
+
         <Grid
           container
           className={
@@ -253,12 +412,17 @@ const ChatMobile = (props) => {
               className={
                 typeMessage ? classes.sendButton : classes.disabledSendButton
               }
-              onClick={handleSendCustomQuestion}
+              onClick={handleSendQuestion}
             />
           </Grid>
         </Grid>
       </Grid>
       {renderMobileMenu}
+      {showModal && (
+        <div className={enableDarkTheme ? classes.suggestionModalDark : classes.suggestionModal} >
+          {renderModalQuestionSuggestion()}
+        </div>
+      )}
     </>
   );
 };

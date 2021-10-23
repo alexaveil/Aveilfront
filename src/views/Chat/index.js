@@ -20,7 +20,6 @@ import {
   getQuestionSuggestions,
   getMessages,
   askQuestion,
-  askCustomQuestion,
   selectQuestion,
 } from "../../store/actions/messages";
 import Desktop from "./Desktop";
@@ -41,11 +40,12 @@ const ChatPage = (props) => {
   const [isDesktop, setIsDesktop] = useState(true);
 
   useEffect(() => {
+    getMessages(0);
+
     if (!!selectedQuestion) {
       askQuestion({ question: selectedQuestion });
     }
 
-    getMessages(1);
     if (!userInfo) {
       getUserInfo();
     }
@@ -57,7 +57,7 @@ const ChatPage = (props) => {
 
   useEffect(() => {
     if (needUpdateMessages) {
-      getMessages(1);
+      getMessages(0);
     }
   }, [needUpdateMessages]);
 
@@ -86,7 +86,6 @@ const mapDispatchToProps = (dispatch) =>
       getQuestionSuggestions,
       getMessages,
       askQuestion,
-      askCustomQuestion,
       selectQuestion
     },
     dispatch

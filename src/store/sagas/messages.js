@@ -60,29 +60,6 @@ export function* askQuestionSaga({payload: { data }}) {
   }
 }
 
-export function* askCustomQuestionSaga({payload: { data }}) {
-  try {
-    const response = yield call(request, `/messages/ask_custom_question`, {
-      method: "POST",
-      payload: data,
-      useJson: true,
-    });
-
-    yield put({
-      type: MESSAGES.ASK_CUSTOM_QUESTION_SUCCESS,
-      payload: {
-        response,
-      },
-    });
-  } catch (err) {
-    yield put({
-      type: MESSAGES.ASK_CUSTOM_QUESTION_FAILURE,
-      payload: err,
-    });
-  }
-}
-
-
 export function* selectQuestionSaga({payload: { data }}) {
   try {
     const response = yield call(request, `/messages/select_question`, {
@@ -113,7 +90,6 @@ export function* selectQuestionSaga({payload: { data }}) {
     takeLatest(MESSAGES.GET_QUESTION_SUGGESTIONS, getQuestionSuggestionsSaga),
     takeLatest(MESSAGES.GET_MESSAGES, getMessagesSaga),
     takeLatest(MESSAGES.ASK_QUESTION, askQuestionSaga),
-    takeLatest(MESSAGES.ASK_CUSTOM_QUESTION, askCustomQuestionSaga),
     takeLatest(MESSAGES.SELECT_QUESTION, selectQuestionSaga)
   ]);
 }

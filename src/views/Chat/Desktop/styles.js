@@ -24,32 +24,27 @@ const useStyles = makeStyles((theme) => ({
   },
   titleQuestions: { fontWeight: "bold", paddingTop: 44 },
   containerQuestions: {
-    borderWidth: "1px",
-    borderStyle: "solid",
-    borderColor: "#9f9e9e",
-    borderRadius: 5,
     textAlign: "left",
     marginTop: 20,
     maxWidth: 270,
   },
-  questionsText: {
-    padding: 7,
-    color: "#9f9e9e",
-    backgroundColor: "white",
-  },
-  selectedQuestionText: {
-    padding: 2,
-    backgroundColor: "#3043e9",
-    color: "white",
+  containerQuestionWrapper: {
+    border: "1px solid #9f9e9e",
     borderRadius: 5,
+    overflow: "hidden",
   },
-  selectedHoverQuestionText: {
-    padding: 2,
+  questionsText: {
+    padding: 10,
+    backgroundColor: "white",
+    cursor: "pointer",
     "&:hover": {
       backgroundColor: "#3043e9",
       color: "white",
-      borderRadius: 5,
     },
+  },
+  selectedQuestionText: {
+    backgroundColor: "#3043e9",
+    color: "white",
   },
   askButton: {
     borderRadius: 20,
@@ -73,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "row",
     flexWrap: "nowrap",
     justifyContent: "space-between",
-    alignItems: "normal",
+    alignItems: "flex-start",
     alignContent: "normal",
     background: "#E5E5E5",
     borderRadius: 10,
@@ -81,16 +76,18 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: "6%",
     cursor: "pointer",
     marginTop: 10,
-    paddingLeft: 15,
-    paddingRight: 15,
-    paddingTop: 8,
-    paddingBottom: 4,
+    marginBottom: 10,
+    padding: "15px",
   },
   messagesReceiverItemText: {
-    width: "95%",
+    width: "100%",
   },
   messagesReceiverItemFavorite: {
-    width: "5%",
+    width: 30,
+  },
+  favoriteMain: {
+    width: "100%",
+    height: "100%",
   },
   favoriteSelected: {
     color: "#ffa500",
@@ -109,6 +106,7 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: 30,
     paddingBottom: 30,
     borderRadius: 0,
+    position: "relative",
   },
   paperMessagesContainer: {
     overflowY: "auto",
@@ -168,6 +166,16 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "space-between",
   },
 
+
+  loadingWrapper: {
+    bottom: '0',
+    position: 'absolute',
+    display: 'flex',
+    justifyContent: 'center',
+    width: '100%',
+  },
+
+
   /* Dark Theme */
   containerDark: {
     backgroundColor: "#000638",
@@ -190,17 +198,6 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#000638",
     maxWidth: 160,
   },
-  containerQuestionsDark: {
-    textAlign: "left",
-    marginTop: 20,
-    maxWidth: 270,
-  },
-  questionsTextDark: {
-    borderRadius: 10,
-    padding: 7,
-    color: "white",
-    backgroundColor: "#091253",
-  },
   iconsHeaderDark: {
     color: "white",
   },
@@ -221,6 +218,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 0,
     paddingTop: 30,
     paddingBottom: 30,
+    position: "relative",
   },
   paperMessagesContainerDark: {
     backgroundColor: "#000326",
@@ -239,7 +237,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "row",
     flexWrap: "nowrap",
     justifyContent: "space-between",
-    alignItems: "normal",
+    alignItems: "flex-start",
     alignContent: "normal",
     background: "#000638",
     borderRadius: 10,
@@ -247,10 +245,8 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: "6%",
     cursor: "pointer",
     marginTop: 10,
-    paddingLeft: 15,
-    paddingRight: 15,
-    paddingTop: 8,
-    paddingBottom: 4,
+    marginBottom: 10,
+    padding: "15px",
     color: "white",
   },
   typeSendMessageDark: {

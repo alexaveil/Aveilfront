@@ -29,7 +29,7 @@ export default injectReducer(initialState.messagesReducer, {
   [MESSAGES.GET_MESSAGES_SUCCESS]: (state, { payload: { response } }) => ({
     ...state,
     isRequestMessages: false,
-    messages: response,
+    messages: response.reverse(),
     needUpdateMessages: false,
   }),
   [MESSAGES.GET_MESSAGES_FAILURE]: (state) => ({
@@ -43,53 +43,16 @@ export default injectReducer(initialState.messagesReducer, {
     ...state,
     isRequestMessages: true,
   }),
-  [MESSAGES.ASK_QUESTION_SUCCESS]: (state, { payload: { response } }) => {
-    let messagesArr = state.messages || [];
-
-    if (response?.question_id && response?.responses) {
-      messagesArr.push({
-        question_id: response.question_id,
-        answers: response.responses,
-      });
-    }
-    return {
-      ...state,
-      isRequestMessages: false,
-      messages: messagesArr,
-      selectedQuestion: null
-    };
-  },
+  [MESSAGES.ASK_QUESTION_SUCCESS]: (state) => ({
+    ...state,
+    isRequestMessages: false,
+    needUpdateMessages: true,
+    selectedQuestion: null,
+  }),
   [MESSAGES.ASK_QUESTION_FAILURE]: (state) => ({
     ...state,
     isRequestMessages: false,
-    selectedQuestion: null
-  }),
-
-  [MESSAGES.ASK_CUSTOM_QUESTION]: (state) => ({
-    ...state,
-    isRequestMessages: true,
-  }),
-  [MESSAGES.ASK_CUSTOM_QUESTION_SUCCESS]: (
-    state,
-    { payload: { response } }
-  ) => {
-    let messagesArr = state.messages || [];
-
-    if (response?.question_id && response?.responses) {
-      messagesArr.push({
-        question_id: response.question_id,
-        answers: response.responses,
-      });
-    }
-    return {
-      ...state,
-      isRequestMessages: false,
-      messages: messagesArr,
-    };
-  },
-  [MESSAGES.ASK_CUSTOM_QUESTION_FAILURE]: (state) => ({
-    ...state,
-    isRequestMessages: false,
+    selectedQuestion: null,
   }),
 
   [MESSAGES.SELECT_QUESTION]: (state) => ({

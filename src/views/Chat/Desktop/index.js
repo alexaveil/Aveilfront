@@ -2,6 +2,7 @@
 /* eslint-disable no-unused-vars */
 /* import external modules */
 import {
+  Container,
   Grid,
   Card,
   Paper,
@@ -30,7 +31,6 @@ const Desktop = (props) => {
     enableDarkTheme,
     changeTheme,
     askQuestion,
-    askCustomQuestion,
     selectQuestion,
   } = props;
   const classes = useStyles();
@@ -42,9 +42,18 @@ const Desktop = (props) => {
   const autoScrollRef = useRef();
 
   useEffect(() => {
-    autoScrollRef?.current?.scrollTo(0, 3000);
     setChatHeight(window.innerHeight);
   }, []);
+
+  useEffect(() => {
+    if (messages && messages.length > 0) {
+      autoScrollRef?.current?.scrollIntoView({
+        block: "end",
+        behavior: "smooth",
+      });
+    }
+    setTypeMessage("");
+  }, [messages]);
 
   const onChangeData = (event) => {
     setTypeMessage(event.target.value);
@@ -62,23 +71,26 @@ const Desktop = (props) => {
     changeTheme(!enableDarkTheme);
   };
 
-  const handleSendQuestion = () => {
-    if (selectedQuestionSuggest && selectedQuestionSuggest.length > 0) {
+  const handleSendSuggestQuestion = () => {
+    if (
+      !isRequestMessages &&
+      selectedQuestionSuggest &&
+      selectedQuestionSuggest.length > 0
+    ) {
       askQuestion({ question: selectedQuestionSuggest });
     }
   };
 
-  const handleSendCustomQuestion = () => {
-    if (typeMessage && typeMessage.length > 0) {
-      askCustomQuestion({
+  const handleSendQuestion = () => {
+    if (!isRequestMessages && typeMessage && typeMessage.length > 0) {
+      askQuestion({
         question: typeMessage,
-        interests: userInfo?.interests,
       });
     }
   };
 
   const handleSelect = (data) => {
-    if (data?.question_id && data?.option_selected) {
+    if (!isRequestMessages && data?.question_id && data?.option_selected) {
       selectQuestion(data);
     }
   };
@@ -88,23 +100,17 @@ const Desktop = (props) => {
       return (
         <div
           elevation={3}
-          className={
-            enableDarkTheme ? classes.questionsTextDark : classes.questionsText
-          }
+          className={`${classes.questionsText} ${
+            selectedQuestionSuggest === question
+              ? classes.selectedQuestionText
+              : ""
+          }`}
           key={key}
+          onClick={() => {
+            setSelectedQuestionSuggest(question);
+          }}
         >
-          <div
-            className={
-              selectedQuestionSuggest === question
-                ? classes.selectedQuestionText
-                : classes.selectedHoverQuestionText
-            }
-            onClick={() => {
-              setSelectedQuestionSuggest(question);
-            }}
-          >
-            {question}
-          </div>
+          {question}
         </div>
       );
     });
@@ -128,26 +134,35 @@ const Desktop = (props) => {
                 ? classes.messagesReceiverContainerDark
                 : classes.messagesReceiverContainer
             }
-            onClick={() =>
-              handleSelect({
-                question_id: message?.question_id,
-                option_selected: key,
-              })
-            }
           >
-            <div className={classes.messagesReceiverItemText}>{answer}</div>
+            <div
+              className={classes.messagesReceiverItemText}
+              onClick={() => setTypeMessage(answer)}
+            >
+              {answer}
+            </div>
             <div className={classes.messagesReceiverItemFavorite}>
-              {message?.option_selected && message.option_selected === key ? (
+              {message?.option_selected &&
+              message.option_selected === key + 1 ? (
                 <Favorite
                   fontSize="small"
-                  className={classes.favoriteSelected}
+                  className={`${classes.favoriteSelected} ${classes.favoriteMain}`}
                 />
               ) : (
                 <Favorite
-                  fontSize="small"
-                  className={
-                    enableDarkTheme ? classes.favoriteDark : classes.favorite
+                  onClick={() =>
+                    handleSelect({
+                      question_id: message?.question_id,
+                      option_selected: key + 1,
+                    })
                   }
+                  fontSize="small"
+                  className={`
+                    ${
+                      enableDarkTheme ? classes.favoriteDark : classes.favorite
+                    } 
+                    ${classes.favoriteMain}
+                  `}
                 />
               )}
             </div>
@@ -188,218 +203,220 @@ const Desktop = (props) => {
     <div
       className={enableDarkTheme ? classes.containerDark : classes.container}
     >
-      <Grid
-        container
-        justify="center"
-        className={classes.containerGrid}
-        style={{
-          height: chatHeight,
-        }}
-      >
+      <Container maxWidth="xl" component="section">
         <Grid
-          item
-          md={4}
-          lg={4}
-          xl={4}
-          xs={12}
-          className={
-            enableDarkTheme
-              ? classes.gridLeftContainerDark
-              : classes.gridLeftContainer
-          }
+          container
+          justify="center"
+          className={classes.containerGrid}
+          style={{
+            height: chatHeight,
+          }}
         >
-          <Grid container direction="row" className={classes.containerUserName}>
-            <Person
-              fontSize="large"
-              className={
-                enableDarkTheme ? classes.iconPersonDark : classes.iconPerson
-              }
-            />
+          <Grid
+            item
+            md={4}
+            lg={4}
+            xl={4}
+            xs={12}
+            className={
+              enableDarkTheme
+                ? classes.gridLeftContainerDark
+                : classes.gridLeftContainer
+            }
+          >
+            <Grid
+              container
+              direction="row"
+              className={classes.containerUserName}
+            >
+              <Person
+                fontSize="large"
+                className={
+                  enableDarkTheme ? classes.iconPersonDark : classes.iconPerson
+                }
+              />
+              <Typography
+                className={
+                  enableDarkTheme
+                    ? classes.userNameTextDark
+                    : classes.userNameText
+                }
+              >
+                {userInfo?.first_name || userInfo?.last_name
+                  ? `${userInfo?.first_name} ${userInfo?.last_name}`
+                  : "No name"}
+              </Typography>
+            </Grid>
+            <Typography
+              className={enableDarkTheme ? classes.titleDark : classes.title}
+              align="center"
+            >
+              Avi
+            </Typography>
+            <Grid container justify="center">
+              <Card elevation={0}>
+                <CardMedia
+                  alt="Aveil"
+                  component="img"
+                  image={RobotImage}
+                  title="Aveil"
+                  className={
+                    enableDarkTheme
+                      ? classes.imageCircleDark
+                      : classes.imageCircle
+                  }
+                />
+              </Card>
+            </Grid>
             <Typography
               className={
                 enableDarkTheme
-                  ? classes.userNameTextDark
-                  : classes.userNameText
+                  ? classes.titleQuestionsDark
+                  : classes.titleQuestions
               }
+              align="center"
             >
-              {userInfo?.first_name || userInfo?.last_name
-                ? `${userInfo?.first_name} ${userInfo?.last_name}`
-                : "No name"}
+              Other relevant questions:
             </Typography>
+            <center>
+              <Grid
+                container
+                justify="center"
+                className={classes.containerQuestions}
+              >
+                <Paper
+                  elevation={0}
+                  justify="flex-start"
+                  className={classes.containerQuestionWrapper}
+                >
+                  {renderQuestionsSuggestions()}
+                </Paper>
+              </Grid>
+            </center>
+            <Grid container justify="center">
+              <Button
+                color="primary"
+                variant="contained"
+                size="large"
+                className={classes.askButton}
+                onClick={handleSendSuggestQuestion}
+              >
+                Ask
+              </Button>
+            </Grid>
           </Grid>
-          <Typography
-            className={enableDarkTheme ? classes.titleDark : classes.title}
-            align="center"
-          >
-            Avi
-          </Typography>
-          <Grid container justify="center">
-            <Card elevation={0} className={classes.imageCircleDesktop}>
-              <CardMedia
-                alt="Aveil"
-                component="img"
-                image={RobotImage}
-                title="Aveil"
-                className={
-                  enableDarkTheme
-                    ? classes.imageCircleDark
-                    : classes.imageCircle
-                }
-              />
-            </Card>
-          </Grid>
-          <Typography
+
+          <Grid
+            item
+            xs={12}
+            md={8}
+            lg={8}
+            xl={8}
             className={
               enableDarkTheme
-                ? classes.titleQuestionsDark
-                : classes.titleQuestions
+                ? classes.secondPageChatDark
+                : classes.secondPageChat
             }
-            align="center"
           >
-            Other relevant questions:
-          </Typography>
-          <center>
+            <Grid container>
+              <div
+                className={
+                  enableDarkTheme
+                    ? classes.iconsHeaderContainerDark
+                    : classes.iconsHeaderContainer
+                }
+              >
+                <div className={classes.iconsHeaderItem}>
+                  <Search
+                    className={
+                      enableDarkTheme
+                        ? classes.iconsHeaderDark
+                        : classes.iconsHeader
+                    }
+                  />
+                </div>
+                <div className={classes.iconsHeaderItem}>
+                  <MoreVert
+                    aria-haspopup="true"
+                    aria-label="show more"
+                    aria-controls={mobileMenuId}
+                    onClick={handleMobileMenuOpen}
+                    className={
+                      enableDarkTheme
+                        ? classes.iconsHeaderDark
+                        : classes.iconsHeader
+                    }
+                  />
+                </div>
+              </div>
+            </Grid>
             <Grid
               container
-              justify="center"
               className={
                 enableDarkTheme
-                  ? classes.containerQuestionsDark
-                  : classes.containerQuestions
+                  ? classes.paperMessagesContainerDark
+                  : classes.paperMessagesContainer
               }
+              style={{
+                height: chatHeight - 230,
+              }}
             >
               <Paper
                 elevation={0}
                 className={
                   enableDarkTheme
-                    ? classes.questionsTextDark
-                    : classes.questionsText
+                    ? classes.paperMessagesDark
+                    : classes.paperMessages
                 }
+                ref={autoScrollRef}
               >
-                {renderQuestionsSuggestions()}
+                {messages.length > 0 ? (
+                  renderMessages()
+                ) : (
+                  <Typography align="center" color="secondary">
+                    Not messages yet
+                  </Typography>
+                )}
+                {isRequestMessages && <div className={classes.loadingWrapper}><Loading /></div>}
               </Paper>
             </Grid>
-          </center>
-          <Grid container justify="center">
-            <Button
-              color="primary"
-              variant="contained"
-              size="large"
-              className={classes.askButton}
-              onClick={handleSendQuestion}
-            >
-              Ask
-            </Button>
-          </Grid>
-        </Grid>
-
-        <Grid
-          item
-          xs={12}
-          md={8}
-          lg={8}
-          xl={8}
-          className={
-            enableDarkTheme
-              ? classes.secondPageChatDark
-              : classes.secondPageChat
-          }
-        >
-          <Grid container>
-            <div
+            <Grid
+              container
               className={
                 enableDarkTheme
-                  ? classes.iconsHeaderContainerDark
-                  : classes.iconsHeaderContainer
+                  ? classes.typeSendMessageDark
+                  : classes.typeSendMessage
               }
             >
-              <div className={classes.iconsHeaderItem}>
-                <Search
+              <Grid item xs={10} md={11} lg={11} xl={11}>
+                <InputBase
+                  value={typeMessage}
+                  onChange={onChangeData}
+                  placeholder="Type a message..."
                   className={
                     enableDarkTheme
-                      ? classes.iconsHeaderDark
-                      : classes.iconsHeader
+                      ? classes.typeMessagesDark
+                      : classes.typeMessages
                   }
+                  inputProps={{ "aria-label": "naked" }}
                 />
-              </div>
-              <div className={classes.iconsHeaderItem}>
-                <MoreVert
-                  aria-haspopup="true"
-                  aria-label="show more"
-                  aria-controls={mobileMenuId}
-                  onClick={handleMobileMenuOpen}
+              </Grid>
+              <Grid item xs={2} md={1} lg={1} xl={1}>
+                <Send
+                  color="primary"
+                  onClick={handleSendQuestion}
                   className={
-                    enableDarkTheme
-                      ? classes.iconsHeaderDark
-                      : classes.iconsHeader
+                    typeMessage
+                      ? classes.sendButton
+                      : classes.disabledSendButton
                   }
                 />
-              </div>
-            </div>
-          </Grid>
-          <Grid
-            container
-            className={
-              enableDarkTheme
-                ? classes.paperMessagesContainerDark
-                : classes.paperMessagesContainer
-            }
-            style={{
-              height: chatHeight - 230,
-            }}
-          >
-            <Paper
-              elevation={0}
-              className={
-                enableDarkTheme
-                  ? classes.paperMessagesDark
-                  : classes.paperMessages
-              }
-              ref={autoScrollRef}
-            >
-              {messages.length > 0 ? (
-                renderMessages()
-              ) : (
-                <Typography align="center" color="secondary">
-                  Not messages yet
-                </Typography>
-              )}
-            </Paper>
-          </Grid>
-          <Grid
-            container
-            className={
-              enableDarkTheme
-                ? classes.typeSendMessageDark
-                : classes.typeSendMessage
-            }
-          >
-            <Grid item xs={10} md={11} lg={11} xl={11}>
-              <InputBase
-                value={typeMessage}
-                onChange={onChangeData}
-                placeholder="Type a message..."
-                className={
-                  enableDarkTheme
-                    ? classes.typeMessagesDark
-                    : classes.typeMessages
-                }
-                inputProps={{ "aria-label": "naked" }}
-              />
-            </Grid>
-            <Grid item xs={2} md={1} lg={1} xl={1}>
-              <Send
-                color="primary"
-                onClick={handleSendCustomQuestion}
-                className={
-                  typeMessage ? classes.sendButton : classes.disabledSendButton
-                }
-              />
+              </Grid>
             </Grid>
           </Grid>
         </Grid>
-      </Grid>
-      {renderMobileMenu}
+        {renderMobileMenu}
+      </Container>
     </div>
   );
 };

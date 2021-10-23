@@ -6,7 +6,6 @@ export const {
   getQuestionSuggestions,
   getMessages,
   askQuestion,
-  askCustomQuestion,
   selectQuestion,
   setSelectedQuestion,
 } = createActions({
@@ -15,9 +14,6 @@ export const {
     page,
   }),
   [MESSAGES.ASK_QUESTION]: (data) => ({
-    data,
-  }),
-  [MESSAGES.ASK_CUSTOM_QUESTION]: (data) => ({
     data,
   }),
   [MESSAGES.SELECT_QUESTION]: (data) => ({
